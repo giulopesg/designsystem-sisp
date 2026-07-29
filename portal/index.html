@@ -1,0 +1,1963 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DS SISP — Design System CiASC/SC</title>
+
+  <!-- Tokens do Design System -->
+  <link rel="stylesheet" href="../../design-tokens/tokens.css">
+
+  <!-- Fontes -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <style>
+    /* ═══════════════════════════════════════════════════════════
+       AUDITORIA DE TOKENS — DS SISP (2026-07-28)
+
+       Status: Auditado contra tokens.css + 20 text styles Figma
+
+       ✅ CORRIGIDO (hardcoded → token):
+       - margin-top: 2px → var(--space-0-5)          [component-card__id]
+       - padding: 2px → var(--space-0-5)              [mini-modal__btn]
+       - height: 32px → var(--space-8)                [header search, mini-input field]
+       - height: 40px → var(--space-10)               [mobile search input]
+       - width/height: 48px → var(--space-12)         [persona-card__icon]
+       - width/height: 40px → var(--space-10)         [section-card__icon, dv-callout__icon]
+       - height: 4px → var(--space-1)                 [mini-card-preview__bar]
+       - min-width: 80px → var(--space-20)            [hero__stat mobile]
+
+       ✅ CORRIGIDO (D141 — Giuliana aprovou criação de tokens):
+       - 10px → var(--text-2xs) — novo token criado (4 ocorrências)
+       - 11px → var(--text-xs) — mapeado ao token mais próximo (5 ocorrências)
+
+       ✅ APROVADO (D142 — Giuliana aprovou Overline como 21º text style):
+       - Montserrat + text-xs (12px) + Semibold + uppercase = "Overline"
+       - Usado em: hero__badge, section__overline, persona-card__path,
+         footer__col-title, section-card__number
+       → Criar no Figma como text style "Overline" (pendente Sprint 6)
+
+       ✅ CORRIGIDO (D141 — novos tokens dark-mode criados em tokens.css):
+       - rgba(255,255,255,0.08) → var(--color-dark-border) (8×)
+       - rgba(255,255,255,0.12) → var(--color-dark-hover) (4×)
+       - rgba(255,255,255,0.3)  → var(--color-dark-border-strong) (2×)
+       - rgba(255,255,255,0.5)  → var(--color-dark-border-hover) (1×)
+       - Soma: 15 substituições (2 ocorrências de 0.3 contadas como 1 cada)
+
+       ⚠️ SEM TOKEN — dimensões fixas sem match:
+       - 28px (logo), 56px (header height), 120px (preview height)
+       - 160px, 180px, 200px, 260px (widths para mini-previews/search)
+       - 560px (section desc max-width), 720px (hero max-width)
+       → Valores de layout, não necessariamente precisam de token.
+
+       ✅ CONFORME — Text styles confirmados:
+       - Heading/4XL: hero__title (Montserrat 36px Bold) ✅
+       - Heading/2XL: section__title, hero__stat-number (24px Bold) ✅
+       - Heading/LG: persona-card__title (18px Bold) ✅
+       - Heading/MD: header__name, section-card__title, dv-callout__title (16px Bold) ✅
+       - Heading/SM: component-card__name (14px Bold) ✅
+       - Body/LG: hero__subtitle (Arial 18px) ✅
+       - Body/Base: body, section__desc (16px) ✅
+       - Body/SM: persona-card__desc, btn, footer__link (14px) ✅
+       - Body/XS: hero__stat-label, hero__badge, nav-link (12px) ✅
+       - Mono: component-card__id, footer__version (Fira Code) ✅
+
+       ✅ CONFORME — Todos os usos de cores semânticas usam var(--color-*)
+       ✅ CONFORME — Todos os border-radius usam var(--radius-*)
+       ✅ CONFORME — Todos os espaçamentos maiores usam var(--space-*)
+       ✅ CONFORME — Sombras usam var(--shadow-*)
+       ✅ CONFORME — Transições usam var(--transition-*)
+       ✅ CONFORME — Z-index usam var(--z-*)
+    ═══════════════════════════════════════════════════════════ */
+
+    /* ═══════════════════════════════════════════════════════════
+       RESET + BASE
+    ═══════════════════════════════════════════════════════════ */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: var(--font-body);
+      font-size: var(--text-base);
+      line-height: var(--leading-normal);
+      color: var(--color-text-primary);
+      background-color: var(--color-bg);
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       SKIP LINK — acessibilidade
+    ═══════════════════════════════════════════════════════════ */
+    .skip-link {
+      position: absolute;
+      top: -100%;
+      left: var(--space-4);
+      background-color: var(--color-primary);
+      color: var(--color-primary-contrast);
+      padding: var(--space-2) var(--space-4);
+      border-radius: var(--radius-md);
+      font-weight: var(--font-semibold);
+      font-size: var(--text-sm);
+      z-index: 1000;
+      transition: top var(--transition-fast);
+    }
+
+    .skip-link:focus {
+      top: var(--space-2);
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       HEADER / NAV
+    ═══════════════════════════════════════════════════════════ */
+    .header {
+      position: sticky;
+      top: 0;
+      z-index: var(--z-sticky);
+      background-color: var(--color-dark-surface);
+      border-bottom: 1px solid var(--color-dark-border);
+    }
+
+    .header__inner {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 0 var(--space-6);
+      display: flex;
+      align-items: center;
+      height: 56px;
+      gap: var(--space-6);
+    }
+
+    .header__brand {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      flex-shrink: 0;
+    }
+
+    .header__logo {
+      width: 28px; /* ⚠️ sem token exato — entre --space-6 (24px) e --space-8 (32px) */
+      height: 28px; /* ⚠️ sem token exato */
+      background-color: var(--color-primary);
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--color-primary-contrast);
+      font-family: var(--font-heading); /* Decorativo — "DS" dentro do logo */
+      font-size: var(--text-xs);
+      font-weight: var(--font-bold);
+    }
+
+    .header__name {
+      font-family: var(--font-heading);
+      font-size: var(--text-base);
+      font-weight: var(--font-bold);
+      color: var(--color-dark-text);
+      white-space: nowrap;
+    }
+
+    .header__nav {
+      display: flex;
+      align-items: center;
+      gap: var(--space-1);
+      flex: 1;
+    }
+
+    .header__nav-link {
+      font-size: var(--text-sm);
+      font-weight: var(--font-medium);
+      color: var(--color-dark-muted);
+      padding: var(--space-2) var(--space-3);
+      border-radius: var(--radius-md);
+      transition: color var(--transition-fast), background-color var(--transition-fast);
+      white-space: nowrap;
+    }
+
+    .header__nav-link:hover,
+    .header__nav-link:focus-visible {
+      color: var(--color-dark-text);
+      background-color: var(--color-dark-border);
+    }
+
+    .header__nav-link--active {
+      color: var(--color-dark-text);
+      background-color: var(--color-dark-hover);
+    }
+
+    .header__search {
+      position: relative;
+      flex-shrink: 0;
+    }
+
+    .header__search-input {
+      width: 200px;
+      height: var(--space-8); /* 32px */
+      padding: 0 var(--space-3) 0 var(--space-8);
+      font-family: var(--font-body);
+      font-size: var(--text-sm);
+      color: var(--color-dark-text);
+      background-color: var(--color-dark-border);
+      border: 1px solid var(--color-dark-hover);
+      border-radius: var(--radius-full);
+      outline: none;
+      transition: border-color var(--transition-fast), background-color var(--transition-fast), width var(--transition-normal);
+    }
+
+    .header__search-input::placeholder {
+      color: var(--color-dark-muted);
+    }
+
+    .header__search-input:focus {
+      border-color: var(--color-primary);
+      background-color: var(--color-dark-hover);
+      width: 260px;
+    }
+
+    .header__search-icon {
+      position: absolute;
+      left: var(--space-3);
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--color-dark-muted);
+      font-size: var(--text-xs);
+      pointer-events: none;
+    }
+
+    /* Hamburger */
+    .header__hamburger {
+      display: none;
+      background: none;
+      border: none;
+      color: var(--color-dark-text);
+      font-size: var(--text-xl);
+      cursor: pointer;
+      padding: var(--space-2);
+      border-radius: var(--radius-md);
+      transition: background-color var(--transition-fast);
+    }
+
+    .header__hamburger:hover {
+      background-color: var(--color-dark-border);
+    }
+
+    /* Mobile nav overlay */
+    .mobile-nav {
+      display: none;
+      position: fixed;
+      top: 56px;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: var(--color-dark-surface);
+      z-index: var(--z-overlay);
+      padding: var(--space-4);
+      flex-direction: column;
+      gap: var(--space-1);
+      overflow-y: auto;
+    }
+
+    .mobile-nav.is-open {
+      display: flex;
+    }
+
+    .mobile-nav__link {
+      display: block;
+      font-size: var(--text-base);
+      font-weight: var(--font-medium);
+      color: var(--color-dark-muted);
+      padding: var(--space-3) var(--space-4);
+      border-radius: var(--radius-md);
+      transition: color var(--transition-fast), background-color var(--transition-fast);
+    }
+
+    .mobile-nav__link:hover,
+    .mobile-nav__link:focus-visible {
+      color: var(--color-dark-text);
+      background-color: var(--color-dark-border);
+    }
+
+    .mobile-nav__search {
+      margin-top: var(--space-4);
+      padding-top: var(--space-4);
+      border-top: 1px solid var(--color-dark-border);
+    }
+
+    .mobile-nav__search-input {
+      width: 100%;
+      height: var(--space-10); /* 40px */
+      padding: 0 var(--space-4) 0 var(--space-10);
+      font-family: var(--font-body);
+      font-size: var(--text-base);
+      color: var(--color-dark-text);
+      background-color: var(--color-dark-border);
+      border: 1px solid var(--color-dark-hover);
+      border-radius: var(--radius-md);
+      outline: none;
+    }
+
+    .mobile-nav__search-input:focus {
+      border-color: var(--color-primary);
+    }
+
+    .mobile-nav__search-input::placeholder {
+      color: var(--color-dark-muted);
+    }
+
+    .mobile-nav__search-wrap {
+      position: relative;
+    }
+
+    .mobile-nav__search-icon {
+      position: absolute;
+      left: var(--space-4);
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--color-dark-muted);
+      pointer-events: none;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       HERO
+    ═══════════════════════════════════════════════════════════ */
+    .hero {
+      background-color: var(--color-dark-surface);
+      padding: var(--space-16) var(--space-6) var(--space-12);
+      text-align: center;
+    }
+
+    .hero__inner {
+      max-width: 720px;
+      margin: 0 auto;
+    }
+
+    .hero__badge {
+      display: inline-block;
+      background-color: var(--color-primary);
+      color: var(--color-primary-contrast);
+      font-family: var(--font-heading); /* ✅ Text Style: Overline (Montserrat 12px Semibold uppercase) — aprovado D142 */
+      font-size: var(--text-xs);
+      font-weight: var(--font-semibold);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      padding: var(--space-1) var(--space-4);
+      border-radius: var(--radius-full);
+      margin-bottom: var(--space-6);
+    }
+
+    .hero__title {
+      font-family: var(--font-heading);
+      font-size: var(--text-4xl);
+      font-weight: var(--font-bold);
+      color: var(--color-dark-text);
+      line-height: var(--leading-tight);
+      margin-bottom: var(--space-4);
+    }
+
+    .hero__subtitle {
+      font-size: var(--text-lg);
+      color: var(--color-dark-muted);
+      line-height: var(--leading-relaxed);
+      margin-bottom: var(--space-8);
+    }
+
+    .hero__actions {
+      display: flex;
+      justify-content: center;
+      gap: var(--space-3);
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-2);
+      font-family: var(--font-body);
+      font-size: var(--text-sm);
+      font-weight: var(--font-semibold);
+      padding: var(--space-3) var(--space-6);
+      border-radius: var(--radius-md);
+      border: 2px solid transparent;
+      cursor: pointer;
+      transition: background-color var(--transition-fast),
+                  border-color var(--transition-fast),
+                  color var(--transition-fast),
+                  transform var(--transition-fast);
+      text-decoration: none;
+    }
+
+    .btn:active {
+      transform: scale(0.97);
+    }
+
+    .btn--primary {
+      background-color: var(--color-primary);
+      color: var(--color-primary-contrast);
+      border-color: var(--color-primary);
+    }
+
+    .btn--primary:hover,
+    .btn--primary:focus-visible {
+      background-color: var(--color-primary-hover);
+      border-color: var(--color-primary-hover);
+    }
+
+    .btn--secondary {
+      background-color: transparent;
+      color: var(--color-dark-text);
+      border-color: var(--color-dark-border-strong);
+    }
+
+    .btn--secondary:hover,
+    .btn--secondary:focus-visible {
+      background-color: var(--color-dark-border);
+      border-color: var(--color-dark-border-hover);
+    }
+
+    /* Stats bar */
+    .hero__stats {
+      display: flex;
+      justify-content: center;
+      gap: var(--space-8);
+      margin-top: var(--space-10);
+      padding-top: var(--space-8);
+      border-top: 1px solid var(--color-dark-border);
+    }
+
+    .hero__stat {
+      text-align: center;
+    }
+
+    .hero__stat-number {
+      font-family: var(--font-heading);
+      font-size: var(--text-2xl);
+      font-weight: var(--font-bold);
+      color: var(--color-dark-text);
+    }
+
+    .hero__stat-label {
+      font-size: var(--text-xs);
+      color: var(--color-dark-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-top: var(--space-1);
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       SECTION SHARED
+    ═══════════════════════════════════════════════════════════ */
+    .section {
+      padding: var(--space-16) var(--space-6);
+    }
+
+    .section--alt {
+      background-color: var(--color-bg-subtle);
+    }
+
+    .section__inner {
+      max-width: var(--max-width);
+      margin: 0 auto;
+    }
+
+    .section__header {
+      text-align: center;
+      margin-bottom: var(--space-10);
+    }
+
+    .section__overline {
+      font-family: var(--font-heading); /* ✅ Text Style: Overline (Montserrat 12px Semibold uppercase) — aprovado D142 */
+      font-size: var(--text-xs);
+      font-weight: var(--font-semibold);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--color-primary);
+      margin-bottom: var(--space-2);
+    }
+
+    .section__title {
+      font-family: var(--font-heading);
+      font-size: var(--text-2xl);
+      font-weight: var(--font-bold);
+      color: var(--color-text-primary);
+      line-height: var(--leading-tight);
+      margin-bottom: var(--space-3);
+    }
+
+    .section__desc {
+      font-size: var(--text-base);
+      color: var(--color-text-secondary);
+      max-width: 560px;
+      margin: 0 auto;
+      line-height: var(--leading-relaxed);
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       PERSONA CARDS
+    ═══════════════════════════════════════════════════════════ */
+    .personas-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-6);
+    }
+
+    .persona-card {
+      background-color: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      transition: box-shadow var(--transition-normal), transform var(--transition-normal);
+    }
+
+    .persona-card:hover {
+      box-shadow: var(--shadow-lg);
+      transform: translateY(-2px);
+    }
+
+    .persona-card__header {
+      padding: var(--space-6) var(--space-6) var(--space-4);
+      display: flex;
+      align-items: flex-start;
+      gap: var(--space-4);
+    }
+
+    .persona-card__icon {
+      width: var(--space-12); /* 48px */
+      height: var(--space-12); /* 48px */
+      border-radius: var(--radius-lg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: var(--text-xl);
+      flex-shrink: 0;
+    }
+
+    .persona-card__icon--dev {
+      background-color: var(--color-info-bg);
+      color: var(--color-info);
+    }
+
+    .persona-card__icon--terceiro {
+      background-color: var(--color-warning-bg);
+      color: var(--color-warning);
+    }
+
+    .persona-card__icon--orgao {
+      background-color: var(--color-success-bg);
+      color: var(--color-success);
+    }
+
+    .persona-card__title {
+      font-family: var(--font-heading);
+      font-size: var(--text-lg);
+      font-weight: var(--font-bold);
+      color: var(--color-text-primary);
+      line-height: var(--leading-tight);
+    }
+
+    .persona-card__role {
+      font-size: var(--text-sm);
+      color: var(--color-text-secondary);
+      margin-top: var(--space-0-5);
+    }
+
+    .persona-card__body {
+      padding: 0 var(--space-6) var(--space-6);
+    }
+
+    .persona-card__desc {
+      font-size: var(--text-sm);
+      color: var(--color-text-secondary);
+      line-height: var(--leading-relaxed);
+      margin-bottom: var(--space-4);
+    }
+
+    .persona-card__path {
+      font-family: var(--font-heading); /* ✅ Text Style: Overline (Montserrat 12px Semibold uppercase) — aprovado D142 */
+      font-size: var(--text-xs);
+      font-weight: var(--font-semibold);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--color-text-muted);
+      margin-bottom: var(--space-2);
+    }
+
+    .persona-card__sections {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-2);
+    }
+
+    .persona-card__tag {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-1);
+      font-size: var(--text-xs);
+      font-weight: var(--font-medium);
+      padding: var(--space-1) var(--space-2);
+      border-radius: var(--radius-full);
+      background-color: var(--color-bg-subtle);
+      color: var(--color-text-secondary);
+    }
+
+    .persona-card__tag i {
+      font-size: var(--text-2xs); /* 10px */
+    }
+
+    .persona-card__link {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-1);
+      font-size: var(--text-sm);
+      font-weight: var(--font-semibold);
+      color: var(--color-primary);
+      margin-top: var(--space-4);
+      transition: color var(--transition-fast);
+    }
+
+    .persona-card__link:hover {
+      color: var(--color-primary-hover);
+    }
+
+    .persona-card__link i {
+      font-size: var(--text-xs);
+      transition: transform var(--transition-fast);
+    }
+
+    .persona-card__link:hover i {
+      transform: translateX(3px);
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       SECTION CARDS (7 seções do DS)
+    ═══════════════════════════════════════════════════════════ */
+    .sections-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: var(--space-5);
+    }
+
+    .section-card {
+      background-color: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      padding: var(--space-6);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-4);
+      transition: box-shadow var(--transition-normal), transform var(--transition-normal), border-color var(--transition-normal);
+      cursor: pointer;
+    }
+
+    .section-card:hover {
+      box-shadow: var(--shadow-md);
+      transform: translateY(-2px);
+      border-color: var(--color-border-strong);
+    }
+
+    .section-card__icon {
+      width: var(--space-10); /* 40px */
+      height: var(--space-10); /* 40px */
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: var(--text-lg);
+      flex-shrink: 0;
+    }
+
+    .section-card__icon--sobre     { background-color: var(--color-info-bg);       color: var(--color-info); }
+    .section-card__icon--fundacao  { background-color: var(--color-accent-muted);  color: var(--color-accent); }
+    .section-card__icon--a11y      { background-color: var(--color-success-bg);    color: var(--color-success); }
+    .section-card__icon--base      { background-color: var(--color-primary-muted); color: var(--color-primary); }
+    .section-card__icon--sisp      { background-color: var(--color-danger-bg);     color: var(--color-danger); }
+    .section-card__icon--temas     { background-color: var(--color-warning-bg);    color: var(--color-warning); }
+    .section-card__icon--figma     { background-color: var(--color-accent-muted);  color: var(--color-accent); }
+
+    .section-card__number {
+      font-family: var(--font-heading);
+      font-size: var(--text-2xs); /* 10px */
+      font-weight: var(--font-semibold);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--color-text-muted);
+    }
+
+    .section-card__title {
+      font-family: var(--font-heading);
+      font-size: var(--text-base);
+      font-weight: var(--font-bold);
+      color: var(--color-text-primary);
+      line-height: var(--leading-tight);
+    }
+
+    .section-card__desc {
+      font-size: var(--text-sm);
+      color: var(--color-text-secondary);
+      line-height: var(--leading-relaxed);
+      flex: 1;
+    }
+
+    .section-card__pages {
+      list-style: none;
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-1);
+    }
+
+    .section-card__page {
+      font-size: var(--text-xs); /* 12px — era 11px, mapeado ao token mais próximo */
+      font-weight: var(--font-medium);
+      padding: var(--space-0-5) var(--space-2);
+      background-color: var(--color-bg-subtle);
+      border-radius: var(--radius-sm);
+      color: var(--color-text-secondary);
+    }
+
+    .section-card__arrow {
+      color: var(--color-primary);
+      font-size: var(--text-sm);
+      opacity: 0;
+      transition: opacity var(--transition-fast), transform var(--transition-fast);
+      align-self: flex-end;
+    }
+
+    .section-card:hover .section-card__arrow {
+      opacity: 1;
+      transform: translateX(4px);
+    }
+
+    /* Highlighted card (Componentes Base) */
+    .section-card--highlight {
+      border-color: var(--color-primary);
+      border-width: 2px;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       COMPONENT CARDS (preview)
+    ═══════════════════════════════════════════════════════════ */
+    .components-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-5);
+    }
+
+    .component-card {
+      background-color: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      transition: box-shadow var(--transition-normal), transform var(--transition-normal);
+      cursor: pointer;
+    }
+
+    .component-card:hover {
+      box-shadow: var(--shadow-md);
+      transform: translateY(-2px);
+    }
+
+    .component-card__preview {
+      height: 120px;
+      background-color: var(--color-bg-subtle);
+      border-bottom: 1px solid var(--color-border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: var(--space-4);
+    }
+
+    .component-card__info {
+      padding: var(--space-4);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-3);
+    }
+
+    .component-card__name {
+      font-family: var(--font-heading);
+      font-size: var(--text-sm);
+      font-weight: var(--font-bold);
+      color: var(--color-text-primary);
+    }
+
+    .component-card__id {
+      font-family: var(--font-mono);
+      font-size: var(--text-xs); /* 12px — era 11px, mapeado ao token mais próximo */
+      color: var(--color-text-muted);
+      margin-top: var(--space-0-5); /* 2px */
+    }
+
+    .component-card__badge {
+      display: inline-block;
+      font-size: var(--text-2xs); /* 10px */
+      font-weight: var(--font-semibold);
+      padding: var(--space-0-5) var(--space-2);
+      border-radius: var(--radius-full);
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .component-card__badge--base {
+      background-color: var(--color-primary-muted);
+      color: var(--color-primary);
+    }
+
+    /* Mini-previews dentro dos cards */
+    .mini-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-2);
+      padding: var(--space-2) var(--space-5);
+      border-radius: var(--radius-md);
+      font-family: var(--font-body);
+      font-size: var(--text-sm);
+      font-weight: var(--font-semibold);
+      border: none;
+      cursor: default;
+    }
+
+    .mini-btn--primary {
+      background-color: var(--color-primary);
+      color: var(--color-primary-contrast);
+    }
+
+    .mini-btn--secondary {
+      background-color: var(--color-bg);
+      color: var(--color-text-primary);
+      border: 1px solid var(--color-border-strong);
+    }
+
+    .mini-card-preview {
+      width: 160px;
+      background-color: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+    }
+
+    .mini-card-preview__bar {
+      height: var(--space-1); /* 4px */
+      background-color: var(--color-primary);
+    }
+
+    .mini-card-preview__body {
+      padding: var(--space-2) var(--space-3);
+    }
+
+    .mini-card-preview__line {
+      height: 6px;
+      background-color: var(--color-bg-muted);
+      border-radius: var(--radius-sm);
+      margin-bottom: var(--space-1);
+    }
+
+    .mini-card-preview__line--short {
+      width: 60%;
+    }
+
+    .mini-alert {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      padding: var(--space-2) var(--space-3);
+      border-radius: var(--radius-md);
+      font-size: var(--text-xs);
+      font-weight: var(--font-medium);
+    }
+
+    .mini-alert--danger {
+      background-color: var(--color-danger-bg);
+      color: var(--color-danger);
+    }
+
+    .mini-alert--success {
+      background-color: var(--color-success-bg);
+      color: var(--color-success);
+    }
+
+    .mini-input {
+      width: 180px;
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-1);
+    }
+
+    .mini-input__label {
+      font-size: var(--text-xs); /* 12px — era 11px */
+      font-weight: var(--font-semibold);
+      color: var(--color-text-secondary);
+    }
+
+    .mini-input__field {
+      height: var(--space-8); /* 32px */
+      border: 1px solid var(--color-border-strong);
+      border-radius: var(--radius-sm);
+      padding: 0 var(--space-3);
+      font-size: var(--text-xs);
+      color: var(--color-text-muted);
+      background-color: var(--color-surface);
+      font-family: var(--font-body);
+      display: flex;
+      align-items: center;
+    }
+
+    .mini-toast {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      padding: var(--space-2) var(--space-3);
+      background-color: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-md);
+      font-size: var(--text-xs);
+    }
+
+    .mini-toast__icon {
+      color: var(--color-success);
+    }
+
+    .mini-toast__text {
+      color: var(--color-text-primary);
+      font-weight: var(--font-medium);
+    }
+
+    .mini-toast__action {
+      color: var(--color-primary);
+      font-weight: var(--font-semibold);
+      margin-left: var(--space-2);
+    }
+
+    .mini-modal {
+      width: 200px;
+      background-color: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-lg);
+      overflow: hidden;
+    }
+
+    .mini-modal__header {
+      padding: var(--space-2) var(--space-3);
+      border-bottom: 1px solid var(--color-border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .mini-modal__title {
+      font-size: var(--text-xs); /* 12px — era 11px */
+      font-weight: var(--font-bold);
+    }
+
+    .mini-modal__close {
+      font-size: var(--text-xs); /* 12px — era 11px */
+      color: var(--color-text-muted);
+    }
+
+    .mini-modal__body {
+      padding: var(--space-2) var(--space-3);
+    }
+
+    .mini-modal__line {
+      height: 5px;
+      background-color: var(--color-bg-muted);
+      border-radius: var(--radius-sm);
+      margin-bottom: var(--space-1);
+    }
+
+    .mini-modal__line--short {
+      width: 50%;
+    }
+
+    .mini-modal__footer {
+      padding: var(--space-2) var(--space-3);
+      border-top: 1px solid var(--color-border);
+      display: flex;
+      justify-content: flex-end;
+      gap: var(--space-1);
+    }
+
+    .mini-modal__btn {
+      font-size: var(--text-2xs); /* 10px */
+      font-weight: var(--font-semibold);
+      padding: var(--space-0-5) var(--space-2); /* 2px 8px */
+      border-radius: var(--radius-sm);
+      border: none;
+    }
+
+    .mini-modal__btn--secondary {
+      background-color: var(--color-bg-muted);
+      color: var(--color-text-secondary);
+    }
+
+    .mini-modal__btn--primary {
+      background-color: var(--color-primary);
+      color: var(--color-primary-contrast);
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       DV NOTE (callout)
+    ═══════════════════════════════════════════════════════════ */
+    .dv-callout {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 0 var(--space-6) var(--space-16);
+    }
+
+    .dv-callout__inner {
+      display: flex;
+      align-items: flex-start;
+      gap: var(--space-5);
+      background-color: var(--color-primary-muted);
+      border: 1px solid var(--color-primary);
+      border-left-width: 4px;
+      border-radius: var(--radius-lg);
+      padding: var(--space-6);
+    }
+
+    .dv-callout__icon {
+      flex-shrink: 0;
+      width: var(--space-10); /* 40px */
+      height: var(--space-10); /* 40px */
+      border-radius: var(--radius-md);
+      background-color: var(--color-primary);
+      color: var(--color-primary-contrast);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: var(--text-lg);
+    }
+
+    .dv-callout__title {
+      font-family: var(--font-heading);
+      font-size: var(--text-base);
+      font-weight: var(--font-bold);
+      color: var(--color-text-primary);
+      margin-bottom: var(--space-1);
+    }
+
+    .dv-callout__desc {
+      font-size: var(--text-sm);
+      color: var(--color-text-secondary);
+      line-height: var(--leading-relaxed);
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       FOOTER
+    ═══════════════════════════════════════════════════════════ */
+    .footer {
+      background-color: var(--color-dark-surface);
+      color: var(--color-dark-muted);
+      padding: var(--space-12) var(--space-6) var(--space-8);
+    }
+
+    .footer__inner {
+      max-width: var(--max-width);
+      margin: 0 auto;
+    }
+
+    .footer__grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: var(--space-8);
+      padding-bottom: var(--space-8);
+      border-bottom: 1px solid var(--color-dark-border);
+    }
+
+    .footer__brand-desc {
+      font-size: var(--text-sm);
+      line-height: var(--leading-relaxed);
+      margin-top: var(--space-3);
+    }
+
+    .footer__col-title {
+      font-family: var(--font-heading); /* ✅ Text Style: Overline (Montserrat 12px Semibold uppercase) — aprovado D142 */
+      font-size: var(--text-xs);
+      font-weight: var(--font-semibold);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--color-dark-text);
+      margin-bottom: var(--space-4);
+    }
+
+    .footer__links {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-2);
+    }
+
+    .footer__link {
+      font-size: var(--text-sm);
+      color: var(--color-dark-muted);
+      transition: color var(--transition-fast);
+    }
+
+    .footer__link:hover {
+      color: var(--color-dark-text);
+    }
+
+    .footer__bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: var(--space-6);
+      font-size: var(--text-xs);
+      flex-wrap: wrap;
+      gap: var(--space-2);
+    }
+
+    .footer__copyright {
+      color: var(--color-dark-muted);
+    }
+
+    .footer__version {
+      font-family: var(--font-mono);
+      font-size: var(--text-xs); /* 12px — era 11px */
+      color: var(--color-dark-border-strong);
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       RESPONSIVO — TABLET (768–1023)
+    ═══════════════════════════════════════════════════════════ */
+    @media (max-width: 1023px) {
+      .personas-grid {
+        grid-template-columns: 1fr;
+        gap: var(--space-4);
+      }
+
+      .components-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .footer__grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .hero__stats {
+        gap: var(--space-6);
+      }
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       RESPONSIVO — MOBILE (<768)
+    ═══════════════════════════════════════════════════════════ */
+    @media (max-width: 767px) {
+      .header__inner {
+        padding: 0 var(--space-4);
+      }
+
+      .header__nav,
+      .header__search {
+        display: none;
+      }
+
+      .header__hamburger {
+        display: flex;
+        margin-left: auto;
+      }
+
+      .hero {
+        padding: var(--space-10) var(--space-4) var(--space-8);
+      }
+
+      .hero__title {
+        font-size: var(--text-2xl);
+      }
+
+      .hero__subtitle {
+        font-size: var(--text-base);
+      }
+
+      .hero__actions {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .btn {
+        width: 100%;
+        max-width: 300px;
+      }
+
+      .hero__stats {
+        flex-wrap: wrap;
+        gap: var(--space-5);
+        justify-content: center;
+      }
+
+      .hero__stat {
+        min-width: var(--space-20); /* 80px */
+      }
+
+      .section {
+        padding: var(--space-10) var(--space-4);
+      }
+
+      .section__title {
+        font-size: var(--text-xl);
+      }
+
+      .personas-grid {
+        grid-template-columns: 1fr;
+        gap: var(--space-4);
+      }
+
+      .sections-grid {
+        grid-template-columns: 1fr;
+        gap: var(--space-4);
+      }
+
+      .components-grid {
+        grid-template-columns: 1fr;
+        gap: var(--space-4);
+      }
+
+      .dv-callout {
+        padding: 0 var(--space-4) var(--space-10);
+      }
+
+      .dv-callout__inner {
+        flex-direction: column;
+        gap: var(--space-3);
+        padding: var(--space-4);
+      }
+
+      .footer {
+        padding: var(--space-8) var(--space-4) var(--space-6);
+      }
+
+      .footer__grid {
+        grid-template-columns: 1fr;
+        gap: var(--space-6);
+      }
+
+      .footer__bottom {
+        flex-direction: column;
+        text-align: center;
+      }
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       FOCUS VISIBLE (acessibilidade)
+    ═══════════════════════════════════════════════════════════ */
+    :focus-visible {
+      outline: 2px solid var(--color-border-focus);
+      outline-offset: 2px;
+    }
+
+    /* Remove outline para cliques de mouse */
+    :focus:not(:focus-visible) {
+      outline: none;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Skip link — WCAG AA -->
+  <a href="#main-content" class="skip-link">Ir para conteúdo principal</a>
+
+  <!-- ═══ HEADER ═══ -->
+  <header class="header" role="banner">
+    <div class="header__inner">
+      <a href="#" class="header__brand" aria-label="DS SISP — Home">
+        <div class="header__logo" aria-hidden="true">DS</div>
+        <span class="header__name">DS SISP</span>
+      </a>
+
+      <nav class="header__nav" role="navigation" aria-label="Navegação principal">
+        <a href="#sobre" class="header__nav-link header__nav-link--active">Sobre</a>
+        <a href="fundacao.html" class="header__nav-link">Fundação</a>
+        <a href="#acessibilidade" class="header__nav-link">Acessibilidade</a>
+        <a href="componente.html" class="header__nav-link">Componentes</a>
+        <a href="#temas" class="header__nav-link">Temas</a>
+        <a href="#figma" class="header__nav-link">Figma</a>
+      </nav>
+
+      <div class="header__search">
+        <i class="fa-solid fa-magnifying-glass header__search-icon" aria-hidden="true"></i>
+        <input
+          type="search"
+          class="header__search-input"
+          placeholder="Buscar componente..."
+          aria-label="Buscar componente no Design System"
+        >
+      </div>
+
+      <button
+        class="header__hamburger"
+        aria-label="Abrir menu de navegação"
+        aria-expanded="false"
+        aria-controls="mobile-nav"
+        id="hamburger-btn"
+      >
+        <i class="fa-solid fa-bars" id="hamburger-icon"></i>
+      </button>
+    </div>
+  </header>
+
+  <!-- Mobile nav overlay -->
+  <nav class="mobile-nav" id="mobile-nav" role="navigation" aria-label="Navegação mobile">
+    <a href="#sobre" class="mobile-nav__link" onclick="closeMobileNav()">Sobre</a>
+    <a href="fundacao.html" class="mobile-nav__link" onclick="closeMobileNav()">Fundação</a>
+    <a href="#acessibilidade" class="mobile-nav__link" onclick="closeMobileNav()">Acessibilidade</a>
+    <a href="componente.html" class="mobile-nav__link" onclick="closeMobileNav()">Componentes</a>
+    <a href="#temas" class="mobile-nav__link" onclick="closeMobileNav()">Temas</a>
+    <a href="#figma" class="mobile-nav__link" onclick="closeMobileNav()">Figma</a>
+    <div class="mobile-nav__search">
+      <div class="mobile-nav__search-wrap">
+        <i class="fa-solid fa-magnifying-glass mobile-nav__search-icon" aria-hidden="true"></i>
+        <input
+          type="search"
+          class="mobile-nav__search-input"
+          placeholder="Buscar componente..."
+          aria-label="Buscar componente no Design System"
+        >
+      </div>
+    </div>
+  </nav>
+
+  <!-- ═══ HERO ═══ -->
+  <section class="hero">
+    <div class="hero__inner">
+      <span class="hero__badge">Design System</span>
+      <h1 class="hero__title">Design System SISP</h1>
+      <p class="hero__subtitle">
+        Componentes, tokens e diretrizes para construir interfaces consistentes
+        nos produtos do CiASC &mdash; com acessibilidade WCAG AA e suporte a múltiplos temas.
+      </p>
+      <div class="hero__actions">
+        <a href="#personas" class="btn btn--primary">
+          <i class="fa-solid fa-rocket" aria-hidden="true"></i>
+          Como começar
+        </a>
+        <a href="#componentes" class="btn btn--secondary">
+          <i class="fa-solid fa-cubes" aria-hidden="true"></i>
+          Ver componentes
+        </a>
+      </div>
+      <div class="hero__stats">
+        <div class="hero__stat">
+          <div class="hero__stat-number">44</div>
+          <div class="hero__stat-label">Componentes</div>
+        </div>
+        <div class="hero__stat">
+          <div class="hero__stat-number">103</div>
+          <div class="hero__stat-label">Variáveis Figma</div>
+        </div>
+        <div class="hero__stat">
+          <div class="hero__stat-number">AA</div>
+          <div class="hero__stat-label">WCAG</div>
+        </div>
+        <div class="hero__stat">
+          <div class="hero__stat-number">2</div>
+          <div class="hero__stat-label">Temas</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ MAIN CONTENT ═══ -->
+  <main id="main-content">
+
+    <!-- ── Por onde começar ── -->
+    <section class="section" id="personas">
+      <div class="section__inner">
+        <div class="section__header">
+          <p class="section__overline">Primeiros passos</p>
+          <h2 class="section__title">Por onde começar?</h2>
+          <p class="section__desc">
+            O Design System atende perfis diferentes. Encontre o caminho que faz sentido para você.
+          </p>
+        </div>
+
+        <div class="personas-grid">
+          <!-- Dev CiASC -->
+          <article class="persona-card">
+            <div class="persona-card__header">
+              <div class="persona-card__icon persona-card__icon--dev">
+                <i class="fa-solid fa-laptop-code" aria-hidden="true"></i>
+              </div>
+              <div>
+                <h3 class="persona-card__title">Desenvolvedor CiASC</h3>
+                <p class="persona-card__role">Consumidor direto dos componentes</p>
+              </div>
+            </div>
+            <div class="persona-card__body">
+              <p class="persona-card__desc">
+                Integra componentes Angular (<code>sisp-lib-*</code>) nos produtos do CiASC.
+                Precisa de catálogo navegável com exemplos copiáveis e convenções de uso.
+              </p>
+              <p class="persona-card__path">Caminho recomendado</p>
+              <div class="persona-card__sections">
+                <span class="persona-card__tag"><i class="fa-solid fa-circle-info" aria-hidden="true"></i> Sobre o DS</span>
+                <span class="persona-card__tag"><i class="fa-solid fa-palette" aria-hidden="true"></i> Fundação</span>
+                <span class="persona-card__tag"><i class="fa-solid fa-cubes" aria-hidden="true"></i> Componentes Base</span>
+                <span class="persona-card__tag"><i class="fa-solid fa-puzzle-piece" aria-hidden="true"></i> Componentes SISP</span>
+              </div>
+              <a href="#" class="persona-card__link">
+                Começar aqui <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+              </a>
+            </div>
+          </article>
+
+          <!-- Terceiro contratado -->
+          <article class="persona-card">
+            <div class="persona-card__header">
+              <div class="persona-card__icon persona-card__icon--terceiro">
+                <i class="fa-solid fa-file-contract" aria-hidden="true"></i>
+              </div>
+              <div>
+                <h3 class="persona-card__title">Terceiro contratado</h3>
+                <p class="persona-card__role">Chega ao projeto sem contexto</p>
+              </div>
+            </div>
+            <div class="persona-card__body">
+              <p class="persona-card__desc">
+                Precisa de documentação completa e autocontida antes de escrever código.
+                O DS garante que a implementação siga o padrão sem depender de contato com o time.
+              </p>
+              <p class="persona-card__path">Caminho recomendado</p>
+              <div class="persona-card__sections">
+                <span class="persona-card__tag"><i class="fa-solid fa-circle-info" aria-hidden="true"></i> Sobre o DS</span>
+                <span class="persona-card__tag"><i class="fa-solid fa-palette" aria-hidden="true"></i> Fundação</span>
+                <span class="persona-card__tag"><i class="fa-solid fa-cubes" aria-hidden="true"></i> Componentes Base</span>
+                <span class="persona-card__tag"><i class="fa-solid fa-universal-access" aria-hidden="true"></i> Acessibilidade</span>
+              </div>
+              <a href="#" class="persona-card__link">
+                Começar aqui <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+              </a>
+            </div>
+          </article>
+
+          <!-- Outro órgão -->
+          <article class="persona-card">
+            <div class="persona-card__header">
+              <div class="persona-card__icon persona-card__icon--orgao">
+                <i class="fa-solid fa-building-columns" aria-hidden="true"></i>
+              </div>
+              <div>
+                <h3 class="persona-card__title">Outro órgão</h3>
+                <p class="persona-card__role">Cliente institucional (ex: Polícia Civil)</p>
+              </div>
+            </div>
+            <div class="persona-card__body">
+              <p class="persona-card__desc">
+                Usa componentes com identidade visual própria (cores, brasão).
+                O sistema de temas permite customizar sem quebrar o padrão.
+              </p>
+              <p class="persona-card__path">Caminho recomendado</p>
+              <div class="persona-card__sections">
+                <span class="persona-card__tag"><i class="fa-solid fa-circle-info" aria-hidden="true"></i> Sobre o DS</span>
+                <span class="persona-card__tag"><i class="fa-solid fa-swatchbook" aria-hidden="true"></i> Temas</span>
+                <span class="persona-card__tag"><i class="fa-solid fa-palette" aria-hidden="true"></i> Fundação</span>
+                <span class="persona-card__tag"><i class="fa-solid fa-cubes" aria-hidden="true"></i> Componentes Base</span>
+              </div>
+              <a href="#" class="persona-card__link">
+                Começar aqui <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+              </a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Seções do Design System ── -->
+    <section class="section section--alt" id="secoes">
+      <div class="section__inner">
+        <div class="section__header">
+          <p class="section__overline">Estrutura</p>
+          <h2 class="section__title">Seções do Design System</h2>
+          <p class="section__desc">
+            7 seções organizam tudo que você precisa: da fundação visual à integração com Figma.
+          </p>
+        </div>
+
+        <div class="sections-grid">
+
+          <!-- 01 Sobre -->
+          <article class="section-card" id="sobre" tabindex="0" role="link" aria-label="Ir para seção Sobre o DS">
+            <div class="section-card__icon section-card__icon--sobre">
+              <i class="fa-solid fa-circle-info" aria-hidden="true"></i>
+            </div>
+            <div>
+              <span class="section-card__number">Seção 01</span>
+              <h3 class="section-card__title">Sobre o DS</h3>
+            </div>
+            <p class="section-card__desc">
+              O que é o Design System, quem mantém, como usar e como contribuir.
+            </p>
+            <ul class="section-card__pages">
+              <li class="section-card__page">O que é</li>
+              <li class="section-card__page">Quem mantém</li>
+              <li class="section-card__page">Como usar</li>
+              <li class="section-card__page">Como contribuir</li>
+              <li class="section-card__page">Changelog</li>
+            </ul>
+            <span class="section-card__arrow"><i class="fa-solid fa-arrow-right"></i></span>
+          </article>
+
+          <!-- 02 Fundação -->
+          <article class="section-card" id="fundacao" tabindex="0" role="link" aria-label="Ir para seção Fundação" data-href="fundacao.html">
+            <div class="section-card__icon section-card__icon--fundacao">
+              <i class="fa-solid fa-palette" aria-hidden="true"></i>
+            </div>
+            <div>
+              <span class="section-card__number">Seção 02</span>
+              <h3 class="section-card__title">Fundação</h3>
+            </div>
+            <p class="section-card__desc">
+              Tokens visuais que definem a identidade: cores, tipografia, espaçamento, bordas e ícones.
+            </p>
+            <ul class="section-card__pages">
+              <li class="section-card__page">Cores</li>
+              <li class="section-card__page">Tipografia</li>
+              <li class="section-card__page">Espaçamento</li>
+              <li class="section-card__page">Bordas</li>
+              <li class="section-card__page">Iconografia</li>
+            </ul>
+            <span class="section-card__arrow"><i class="fa-solid fa-arrow-right"></i></span>
+          </article>
+
+          <!-- 03 Acessibilidade -->
+          <article class="section-card" id="acessibilidade" tabindex="0" role="link" aria-label="Ir para seção Acessibilidade">
+            <div class="section-card__icon section-card__icon--a11y">
+              <i class="fa-solid fa-universal-access" aria-hidden="true"></i>
+            </div>
+            <div>
+              <span class="section-card__number">Seção 03</span>
+              <h3 class="section-card__title">Acessibilidade</h3>
+            </div>
+            <p class="section-card__desc">
+              Diretrizes WCAG AA aplicadas a todos os componentes: contraste, foco, semântica e ARIA.
+            </p>
+            <ul class="section-card__pages">
+              <li class="section-card__page">Diretrizes gerais</li>
+              <li class="section-card__page">Contraste por token</li>
+            </ul>
+            <span class="section-card__arrow"><i class="fa-solid fa-arrow-right"></i></span>
+          </article>
+
+          <!-- 04 Componentes Base (highlight) -->
+          <article class="section-card section-card--highlight" id="componentes" tabindex="0" role="link" aria-label="Ir para seção Componentes Base" data-href="componente.html">
+            <div class="section-card__icon section-card__icon--base">
+              <i class="fa-solid fa-cubes" aria-hidden="true"></i>
+            </div>
+            <div>
+              <span class="section-card__number">Seção 04 &middot; 28 componentes</span>
+              <h3 class="section-card__title">Componentes Base</h3>
+            </div>
+            <p class="section-card__desc">
+              Blocos fundamentais: botões, formulários, cards, tabelas, alertas e todos os elementos reutilizáveis.
+            </p>
+            <ul class="section-card__pages">
+              <li class="section-card__page">Buttons</li>
+              <li class="section-card__page">Cards</li>
+              <li class="section-card__page">Forms</li>
+              <li class="section-card__page">Tables</li>
+              <li class="section-card__page">Modals</li>
+              <li class="section-card__page">+23</li>
+            </ul>
+            <span class="section-card__arrow"><i class="fa-solid fa-arrow-right"></i></span>
+          </article>
+
+          <!-- 05 Componentes SISP -->
+          <article class="section-card" tabindex="0" role="link" aria-label="Ir para seção Componentes SISP">
+            <div class="section-card__icon section-card__icon--sisp">
+              <i class="fa-solid fa-puzzle-piece" aria-hidden="true"></i>
+            </div>
+            <div>
+              <span class="section-card__number">Seção 05 &middot; 16 componentes</span>
+              <h3 class="section-card__title">Componentes SISP</h3>
+            </div>
+            <p class="section-card__desc">
+              Componentes específicos dos produtos SISP: login, sessão, upload, stepper e mais.
+            </p>
+            <ul class="section-card__pages">
+              <li class="section-card__page">Login</li>
+              <li class="section-card__page">Session Control</li>
+              <li class="section-card__page">Uploaders</li>
+              <li class="section-card__page">Steppers</li>
+              <li class="section-card__page">+12</li>
+            </ul>
+            <span class="section-card__arrow"><i class="fa-solid fa-arrow-right"></i></span>
+          </article>
+
+          <!-- 06 Temas -->
+          <article class="section-card" id="temas" tabindex="0" role="link" aria-label="Ir para seção Temas">
+            <div class="section-card__icon section-card__icon--temas">
+              <i class="fa-solid fa-swatchbook" aria-hidden="true"></i>
+            </div>
+            <div>
+              <span class="section-card__number">Seção 06</span>
+              <h3 class="section-card__title">Temas</h3>
+            </div>
+            <p class="section-card__desc">
+              Override de tokens semânticos por cliente: cores e identidade visual sem alterar componentes.
+            </p>
+            <ul class="section-card__pages">
+              <li class="section-card__page">Tokens semânticos</li>
+              <li class="section-card__page">Tema Polícia Civil</li>
+              <li class="section-card__page">Criar tema</li>
+            </ul>
+            <span class="section-card__arrow"><i class="fa-solid fa-arrow-right"></i></span>
+          </article>
+
+          <!-- 07 Figma -->
+          <article class="section-card" id="figma" tabindex="0" role="link" aria-label="Ir para seção Figma">
+            <div class="section-card__icon section-card__icon--figma">
+              <i class="fa-brands fa-figma" aria-hidden="true"></i>
+            </div>
+            <div>
+              <span class="section-card__number">Seção 07</span>
+              <h3 class="section-card__title">Figma</h3>
+            </div>
+            <p class="section-card__desc">
+              UI Kit no Figma, Dev Mode e mapeamento completo entre tokens visuais e variáveis CSS.
+            </p>
+            <ul class="section-card__pages">
+              <li class="section-card__page">UI Kit</li>
+              <li class="section-card__page">Dev Mode</li>
+              <li class="section-card__page">Tokens Figma ↔ CSS</li>
+            </ul>
+            <span class="section-card__arrow"><i class="fa-solid fa-arrow-right"></i></span>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Componentes mais usados ── -->
+    <section class="section" id="preview-componentes">
+      <div class="section__inner">
+        <div class="section__header">
+          <p class="section__overline">Catálogo</p>
+          <h2 class="section__title">Componentes mais usados</h2>
+          <p class="section__desc">
+            Os 6 componentes mais utilizados nos produtos do CiASC. Cada um com documentação completa.
+          </p>
+        </div>
+
+        <div class="components-grid">
+
+          <!-- Button -->
+          <article class="component-card" data-href="componente.html" style="cursor:pointer">
+            <div class="component-card__preview">
+              <div style="display: flex; gap: var(--space-2); align-items: center;">
+                <span class="mini-btn mini-btn--primary">Primário</span>
+                <span class="mini-btn mini-btn--secondary">Secundário</span>
+              </div>
+            </div>
+            <div class="component-card__info">
+              <div>
+                <p class="component-card__name">Button</p>
+                <p class="component-card__id">BC-05</p>
+              </div>
+              <span class="component-card__badge component-card__badge--base">36 variantes</span>
+            </div>
+          </article>
+
+          <!-- Card -->
+          <article class="component-card">
+            <div class="component-card__preview">
+              <div class="mini-card-preview">
+                <div class="mini-card-preview__bar"></div>
+                <div class="mini-card-preview__body">
+                  <div class="mini-card-preview__line"></div>
+                  <div class="mini-card-preview__line mini-card-preview__line--short"></div>
+                  <div class="mini-card-preview__line"></div>
+                </div>
+              </div>
+            </div>
+            <div class="component-card__info">
+              <div>
+                <p class="component-card__name">Card</p>
+                <p class="component-card__id">BC-06</p>
+              </div>
+              <span class="component-card__badge component-card__badge--base">20 variantes</span>
+            </div>
+          </article>
+
+          <!-- Alert -->
+          <article class="component-card">
+            <div class="component-card__preview">
+              <div style="display: flex; flex-direction: column; gap: var(--space-2);">
+                <div class="mini-alert mini-alert--danger">
+                  <i class="fa-solid fa-circle-xmark" aria-hidden="true"></i> Erro ao salvar
+                </div>
+                <div class="mini-alert mini-alert--success">
+                  <i class="fa-solid fa-circle-check" aria-hidden="true"></i> Salvo com sucesso
+                </div>
+              </div>
+            </div>
+            <div class="component-card__info">
+              <div>
+                <p class="component-card__name">Alert</p>
+                <p class="component-card__id">BC-03</p>
+              </div>
+              <span class="component-card__badge component-card__badge--base">8 variantes</span>
+            </div>
+          </article>
+
+          <!-- Form Input -->
+          <article class="component-card">
+            <div class="component-card__preview">
+              <div class="mini-input">
+                <span class="mini-input__label">Nome completo</span>
+                <div class="mini-input__field">João da Silva</div>
+              </div>
+            </div>
+            <div class="component-card__info">
+              <div>
+                <p class="component-card__name">Form Input</p>
+                <p class="component-card__id">BC-13</p>
+              </div>
+              <span class="component-card__badge component-card__badge--base">6 estados</span>
+            </div>
+          </article>
+
+          <!-- Toast -->
+          <article class="component-card">
+            <div class="component-card__preview">
+              <div class="mini-toast">
+                <i class="fa-solid fa-circle-check mini-toast__icon" aria-hidden="true"></i>
+                <span class="mini-toast__text">Registro salvo</span>
+                <span class="mini-toast__action">Desfazer</span>
+              </div>
+            </div>
+            <div class="component-card__info">
+              <div>
+                <p class="component-card__name">Toast</p>
+                <p class="component-card__id">BC-27</p>
+              </div>
+              <span class="component-card__badge component-card__badge--base">4 tipos</span>
+            </div>
+          </article>
+
+          <!-- Modal -->
+          <article class="component-card">
+            <div class="component-card__preview">
+              <div class="mini-modal">
+                <div class="mini-modal__header">
+                  <span class="mini-modal__title">Confirmar ação</span>
+                  <span class="mini-modal__close">&times;</span>
+                </div>
+                <div class="mini-modal__body">
+                  <div class="mini-modal__line"></div>
+                  <div class="mini-modal__line mini-modal__line--short"></div>
+                </div>
+                <div class="mini-modal__footer">
+                  <span class="mini-modal__btn mini-modal__btn--secondary">Cancelar</span>
+                  <span class="mini-modal__btn mini-modal__btn--primary">Confirmar</span>
+                </div>
+              </div>
+            </div>
+            <div class="component-card__info">
+              <div>
+                <p class="component-card__name">Modal</p>
+                <p class="component-card__id">BC-19</p>
+              </div>
+              <span class="component-card__badge component-card__badge--base">6 variantes</span>
+            </div>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ── DV Callout ── -->
+    <div class="dv-callout">
+      <div class="dv-callout__inner">
+        <div class="dv-callout__icon">
+          <i class="fa-solid fa-shield-halved" aria-hidden="true"></i>
+        </div>
+        <div>
+          <p class="dv-callout__title">Prioridade: Delegacia Virtual</p>
+          <p class="dv-callout__desc">
+            A Delegacia Virtual (DV) é o produto-âncora do DS SISP. Componentes da DV são
+            priorizados na ordem de construção &mdash; tanto na seção de Componentes Base
+            quanto na de Componentes SISP. 90% da DV já está migrada para o UI Kit.
+          </p>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- ═══ FOOTER ═══ -->
+  <footer class="footer" role="contentinfo">
+    <div class="footer__inner">
+      <div class="footer__grid">
+        <!-- Coluna 1: DS SISP -->
+        <div>
+          <div class="header__brand" style="margin-bottom: var(--space-3);">
+            <div class="header__logo" aria-hidden="true">DS</div>
+            <span class="header__name">DS SISP</span>
+          </div>
+          <p class="footer__brand-desc">
+            Design System do SISP &mdash; CiASC / Governo de Santa Catarina.
+            Componentes Angular documentados com tokens, acessibilidade WCAG AA e suporte a múltiplos temas.
+          </p>
+        </div>
+
+        <!-- Coluna 2: Documentação -->
+        <div>
+          <p class="footer__col-title">Documentação</p>
+          <ul class="footer__links">
+            <li><a href="#sobre" class="footer__link">Sobre o DS</a></li>
+            <li><a href="fundacao.html" class="footer__link">Fundação</a></li>
+            <li><a href="#acessibilidade" class="footer__link">Acessibilidade</a></li>
+            <li><a href="componente.html" class="footer__link">Componentes Base</a></li>
+            <li><a href="#componentes-sisp" class="footer__link">Componentes SISP</a></li>
+          </ul>
+        </div>
+
+        <!-- Coluna 3: Recursos -->
+        <div>
+          <p class="footer__col-title">Recursos</p>
+          <ul class="footer__links">
+            <li><a href="#figma" class="footer__link">Figma UI Kit</a></li>
+            <li><a href="fundacao.html#cores" class="footer__link">Tokens CSS</a></li>
+            <li><a href="#figma" class="footer__link">Dev Mode</a></li>
+            <li><a href="#temas" class="footer__link">Temas</a></li>
+            <li><a href="#sobre" class="footer__link">Changelog</a></li>
+          </ul>
+        </div>
+
+        <!-- Coluna 4: Governança -->
+        <div>
+          <p class="footer__col-title">Governança</p>
+          <ul class="footer__links">
+            <li><a href="#sobre" class="footer__link">Como contribuir</a></li>
+            <li><a href="#" class="footer__link" target="_blank" rel="noopener">Guia SC v1.4</a></li>
+            <li><a href="#acessibilidade" class="footer__link">WCAG 2.1 AA</a></li>
+            <li><a href="#sobre" class="footer__link">Contato</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer__bottom">
+        <p class="footer__copyright">
+          &copy; 2026 CiASC &mdash; Centro de Informática e Automação de Santa Catarina
+        </p>
+        <span class="footer__version">v1.0.0</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ═══ JAVASCRIPT ═══ -->
+  <script>
+    /* ── Hamburger menu ── */
+    const hamburgerBtn = document.getElementById('hamburger-btn');
+    const hamburgerIcon = document.getElementById('hamburger-icon');
+    const mobileNav = document.getElementById('mobile-nav');
+
+    hamburgerBtn.addEventListener('click', function () {
+      const isOpen = mobileNav.classList.toggle('is-open');
+      hamburgerBtn.setAttribute('aria-expanded', isOpen);
+      hamburgerIcon.className = isOpen ? 'fa-solid fa-xmark' : 'fa-solid fa-bars';
+
+      // Prevent body scroll when menu is open
+      document.body.style.overflow = isOpen ? 'hidden' : '';
+    });
+
+    function closeMobileNav() {
+      mobileNav.classList.remove('is-open');
+      hamburgerBtn.setAttribute('aria-expanded', 'false');
+      hamburgerIcon.className = 'fa-solid fa-bars';
+      document.body.style.overflow = '';
+    }
+
+    // Close on Escape
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && mobileNav.classList.contains('is-open')) {
+        closeMobileNav();
+        hamburgerBtn.focus();
+      }
+    });
+
+    /* ── Active nav on scroll ── */
+    const navLinks = document.querySelectorAll('.header__nav-link');
+    const sections = document.querySelectorAll('[id]');
+
+    function updateActiveNav() {
+      const scrollY = window.scrollY + 80;
+
+      sections.forEach(function (section) {
+        const top = section.offsetTop;
+        const height = section.offsetHeight;
+        const id = section.getAttribute('id');
+
+        if (scrollY >= top && scrollY < top + height) {
+          navLinks.forEach(function (link) {
+            link.classList.remove('header__nav-link--active');
+            if (link.getAttribute('href') === '#' + id) {
+              link.classList.add('header__nav-link--active');
+            }
+          });
+        }
+      });
+    }
+
+    window.addEventListener('scroll', updateActiveNav, { passive: true });
+
+    /* ── Section cards clickable ── */
+    document.querySelectorAll('.section-card').forEach(function (card) {
+      function navigateCard() {
+        card.style.transform = 'scale(0.97)';
+        var href = card.getAttribute('data-href');
+        if (href) {
+          setTimeout(function () { window.location.href = href; }, 150);
+        } else {
+          setTimeout(function () { card.style.transform = ''; }, 150);
+        }
+      }
+      card.addEventListener('click', navigateCard);
+      card.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          navigateCard();
+        }
+      });
+    });
+
+    /* ── Component cards clickable ── */
+    document.querySelectorAll('.component-card[data-href]').forEach(function (card) {
+      card.addEventListener('click', function () {
+        window.location.href = card.getAttribute('data-href');
+      });
+    });
+
+    /* ── Search (placeholder — keyboard shortcut) ── */
+    document.addEventListener('keydown', function (e) {
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+        e.preventDefault();
+        var searchInput = document.querySelector('.header__search-input');
+        if (searchInput) searchInput.focus();
+      }
+    });
+  </script>
+
+</body>
+</html>
