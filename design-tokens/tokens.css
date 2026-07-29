@@ -1,0 +1,236 @@
+/**
+ * DS SISP — Design Tokens
+ * Sistema visual definido em 2026-06-22
+ *
+ * Arquitetura: dois níveis
+ *   Primitivos (--p-*): valores brutos da paleta
+ *   Semânticos (--color-*): intenção que os componentes consomem
+ *
+ * Theming por cliente: apenas os semânticos são sobrescritos
+ * (ex: PC usa dourado → só --color-primary muda, componentes não tocam)
+ *
+ * Migração Figma: cada variável CSS vira uma variável Figma no Sprint 2
+ */
+
+/* ═══════════════════════════════════════════════════════════
+   PRIMITIVOS — valores brutos, nunca usados diretamente
+   nos componentes
+═══════════════════════════════════════════════════════════ */
+
+:root {
+
+  /* SC / Guia de Padronização v1.4 */
+  --p-sc-red:           #C4000B;
+  --p-sc-red-dark:      #9B0008;
+  --p-sc-red-light:     #FEF2F2;
+  --p-sc-green:         #336633;
+  --p-sc-green-light:   #8FB13A;   /* ⚠️ inutilizável para texto: contraste 2.5:1 */
+
+  /* CiASC / Portal Design System */
+  --p-ciasc-green:      #A1C84D;   /* ⚠️ 4.6:1 — AA large text only, não usar para body text */
+  --p-ciasc-green-dark: #244131;   /* ✅ 8.3:1 — AA + AAA normal text */
+
+  /* Status — corrigidos para WCAG AA sobre branco */
+  --p-success-text:     #166534;   /* ≠ #336633 que falha WCAG AA */
+  --p-success-bg:       #DCFCE7;
+  --p-warning-text:     #92400E;
+  --p-warning-bg:       #FEF3C7;
+  --p-danger-text:      #991B1B;
+  --p-danger-bg:        #FEE2E2;
+  --p-info-text:        #1E3A8A;
+  --p-info-bg:          #DBEAFE;
+
+  /* Neutros */
+  --p-neutral-50:       #F9FAFB;
+  --p-neutral-100:      #F3F4F6;
+  --p-neutral-200:      #E5E7EB;
+  --p-neutral-300:      #D1D5DB;
+  --p-neutral-400:      #9CA3AF;
+  --p-neutral-500:      #6B7280;
+  --p-neutral-600:      #4B5563;
+  --p-neutral-700:      #374151;
+  --p-neutral-800:      #1F2937;
+  --p-neutral-900:      #111827;
+
+  /* CiASC dark (padrão documentos) */
+  --p-dark:             #08060F;
+  --p-dark-surface:     #192D22;   /* verde escuro CiASC — era #1F1535 */
+
+
+/* ═══════════════════════════════════════════════════════════
+   SEMÂNTICOS — intenção. Estes são sobrescritos por tema.
+═══════════════════════════════════════════════════════════ */
+
+  /* Ação / Marca */
+  --color-primary:         var(--p-sc-red);         /* ação primária */
+  --color-primary-hover:   var(--p-sc-red-dark);    /* hover */
+  --color-primary-muted:   var(--p-sc-red-light);   /* fundo sutil */
+  --color-primary-contrast: #FFFFFF;                /* texto sobre primária */
+
+  /* Accent (portal DS / documentação — não entra nos componentes Angular) */
+  --color-accent:          var(--p-ciasc-green-dark);  /* #244131 — 8.3:1 AA texto normal */
+  --color-accent-hover:    var(--p-ciasc-green);       /* #A1C84D — hover/decorativo, AA large only */
+  --color-accent-muted:    var(--p-neutral-50);        /* fundo sutil neutro */
+
+  /* Texto */
+  --color-text-primary:    var(--p-dark);
+  --color-text-secondary:  var(--p-neutral-600);
+  --color-text-muted:      var(--p-neutral-400);
+  --color-text-inverse:    #FFFFFF;
+
+  /* Superfícies */
+  --color-bg:              #FFFFFF;
+  --color-bg-subtle:       var(--p-neutral-50);
+  --color-bg-muted:        var(--p-neutral-100);
+  --color-surface:         #FFFFFF;
+  --color-surface-raised:  var(--p-neutral-50);
+
+  /* Bordas */
+  --color-border:          var(--p-neutral-200);
+  --color-border-strong:   var(--p-neutral-300);
+  --color-border-focus:    var(--p-sc-red);         /* ring de foco = ação primária */
+
+  /* Status semânticos — todos passam WCAG AA sobre branco */
+  --color-success:         var(--p-success-text);
+  --color-success-bg:      var(--p-success-bg);
+  --color-warning:         var(--p-warning-text);
+  --color-warning-bg:      var(--p-warning-bg);
+  --color-danger:          var(--p-danger-text);
+  --color-danger-bg:       var(--p-danger-bg);
+  --color-info:            var(--p-info-text);
+  --color-info-bg:         var(--p-info-bg);
+
+  /* Header escuro (componentes com fundo dark — ex: navigation, session bar) */
+  --color-dark-surface:    var(--p-dark-surface);
+  --color-dark-text:       #FFFFFF;
+  --color-dark-muted:      rgba(255,255,255,0.6);
+
+  /* Dark-mode overlays — bordas e backgrounds sobre superfícies escuras (D140, aprovado D141) */
+  --color-dark-border:        rgba(255,255,255,0.08);  /* linhas sutis, separadores */
+  --color-dark-hover:         rgba(255,255,255,0.12);  /* hover/active/focus backgrounds */
+  --color-dark-border-strong: rgba(255,255,255,0.3);   /* bordas visíveis (ex: btn secondary) */
+  --color-dark-border-hover:  rgba(255,255,255,0.5);   /* hover de bordas fortes */
+
+
+/* ═══════════════════════════════════════════════════════════
+   TIPOGRAFIA
+═══════════════════════════════════════════════════════════ */
+
+  /* Portal DS (documentação, headings) */
+  --font-heading:    'Montserrat', Arial, sans-serif;
+
+  /* Componentes Angular e interface dos produtos */
+  --font-body:       Arial, sans-serif;
+
+  /* Código, dados técnicos, monospace */
+  --font-mono:       'Fira Code', 'Courier New', monospace;
+
+  /* Escala tipográfica */
+  --text-2xs:  0.625rem;  /* 10px — micro text: pills, badges, IDs (D138, aprovado D141) */
+  --text-xs:   0.75rem;   /* 12px */
+  --text-sm:   0.875rem;  /* 14px */
+  --text-base: 1rem;      /* 16px */
+  --text-lg:   1.125rem;  /* 18px */
+  --text-xl:   1.25rem;   /* 20px */
+  --text-2xl:  1.5rem;    /* 24px */
+  --text-3xl:  1.875rem;  /* 30px */
+  --text-4xl:  2.25rem;   /* 36px */
+
+  /* Pesos */
+  --font-regular:  400;
+  --font-medium:   500;
+  --font-semibold: 600;
+  --font-bold:     700;
+
+  /* Line height */
+  --leading-tight:  1.25;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.625;
+
+
+/* ═══════════════════════════════════════════════════════════
+   ESPAÇAMENTO (base 4px)
+═══════════════════════════════════════════════════════════ */
+
+  --space-0:   0;
+  --space-px:  1px;
+  --space-0-5: 2px;
+  --space-1:   4px;
+  --space-2:   8px;
+  --space-3:   12px;
+  --space-4:   16px;
+  --space-5:   20px;
+  --space-6:   24px;
+  --space-8:   32px;
+  --space-10:  40px;
+  --space-12:  48px;
+  --space-16:  64px;
+  --space-20:  80px;
+  --space-24:  96px;
+
+
+/* ═══════════════════════════════════════════════════════════
+   BORDER RADIUS
+═══════════════════════════════════════════════════════════ */
+
+  --radius-none: 0;
+  --radius-sm:   4px;    /* inputs, tags, labels */
+  --radius-md:   6px;    /* botões */
+  --radius-lg:   8px;    /* cards, modais, dropdowns */
+  --radius-xl:   12px;   /* cards grandes */
+  --radius-full: 9999px; /* pills, badges arredondados */
+
+
+/* ═══════════════════════════════════════════════════════════
+   SOMBRAS
+═══════════════════════════════════════════════════════════ */
+
+  --shadow-none: none;
+  --shadow-sm:   0 1px 2px rgba(0,0,0,.05);
+  --shadow-md:   0 4px 6px -1px rgba(0,0,0,.07),
+                 0 2px 4px -1px rgba(0,0,0,.04);
+  --shadow-lg:   0 10px 15px -3px rgba(0,0,0,.08),
+                 0 4px 6px -2px rgba(0,0,0,.04);
+  --shadow-xl:   0 20px 25px -5px rgba(0,0,0,.08),
+                 0 10px 10px -5px rgba(0,0,0,.03);
+
+
+/* ═══════════════════════════════════════════════════════════
+   LAYOUT
+═══════════════════════════════════════════════════════════ */
+
+  --max-width: 1200px;
+
+  /* Z-index */
+  --z-base:    0;
+  --z-raised:  10;
+  --z-dropdown: 100;
+  --z-sticky:  200;
+  --z-overlay: 300;
+  --z-modal:   400;
+  --z-toast:   500;
+
+
+/* ═══════════════════════════════════════════════════════════
+   TRANSIÇÕES
+═══════════════════════════════════════════════════════════ */
+
+  --transition-fast:   150ms ease;
+  --transition-normal: 200ms ease;
+  --transition-slow:   300ms ease;
+
+}
+
+
+/* ═══════════════════════════════════════════════════════════
+   TEMA POLICIA CIVIL (exemplo de override)
+   Aplica com: <html data-theme="pc"> ou classe .theme-pc
+═══════════════════════════════════════════════════════════ */
+
+[data-theme="pc"] {
+  --color-primary:         #C8A840;   /* dourado PC */
+  --color-primary-hover:   #A68930;
+  --color-primary-muted:   #FBF5E0;
+  --color-primary-contrast: #FFFFFF;
+  --color-border-focus:    #C8A840;
+}
