@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sitemap — DS SISP</title>
+
+  <!-- Tokens do Design System -->
+  <link rel="stylesheet" href="../design-tokens/tokens.css">
+
+  <!-- Fontes -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <style>
+    /* ── Reset ── */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* ── Base ── */
+    body {
+      font-family: var(--font-body);
+      font-size: var(--text-base);
+      line-height: var(--leading-normal);
+      color: var(--color-text-primary);
+      background-color: var(--color-bg-subtle);
+    }
+
+    /* ── Header ── */
+    .header {
+      background-color: var(--color-dark-surface);
+      color: var(--color-dark-text);
+      padding: var(--space-12) var(--space-6);
+      text-align: center;
+    }
+
+    .header__inner {
+      max-width: var(--max-width);
+      margin: 0 auto;
+    }
+
+    .header__badge {
+      display: inline-block;
+      background-color: var(--color-primary);
+      color: var(--color-primary-contrast);
+      font-family: var(--font-heading);
+      font-size: var(--text-xs);
+      font-weight: var(--font-semibold);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      padding: var(--space-1) var(--space-3);
+      border-radius: var(--radius-full);
+      margin-bottom: var(--space-4);
+    }
+
+    .header__title {
+      font-family: var(--font-heading);
+      font-size: var(--text-4xl);
+      font-weight: var(--font-bold);
+      line-height: var(--leading-tight);
+      margin-bottom: var(--space-3);
+    }
+
+    .header__subtitle {
+      font-size: var(--text-lg);
+      color: var(--color-dark-muted);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .header__meta {
+      margin-top: var(--space-6);
+      display: flex;
+      justify-content: center;
+      gap: var(--space-6);
+      flex-wrap: wrap;
+      font-size: var(--text-sm);
+      color: var(--color-dark-muted);
+    }
+
+    .header__meta-item i {
+      margin-right: var(--space-1);
+      color: var(--color-primary);
+    }
+
+    /* ── Legenda ── */
+    .legend {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: var(--space-6) var(--space-6) 0;
+      display: flex;
+      gap: var(--space-5);
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .legend__label {
+      font-family: var(--font-heading);
+      font-size: var(--text-sm);
+      font-weight: var(--font-semibold);
+      color: var(--color-text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .legend__item {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-2);
+      font-size: var(--text-sm);
+      color: var(--color-text-secondary);
+    }
+
+    .legend__dot {
+      width: 10px;
+      height: 10px;
+      border-radius: var(--radius-full);
+      flex-shrink: 0;
+    }
+
+    .legend__dot--done {
+      background-color: var(--color-success);
+    }
+
+    .legend__dot--building {
+      background-color: var(--color-warning);
+    }
+
+    .legend__dot--planned {
+      background-color: var(--color-border-strong);
+    }
+
+    /* ── Grid de seções ── */
+    .sections {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: var(--space-6);
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: var(--space-6);
+    }
+
+    /* ── Card ── */
+    .card {
+      background-color: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-sm);
+      overflow: hidden;
+      transition: box-shadow var(--transition-normal),
+                  transform var(--transition-normal);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .card:hover {
+      box-shadow: var(--shadow-md);
+      transform: translateY(-2px);
+    }
+
+    .card__header {
+      padding: var(--space-5) var(--space-6);
+      display: flex;
+      align-items: flex-start;
+      gap: var(--space-4);
+      border-bottom: 1px solid var(--color-border);
+      background-color: var(--color-bg-subtle);
+    }
+
+    .card__icon {
+      width: 44px;
+      height: 44px;
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: var(--text-xl);
+      flex-shrink: 0;
+    }
+
+    .card__icon--01 { background-color: var(--color-info-bg);    color: var(--color-info); }
+    .card__icon--02 { background-color: var(--color-accent-muted); color: var(--color-accent); }
+    .card__icon--03 { background-color: var(--color-success-bg); color: var(--color-success); }
+    .card__icon--04 { background-color: var(--color-primary-muted); color: var(--color-primary); }
+    .card__icon--05 { background-color: var(--color-danger-bg);  color: var(--color-danger); }
+    .card__icon--06 { background-color: var(--color-warning-bg); color: var(--color-warning); }
+    .card__icon--07 { background-color: var(--color-accent-muted); color: var(--color-accent); }
+
+    .card__info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .card__number {
+      font-family: var(--font-heading);
+      font-size: var(--text-xs);
+      font-weight: var(--font-semibold);
+      color: var(--color-text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .card__title {
+      font-family: var(--font-heading);
+      font-size: var(--text-xl);
+      font-weight: var(--font-bold);
+      color: var(--color-text-primary);
+      line-height: var(--leading-tight);
+      margin-top: var(--space-0-5);
+    }
+
+    .card__status {
+      flex-shrink: 0;
+      align-self: center;
+    }
+
+    .status-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-1);
+      font-size: var(--text-xs);
+      font-weight: var(--font-medium);
+      padding: var(--space-0-5) var(--space-2);
+      border-radius: var(--radius-full);
+      white-space: nowrap;
+    }
+
+    .status-tag--done {
+      background-color: var(--color-success-bg);
+      color: var(--color-success);
+    }
+
+    .status-tag--building {
+      background-color: var(--color-warning-bg);
+      color: var(--color-warning);
+    }
+
+    .status-tag--planned {
+      background-color: var(--color-bg-muted);
+      color: var(--color-text-muted);
+    }
+
+    .status-tag__dot {
+      width: 6px;
+      height: 6px;
+      border-radius: var(--radius-full);
+      background-color: currentColor;
+    }
+
+    .card__desc {
+      padding: var(--space-3) var(--space-6) 0;
+      font-size: var(--text-sm);
+      color: var(--color-text-secondary);
+      line-height: var(--leading-relaxed);
+    }
+
+    .card__pages {
+      padding: var(--space-4) var(--space-6) var(--space-5);
+      list-style: none;
+      flex: 1;
+    }
+
+    .card__pages li {
+      position: relative;
+      padding: var(--space-2) 0 var(--space-2) var(--space-5);
+      font-size: var(--text-sm);
+      color: var(--color-text-secondary);
+      border-left: 2px solid var(--color-border);
+      margin-left: var(--space-0-5);
+    }
+
+    .card__pages li::before {
+      content: '';
+      position: absolute;
+      left: -5px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 8px;
+      height: 8px;
+      border-radius: var(--radius-full);
+      background-color: var(--color-border-strong);
+      border: 2px solid var(--color-surface);
+    }
+
+    .card__pages li:last-child {
+      border-left-color: transparent;
+    }
+
+    .card__pages li:last-child::after {
+      content: '';
+      position: absolute;
+      left: -2px;
+      top: 0;
+      bottom: 50%;
+      width: 2px;
+      background-color: var(--color-border);
+    }
+
+    /* Card destacado (seção âncora — Componentes Base) */
+    .card--highlight {
+      border-color: var(--color-primary);
+      border-width: 2px;
+    }
+
+    .card--highlight .card__header {
+      background-color: var(--color-primary-muted);
+    }
+
+    /* ── Nota DV ── */
+    .dv-note {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 0 var(--space-6) var(--space-6);
+    }
+
+    .dv-note__inner {
+      display: flex;
+      align-items: flex-start;
+      gap: var(--space-4);
+      background-color: var(--color-primary-muted);
+      border: 1px solid var(--color-primary);
+      border-radius: var(--radius-lg);
+      padding: var(--space-5) var(--space-6);
+    }
+
+    .dv-note__icon {
+      flex-shrink: 0;
+      font-size: var(--text-xl);
+      color: var(--color-primary);
+      margin-top: var(--space-0-5);
+    }
+
+    .dv-note__text {
+      flex: 1;
+    }
+
+    .dv-note__title {
+      font-family: var(--font-heading);
+      font-size: var(--text-base);
+      font-weight: var(--font-bold);
+      color: var(--color-text-primary);
+      margin-bottom: var(--space-1);
+    }
+
+    .dv-note__desc {
+      font-size: var(--text-sm);
+      color: var(--color-text-secondary);
+      line-height: var(--leading-relaxed);
+    }
+
+    /* ── Footer ── */
+    .footer {
+      background-color: var(--color-dark-surface);
+      color: var(--color-dark-muted);
+      padding: var(--space-8) var(--space-6);
+      margin-top: var(--space-8);
+    }
+
+    .footer__inner {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      gap: var(--space-6);
+    }
+
+    .footer__block {
+      min-width: 200px;
+    }
+
+    .footer__label {
+      font-family: var(--font-heading);
+      font-size: var(--text-xs);
+      font-weight: var(--font-semibold);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--color-dark-text);
+      margin-bottom: var(--space-2);
+    }
+
+    .footer__value {
+      font-size: var(--text-sm);
+      line-height: var(--leading-relaxed);
+    }
+
+    .footer__bottom {
+      max-width: var(--max-width);
+      margin: var(--space-6) auto 0;
+      padding-top: var(--space-5);
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      font-size: var(--text-xs);
+      text-align: center;
+    }
+
+    /* ── Responsivo ── */
+    @media (max-width: 768px) {
+      .header {
+        padding: var(--space-8) var(--space-4);
+      }
+
+      .header__title {
+        font-size: var(--text-2xl);
+      }
+
+      .header__subtitle {
+        font-size: var(--text-base);
+      }
+
+      .header__meta {
+        flex-direction: column;
+        align-items: center;
+        gap: var(--space-2);
+      }
+
+      .legend {
+        padding: var(--space-4) var(--space-4) 0;
+      }
+
+      .sections {
+        padding: var(--space-4);
+        grid-template-columns: 1fr;
+        gap: var(--space-4);
+      }
+
+      .dv-note {
+        padding: 0 var(--space-4) var(--space-4);
+      }
+
+      .dv-note__inner {
+        flex-direction: column;
+        gap: var(--space-2);
+      }
+
+      .footer {
+        padding: var(--space-6) var(--space-4);
+      }
+
+      .footer__inner {
+        flex-direction: column;
+      }
+    }
+
+    @media (max-width: 420px) {
+      .card__header {
+        flex-wrap: wrap;
+        gap: var(--space-3);
+      }
+
+      .card__status {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ═══ Header ═══ -->
+  <header class="header">
+    <div class="header__inner">
+      <span class="header__badge">Design System</span>
+      <h1 class="header__title">DS SISP</h1>
+      <p class="header__subtitle">
+        Mapa de arquitetura do Design System do SISP &mdash;
+        estrutura completa do portal, seções e subpáginas.
+      </p>
+      <div class="header__meta">
+        <span class="header__meta-item">
+          <i class="fa-solid fa-building-columns"></i> CiASC / Governo de SC
+        </span>
+        <span class="header__meta-item">
+          <i class="fa-solid fa-layer-group"></i> 7 seções
+        </span>
+        <span class="header__meta-item">
+          <i class="fa-solid fa-cubes"></i> 44 componentes
+        </span>
+        <span class="header__meta-item">
+          <i class="fa-solid fa-universal-access"></i> WCAG AA
+        </span>
+      </div>
+    </div>
+  </header>
+
+  <!-- ═══ Legenda ═══ -->
+  <div class="legend" role="list" aria-label="Legenda de status">
+    <span class="legend__label">Status:</span>
+    <span class="legend__item" role="listitem">
+      <span class="legend__dot legend__dot--done"></span> Pronto
+    </span>
+    <span class="legend__item" role="listitem">
+      <span class="legend__dot legend__dot--building"></span> Em construção
+    </span>
+    <span class="legend__item" role="listitem">
+      <span class="legend__dot legend__dot--planned"></span> Planejado
+    </span>
+  </div>
+
+  <!-- ═══ Seções ═══ -->
+  <main class="sections">
+
+    <!-- 01 · Sobre o DS -->
+    <article class="card">
+      <div class="card__header">
+        <div class="card__icon card__icon--01">
+          <i class="fa-solid fa-circle-info"></i>
+        </div>
+        <div class="card__info">
+          <span class="card__number">Seção 01</span>
+          <h2 class="card__title">Sobre o DS</h2>
+        </div>
+        <div class="card__status">
+          <span class="status-tag status-tag--planned">
+            <span class="status-tag__dot"></span> Planejado
+          </span>
+        </div>
+      </div>
+      <p class="card__desc">
+        Introdução ao Design System, governança, processos de uso e contribuição.
+      </p>
+      <ul class="card__pages">
+        <li>O que é o Design System</li>
+        <li>Quem mantém</li>
+        <li>Como usar</li>
+        <li>Como contribuir</li>
+        <li>Changelog</li>
+      </ul>
+    </article>
+
+    <!-- 02 · Fundação -->
+    <article class="card">
+      <div class="card__header">
+        <div class="card__icon card__icon--02">
+          <i class="fa-solid fa-palette"></i>
+        </div>
+        <div class="card__info">
+          <span class="card__number">Seção 02</span>
+          <h2 class="card__title">Fundação</h2>
+        </div>
+        <div class="card__status">
+          <span class="status-tag status-tag--building">
+            <span class="status-tag__dot"></span> Em construção
+          </span>
+        </div>
+      </div>
+      <p class="card__desc">
+        Tokens visuais que definem a identidade do sistema: cores, tipografia, espaçamento e mais.
+      </p>
+      <ul class="card__pages">
+        <li>Cores</li>
+        <li>Tipografia</li>
+        <li>Espaçamento</li>
+        <li>Bordas e cantos</li>
+        <li>Iconografia</li>
+      </ul>
+    </article>
+
+    <!-- 03 · Acessibilidade -->
+    <article class="card">
+      <div class="card__header">
+        <div class="card__icon card__icon--03">
+          <i class="fa-solid fa-universal-access"></i>
+        </div>
+        <div class="card__info">
+          <span class="card__number">Seção 03</span>
+          <h2 class="card__title">Acessibilidade</h2>
+        </div>
+        <div class="card__status">
+          <span class="status-tag status-tag--building">
+            <span class="status-tag__dot"></span> Em construção
+          </span>
+        </div>
+      </div>
+      <p class="card__desc">
+        Diretrizes e critérios de conformidade WCAG AA aplicados a todos os componentes.
+      </p>
+      <ul class="card__pages">
+        <li>Diretrizes gerais (WCAG AA)</li>
+        <li>Contraste por token</li>
+      </ul>
+    </article>
+
+    <!-- 04 · Componentes Base -->
+    <article class="card card--highlight">
+      <div class="card__header">
+        <div class="card__icon card__icon--04">
+          <i class="fa-solid fa-cubes"></i>
+        </div>
+        <div class="card__info">
+          <span class="card__number">Seção 04 &middot; 28 componentes</span>
+          <h2 class="card__title">Componentes Base</h2>
+        </div>
+        <div class="card__status">
+          <span class="status-tag status-tag--planned">
+            <span class="status-tag__dot"></span> Planejado
+          </span>
+        </div>
+      </div>
+      <p class="card__desc">
+        Blocos fundamentais do sistema: botões, formulários, cards, alertas e outros elementos reutilizáveis.
+      </p>
+      <ul class="card__pages">
+        <li>Cada componente documenta: propriedades, estados, exemplo Angular e notas de acessibilidade</li>
+        <li>Buttons, Cards, Forms, Alerts</li>
+        <li>Badges, Toasts, Tooltips, Modais</li>
+        <li>Tables, Tabs, Accordions, Pagination</li>
+        <li>Inputs, Selects, Checkboxes, Radios</li>
+        <li>Breadcrumbs, Dropdowns, Spinners</li>
+        <li>Avatars, Tags, Progress, Dividers</li>
+      </ul>
+    </article>
+
+    <!-- 05 · Componentes SISP -->
+    <article class="card card--highlight">
+      <div class="card__header">
+        <div class="card__icon card__icon--05">
+          <i class="fa-solid fa-puzzle-piece"></i>
+        </div>
+        <div class="card__info">
+          <span class="card__number">Seção 05 &middot; 16 componentes</span>
+          <h2 class="card__title">Componentes SISP</h2>
+        </div>
+        <div class="card__status">
+          <span class="status-tag status-tag--planned">
+            <span class="status-tag__dot"></span> Planejado
+          </span>
+        </div>
+      </div>
+      <p class="card__desc">
+        Componentes específicos dos produtos SISP: controle de sessão, login institucional, captura de imagens e mais.
+      </p>
+      <ul class="card__pages">
+        <li>Cada componente documenta: propriedades, estados, exemplo Angular e notas de acessibilidade</li>
+        <li>Session Control, Login Institucional</li>
+        <li>Image Captures, Uploaders</li>
+        <li>Steppers, Notificações</li>
+        <li>Consultas Policiais, Relatórios</li>
+        <li>Charts, Filtros avançados</li>
+      </ul>
+    </article>
+
+    <!-- 06 · Temas -->
+    <article class="card">
+      <div class="card__header">
+        <div class="card__icon card__icon--06">
+          <i class="fa-solid fa-swatchbook"></i>
+        </div>
+        <div class="card__info">
+          <span class="card__number">Seção 06</span>
+          <h2 class="card__title">Temas</h2>
+        </div>
+        <div class="card__status">
+          <span class="status-tag status-tag--planned">
+            <span class="status-tag__dot"></span> Planejado
+          </span>
+        </div>
+      </div>
+      <p class="card__desc">
+        Sistema de tematização por cliente: como adaptar cores e identidade sem alterar os componentes.
+      </p>
+      <ul class="card__pages">
+        <li>Sistema de tokens semânticos</li>
+        <li>Exemplo: tema Polícia Civil</li>
+        <li>Como criar um tema novo</li>
+      </ul>
+    </article>
+
+    <!-- 07 · Figma -->
+    <article class="card">
+      <div class="card__header">
+        <div class="card__icon card__icon--07">
+          <i class="fa-brands fa-figma"></i>
+        </div>
+        <div class="card__info">
+          <span class="card__number">Seção 07</span>
+          <h2 class="card__title">Figma</h2>
+        </div>
+        <div class="card__status">
+          <span class="status-tag status-tag--planned">
+            <span class="status-tag__dot"></span> Planejado
+          </span>
+        </div>
+      </div>
+      <p class="card__desc">
+        Kit de interface no Figma, modo de desenvolvimento e mapeamento entre tokens visuais e código.
+      </p>
+      <ul class="card__pages">
+        <li>UI Kit</li>
+        <li>Dev Mode</li>
+        <li>Mapa tokens Figma ↔ CSS</li>
+      </ul>
+    </article>
+
+  </main>
+
+  <!-- ═══ Nota DV ═══ -->
+  <div class="dv-note">
+    <div class="dv-note__inner">
+      <div class="dv-note__icon">
+        <i class="fa-solid fa-shield-halved"></i>
+      </div>
+      <div class="dv-note__text">
+        <p class="dv-note__title">Prioridade: Delegacia Virtual</p>
+        <p class="dv-note__desc">
+          A Delegacia Virtual (DV) é o produto-âncora do DS SISP. Seus componentes
+          são priorizados na ordem de construção &mdash; tanto nas seções de Componentes
+          Base quanto de Componentes SISP.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ Footer ═══ -->
+  <footer class="footer">
+    <div class="footer__inner">
+      <div class="footer__block">
+        <p class="footer__label">Projeto</p>
+        <p class="footer__value">
+          DS SISP &mdash; Design System CiASC/SC
+        </p>
+      </div>
+      <div class="footer__block">
+        <p class="footer__label">Cliente</p>
+        <p class="footer__value">
+          CiASC<br>
+          Governo de Santa Catarina
+        </p>
+      </div>
+      <div class="footer__block">
+        <p class="footer__label">Consultoria</p>
+        <p class="footer__value">
+          Meloon &mdash; Giuliana Lopes Galvão<br>
+          Lead UX Designer
+        </p>
+      </div>
+      <div class="footer__block">
+        <p class="footer__label">Data</p>
+        <p class="footer__value">Junho 2026</p>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <p>Documento de arquitetura de informação &middot; Sprint 1 &middot; D2-deliver</p>
+    </div>
+  </footer>
+
+</body>
+</html>

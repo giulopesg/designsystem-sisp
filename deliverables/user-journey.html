@@ -1,0 +1,1470 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Journey — DS SISP</title>
+
+  <!-- Tokens do Design System -->
+  <link rel="stylesheet" href="../design-tokens/tokens.css">
+
+  <!-- Fontes -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <style>
+    /* ── Reset ── */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* ── Base ── */
+    body {
+      font-family: var(--font-body);
+      font-size: var(--text-base);
+      line-height: var(--leading-normal);
+      color: var(--color-text-primary);
+      background-color: var(--color-bg-subtle);
+    }
+
+    /* ── Header ── */
+    .header {
+      background-color: var(--color-dark-surface);
+      color: var(--color-dark-text);
+      padding: var(--space-12) var(--space-6);
+      text-align: center;
+    }
+
+    .header__inner {
+      max-width: var(--max-width);
+      margin: 0 auto;
+    }
+
+    .header__badge {
+      display: inline-block;
+      background-color: var(--color-primary);
+      color: var(--color-primary-contrast);
+      font-family: var(--font-heading);
+      font-size: var(--text-xs);
+      font-weight: var(--font-semibold);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      padding: var(--space-1) var(--space-3);
+      border-radius: var(--radius-full);
+      margin-bottom: var(--space-4);
+    }
+
+    .header__title {
+      font-family: var(--font-heading);
+      font-size: var(--text-4xl);
+      font-weight: var(--font-bold);
+      line-height: var(--leading-tight);
+      margin-bottom: var(--space-3);
+    }
+
+    .header__subtitle {
+      font-size: var(--text-lg);
+      color: var(--color-dark-muted);
+      max-width: 680px;
+      margin: 0 auto;
+    }
+
+    /* ── Personas legend ── */
+    .personas-bar {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: var(--space-6) var(--space-6) 0;
+    }
+
+    .personas-bar__label {
+      font-family: var(--font-heading);
+      font-size: var(--text-xs);
+      font-weight: var(--font-semibold);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--color-text-secondary);
+      margin-bottom: var(--space-3);
+    }
+
+    .personas-bar__list {
+      display: flex;
+      gap: var(--space-3);
+      flex-wrap: wrap;
+    }
+
+    .persona-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-2);
+      font-size: var(--text-sm);
+      font-weight: var(--font-medium);
+      padding: var(--space-2) var(--space-3);
+      border-radius: var(--radius-full);
+      border: 1px solid var(--color-border);
+      background-color: var(--color-surface);
+    }
+
+    .persona-chip__dot {
+      width: 10px;
+      height: 10px;
+      border-radius: var(--radius-full);
+      flex-shrink: 0;
+    }
+
+    .persona-chip__dot--demilis    { background-color: var(--color-primary); }
+    .persona-chip__dot--devs       { background-color: var(--color-info); }
+    .persona-chip__dot--pos        { background-color: var(--color-accent); }
+    .persona-chip__dot--terceiros  { background-color: var(--color-warning); }
+    .persona-chip__dot--pc         { background-color: var(--color-success); }
+
+    .persona-chip__role {
+      font-size: var(--text-xs);
+      color: var(--color-text-muted);
+      font-weight: var(--font-regular);
+    }
+
+    /* ── Stage timeline ── */
+    .timeline {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: var(--space-6) var(--space-6) 0;
+    }
+
+    .timeline__track {
+      display: flex;
+      gap: var(--space-1);
+    }
+
+    .timeline__step {
+      flex: 1;
+      text-align: center;
+      padding: var(--space-3) var(--space-2);
+      background-color: var(--color-bg-muted);
+      border-radius: var(--radius-sm);
+      font-family: var(--font-heading);
+      font-size: var(--text-xs);
+      font-weight: var(--font-semibold);
+      color: var(--color-text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      transition: background-color var(--transition-normal),
+                  color var(--transition-normal);
+    }
+
+    .timeline__step--active {
+      background-color: var(--color-primary);
+      color: var(--color-primary-contrast);
+    }
+
+    .timeline__number {
+      display: block;
+      font-size: var(--text-lg);
+      font-weight: var(--font-bold);
+      margin-bottom: var(--space-0-5);
+    }
+
+    /* ── Stages ── */
+    .stages {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: var(--space-6);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-8);
+    }
+
+    .stage {
+      background-color: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-sm);
+      overflow: hidden;
+    }
+
+    .stage__header {
+      display: flex;
+      align-items: center;
+      gap: var(--space-4);
+      padding: var(--space-5) var(--space-6);
+      border-bottom: 1px solid var(--color-border);
+      background-color: var(--color-bg-subtle);
+    }
+
+    .stage__number {
+      width: 44px;
+      height: 44px;
+      border-radius: var(--radius-md);
+      background-color: var(--color-primary);
+      color: var(--color-primary-contrast);
+      font-family: var(--font-heading);
+      font-size: var(--text-xl);
+      font-weight: var(--font-bold);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .stage__info {
+      flex: 1;
+    }
+
+    .stage__title {
+      font-family: var(--font-heading);
+      font-size: var(--text-xl);
+      font-weight: var(--font-bold);
+      color: var(--color-text-primary);
+      line-height: var(--leading-tight);
+    }
+
+    .stage__desc {
+      font-size: var(--text-sm);
+      color: var(--color-text-secondary);
+      margin-top: var(--space-1);
+    }
+
+    .stage__icon {
+      font-size: var(--text-xl);
+      color: var(--color-text-muted);
+    }
+
+    .stage__cards {
+      padding: var(--space-5) var(--space-6);
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: var(--space-4);
+    }
+
+    /* ── Persona card (dentro da stage) ── */
+    .pcard {
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+      border-left-width: 4px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .pcard--demilis   { border-left-color: var(--color-primary); }
+    .pcard--devs      { border-left-color: var(--color-info); }
+    .pcard--pos       { border-left-color: var(--color-accent); }
+    .pcard--terceiros { border-left-color: var(--color-warning); }
+    .pcard--pc        { border-left-color: var(--color-success); }
+
+    .pcard__header {
+      padding: var(--space-3) var(--space-4);
+      border-bottom: 1px solid var(--color-border);
+      background-color: var(--color-bg-subtle);
+    }
+
+    .pcard__name {
+      font-family: var(--font-heading);
+      font-size: var(--text-sm);
+      font-weight: var(--font-bold);
+      color: var(--color-text-primary);
+    }
+
+    .pcard__role {
+      font-size: var(--text-xs);
+      color: var(--color-text-muted);
+    }
+
+    .pcard__body {
+      padding: var(--space-3) var(--space-4) var(--space-4);
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-3);
+    }
+
+    .pcard__row {
+      display: flex;
+      gap: var(--space-2);
+      font-size: var(--text-sm);
+      line-height: var(--leading-relaxed);
+    }
+
+    .pcard__row-icon {
+      flex-shrink: 0;
+      width: 18px;
+      text-align: center;
+      margin-top: 2px;
+    }
+
+    .pcard__row--action .pcard__row-icon { color: var(--color-info); }
+    .pcard__row--need .pcard__row-icon   { color: var(--color-accent); }
+    .pcard__row--pain .pcard__row-icon   { color: var(--color-danger); }
+
+    .pcard__row--pain {
+      background-color: var(--color-danger-bg);
+      margin: 0 calc(var(--space-4) * -1);
+      padding: var(--space-2) var(--space-4);
+      border-radius: 0;
+      font-size: var(--text-xs);
+      color: var(--color-danger);
+      flex-wrap: wrap;
+    }
+
+    .pcard__row--pain .pcard__row-icon {
+      width: auto;
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-1);
+      flex-shrink: 0;
+    }
+
+    .pcard__row--pain .pcard__row-icon::after {
+      content: 'Principal dor';
+      font-size: 9px;
+      font-weight: var(--font-semibold);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      white-space: nowrap;
+    }
+
+    .pcard__row--pain > span:last-child {
+      flex-basis: 100%;
+    }
+
+    .pcard__sections {
+      display: flex;
+      gap: var(--space-1);
+      flex-wrap: wrap;
+      margin-top: auto;
+      padding-top: var(--space-2);
+      border-top: 1px solid var(--color-border);
+    }
+
+    .pcard__section-tag {
+      font-size: 10px;
+      font-weight: var(--font-semibold);
+      padding: var(--space-0-5) var(--space-2);
+      border-radius: var(--radius-full);
+      background-color: var(--color-bg-muted);
+      color: var(--color-text-secondary);
+      white-space: nowrap;
+    }
+
+    /* ── Insights ── */
+    .insights {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 0 var(--space-6) var(--space-6);
+    }
+
+    .insights__inner {
+      background-color: var(--color-dark-surface);
+      border-radius: var(--radius-lg);
+      padding: var(--space-8) var(--space-6);
+      color: var(--color-dark-text);
+    }
+
+    .insights__header {
+      text-align: center;
+      margin-bottom: var(--space-8);
+    }
+
+    .insights__title {
+      font-family: var(--font-heading);
+      font-size: var(--text-xl);
+      font-weight: var(--font-bold);
+      margin-bottom: var(--space-2);
+    }
+
+    .insights__subtitle {
+      font-size: var(--text-sm);
+      color: var(--color-dark-muted);
+    }
+
+    .insights__grid {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-6);
+    }
+
+    .insight {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .insight__before {
+      padding: var(--space-5) var(--space-5);
+      background-color: rgba(255, 255, 255, 0.04);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-3);
+    }
+
+    .insight__after {
+      padding: var(--space-5) var(--space-5);
+      border-left: 3px solid var(--color-success);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-3);
+    }
+
+    .insight__label {
+      font-family: var(--font-heading);
+      font-size: 10px;
+      font-weight: var(--font-semibold);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-2);
+    }
+
+    .insight__label--before {
+      color: var(--color-primary);
+    }
+
+    .insight__label--after {
+      color: var(--color-success);
+    }
+
+    .insight__quote {
+      font-size: var(--text-base);
+      font-style: italic;
+      line-height: var(--leading-relaxed);
+    }
+
+    .insight__resolution {
+      font-size: var(--text-sm);
+      line-height: var(--leading-relaxed);
+      color: var(--color-dark-text);
+    }
+
+    .insight__source {
+      font-size: var(--text-xs);
+      color: var(--color-dark-muted);
+      margin-top: auto;
+    }
+
+    .insight__tags {
+      display: flex;
+      gap: var(--space-2);
+      flex-wrap: wrap;
+      margin-top: auto;
+    }
+
+    .insight__tag {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: var(--font-semibold);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding: var(--space-0-5) var(--space-2);
+      border-radius: var(--radius-full);
+      white-space: nowrap;
+    }
+
+    .insight__tag--stage {
+      background-color: rgba(255, 255, 255, 0.1);
+      color: var(--color-dark-muted);
+    }
+
+    .insight__tag--section {
+      background-color: rgba(255, 255, 255, 0.06);
+      color: var(--color-dark-muted);
+    }
+
+    /* ── Footer ── */
+    .footer {
+      background-color: var(--color-dark-surface);
+      color: var(--color-dark-muted);
+      padding: var(--space-8) var(--space-6);
+      margin-top: var(--space-8);
+    }
+
+    .footer__inner {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      gap: var(--space-6);
+    }
+
+    .footer__block {
+      min-width: 200px;
+    }
+
+    .footer__label {
+      font-family: var(--font-heading);
+      font-size: var(--text-xs);
+      font-weight: var(--font-semibold);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--color-dark-text);
+      margin-bottom: var(--space-2);
+    }
+
+    .footer__value {
+      font-size: var(--text-sm);
+      line-height: var(--leading-relaxed);
+    }
+
+    .footer__bottom {
+      max-width: var(--max-width);
+      margin: var(--space-6) auto 0;
+      padding-top: var(--space-5);
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      font-size: var(--text-xs);
+      text-align: center;
+    }
+
+    /* ── Responsivo ── */
+    @media (max-width: 768px) {
+      .header {
+        padding: var(--space-8) var(--space-4);
+      }
+
+      .header__title {
+        font-size: var(--text-2xl);
+      }
+
+      .header__subtitle {
+        font-size: var(--text-base);
+      }
+
+      .personas-bar {
+        padding: var(--space-4) var(--space-4) 0;
+      }
+
+      .personas-bar__list {
+        gap: var(--space-2);
+      }
+
+      .persona-chip {
+        font-size: var(--text-xs);
+        padding: var(--space-1) var(--space-2);
+      }
+
+      .persona-chip__role {
+        display: none;
+      }
+
+      .timeline {
+        padding: var(--space-4) var(--space-4) 0;
+      }
+
+      .timeline__track {
+        gap: 2px;
+      }
+
+      .timeline__step {
+        padding: var(--space-2) var(--space-1);
+        font-size: 9px;
+      }
+
+      .timeline__number {
+        font-size: var(--text-sm);
+      }
+
+      .stages {
+        padding: var(--space-4);
+        gap: var(--space-6);
+      }
+
+      .stage__header {
+        padding: var(--space-4);
+        flex-wrap: wrap;
+      }
+
+      .stage__cards {
+        padding: var(--space-4);
+        grid-template-columns: 1fr;
+      }
+
+      .insights {
+        padding: 0 var(--space-4) var(--space-4);
+      }
+
+      .insights__inner {
+        padding: var(--space-6) var(--space-4);
+      }
+
+      .insight {
+        grid-template-columns: 1fr;
+      }
+
+      .insight__after {
+        border-left: none;
+        border-top: 3px solid var(--color-success);
+      }
+
+      .footer {
+        padding: var(--space-6) var(--space-4);
+      }
+
+      .footer__inner {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ═══ Header ═══ -->
+  <header class="header">
+    <div class="header__inner">
+      <span class="header__badge">Service Design</span>
+      <h1 class="header__title">User Journey &mdash; DS SISP</h1>
+      <p class="header__subtitle">
+        Mapa de jornada das personas que interagem com o Design System como produto.
+        Mostra como cada perfil descobre, consulta, implementa e contribui &mdash;
+        e onde o sistema atual falha.
+      </p>
+    </div>
+  </header>
+
+  <!-- ═══ Personas ═══ -->
+  <div class="personas-bar">
+    <p class="personas-bar__label">Personas mapeadas</p>
+    <div class="personas-bar__list">
+      <span class="persona-chip">
+        <span class="persona-chip__dot persona-chip__dot--demilis"></span>
+        Demilis <span class="persona-chip__role">&middot; Mantenedor</span>
+      </span>
+      <span class="persona-chip">
+        <span class="persona-chip__dot persona-chip__dot--devs"></span>
+        Desenvolvedores <span class="persona-chip__role">&middot; Consumidores</span>
+      </span>
+      <span class="persona-chip">
+        <span class="persona-chip__dot persona-chip__dot--pos"></span>
+        POs <span class="persona-chip__role">&middot; Visibilidade</span>
+      </span>
+      <span class="persona-chip">
+        <span class="persona-chip__dot persona-chip__dot--terceiros"></span>
+        Terceiros <span class="persona-chip__role">&middot; Contratados</span>
+      </span>
+      <span class="persona-chip">
+        <span class="persona-chip__dot persona-chip__dot--pc"></span>
+        Polícia Civil <span class="persona-chip__role">&middot; Clientes institucionais</span>
+      </span>
+    </div>
+  </div>
+
+  <!-- ═══ Timeline visual ═══ -->
+  <nav class="timeline" aria-label="Etapas da jornada">
+    <div class="timeline__track">
+      <div class="timeline__step">
+        <span class="timeline__number">1</span> Descoberta
+      </div>
+      <div class="timeline__step">
+        <span class="timeline__number">2</span> Onboarding
+      </div>
+      <div class="timeline__step">
+        <span class="timeline__number">3</span> Consulta
+      </div>
+      <div class="timeline__step">
+        <span class="timeline__number">4</span> Implementação
+      </div>
+      <div class="timeline__step">
+        <span class="timeline__number">5</span> Customização
+      </div>
+      <div class="timeline__step">
+        <span class="timeline__number">6</span> Contribuição
+      </div>
+    </div>
+  </nav>
+
+  <!-- ═══ Etapas ═══ -->
+  <main class="stages">
+
+    <!-- ── Etapa 1: Descoberta ── -->
+    <section class="stage">
+      <div class="stage__header">
+        <div class="stage__number">1</div>
+        <div class="stage__info">
+          <h2 class="stage__title">Descoberta</h2>
+          <p class="stage__desc">Como a persona descobre que o Design System existe</p>
+        </div>
+        <span class="stage__icon"><i class="fa-solid fa-compass"></i></span>
+      </div>
+      <div class="stage__cards">
+
+        <!-- Devs CiASC -->
+        <article class="pcard pcard--devs">
+          <div class="pcard__header">
+            <p class="pcard__name">Desenvolvedores</p>
+            <p class="pcard__role">Consumidores diretos</p>
+          </div>
+          <div class="pcard__body">
+            <div class="pcard__row pcard__row--action">
+              <span class="pcard__row-icon"><i class="fa-solid fa-circle-play"></i></span>
+              <span>Ouve de um colega ou vê em apresentação interna do time</span>
+            </div>
+            <div class="pcard__row pcard__row--need">
+              <span class="pcard__row-icon"><i class="fa-solid fa-bullseye"></i></span>
+              <span>Ponto de entrada oficial e visível</span>
+            </div>
+            <div class="pcard__row pcard__row--pain">
+              <span class="pcard__row-icon"><i class="fa-solid fa-triangle-exclamation"></i></span>
+              <span>Sem mandato &mdash; o UI Kit existe mas não é referência obrigatória</span>
+            </div>
+            <div class="pcard__sections">
+              <span class="pcard__section-tag">01 &middot; Sobre o DS</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- POs -->
+        <article class="pcard pcard--pos">
+          <div class="pcard__header">
+            <p class="pcard__name">POs</p>
+            <p class="pcard__role">Gestão de produto</p>
+          </div>
+          <div class="pcard__body">
+            <div class="pcard__row pcard__row--action">
+              <span class="pcard__row-icon"><i class="fa-solid fa-circle-play"></i></span>
+              <span>Recebe menção do UI Kit em reunião de produto</span>
+            </div>
+            <div class="pcard__row pcard__row--need">
+              <span class="pcard__row-icon"><i class="fa-solid fa-bullseye"></i></span>
+              <span>Visão clara do que existe e do que está padronizado</span>
+            </div>
+            <div class="pcard__row pcard__row--pain">
+              <span class="pcard__row-icon"><i class="fa-solid fa-triangle-exclamation"></i></span>
+              <span>&ldquo;Não uso para nada&rdquo; &mdash; sem visibilidade do que o DS oferece</span>
+            </div>
+            <div class="pcard__sections">
+              <span class="pcard__section-tag">01 &middot; Sobre o DS</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Terceiros -->
+        <article class="pcard pcard--terceiros">
+          <div class="pcard__header">
+            <p class="pcard__name">Terceiros</p>
+            <p class="pcard__role">Contratados</p>
+          </div>
+          <div class="pcard__body">
+            <div class="pcard__row pcard__row--action">
+              <span class="pcard__row-icon"><i class="fa-solid fa-circle-play"></i></span>
+              <span>Chega ao projeto sem saber que um sistema de componentes existe</span>
+            </div>
+            <div class="pcard__row pcard__row--need">
+              <span class="pcard__row-icon"><i class="fa-solid fa-bullseye"></i></span>
+              <span>Documentação clara antes de escrever qualquer código</span>
+            </div>
+            <div class="pcard__row pcard__row--pain">
+              <span class="pcard__row-icon"><i class="fa-solid fa-triangle-exclamation"></i></span>
+              <span>Sem referência documentada &mdash; risco de construir fora do padrão</span>
+            </div>
+            <div class="pcard__sections">
+              <span class="pcard__section-tag">01 &middot; Sobre o DS</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Devs PC -->
+        <article class="pcard pcard--pc">
+          <div class="pcard__header">
+            <p class="pcard__name">Polícia Civil</p>
+            <p class="pcard__role">Clientes institucionais</p>
+          </div>
+          <div class="pcard__body">
+            <div class="pcard__row pcard__row--action">
+              <span class="pcard__row-icon"><i class="fa-solid fa-circle-play"></i></span>
+              <span>Descobre que o CiASC tem um kit de componentes reutilizáveis</span>
+            </div>
+            <div class="pcard__row pcard__row--need">
+              <span class="pcard__row-icon"><i class="fa-solid fa-bullseye"></i></span>
+              <span>Introdução acessível, sem jargão técnico interno do CiASC</span>
+            </div>
+            <div class="pcard__row pcard__row--pain">
+              <span class="pcard__row-icon"><i class="fa-solid fa-triangle-exclamation"></i></span>
+              <span>Não sabiam o que era Design System &mdash; conceito precisou ser explicado</span>
+            </div>
+            <div class="pcard__sections">
+              <span class="pcard__section-tag">01 &middot; Sobre o DS</span>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- ── Etapa 2: Onboarding ── -->
+    <section class="stage">
+      <div class="stage__header">
+        <div class="stage__number">2</div>
+        <div class="stage__info">
+          <h2 class="stage__title">Onboarding</h2>
+          <p class="stage__desc">Primeiro contato &mdash; entender a estrutura e como começar</p>
+        </div>
+        <span class="stage__icon"><i class="fa-solid fa-graduation-cap"></i></span>
+      </div>
+      <div class="stage__cards">
+
+        <!-- Devs CiASC -->
+        <article class="pcard pcard--devs">
+          <div class="pcard__header">
+            <p class="pcard__name">Desenvolvedores</p>
+            <p class="pcard__role">Consumidores diretos</p>
+          </div>
+          <div class="pcard__body">
+            <div class="pcard__row pcard__row--action">
+              <span class="pcard__row-icon"><i class="fa-solid fa-circle-play"></i></span>
+              <span>Aprende a estrutura do DS e as convenções (sisp-lib-*)</span>
+            </div>
+            <div class="pcard__row pcard__row--need">
+              <span class="pcard__row-icon"><i class="fa-solid fa-bullseye"></i></span>
+              <span>Guia de início rápido com exemplos práticos</span>
+            </div>
+            <div class="pcard__row pcard__row--pain">
+              <span class="pcard__row-icon"><i class="fa-solid fa-triangle-exclamation"></i></span>
+              <span>O padrão vive na cabeça dos veteranos &mdash; novo dev precisa perguntar</span>
+            </div>
+            <div class="pcard__sections">
+              <span class="pcard__section-tag">01 &middot; Sobre o DS</span>
+              <span class="pcard__section-tag">02 &middot; Fundação</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Terceiros -->
+        <article class="pcard pcard--terceiros">
+          <div class="pcard__header">
+            <p class="pcard__name">Terceiros</p>
+            <p class="pcard__role">Contratados</p>
+          </div>
+          <div class="pcard__body">
+            <div class="pcard__row pcard__row--action">
+              <span class="pcard__row-icon"><i class="fa-solid fa-circle-play"></i></span>
+              <span>Precisa entender stack, tokens e convenções antes de implementar</span>
+            </div>
+            <div class="pcard__row pcard__row--need">
+              <span class="pcard__row-icon"><i class="fa-solid fa-bullseye"></i></span>
+              <span>Documentação completa e autocontida</span>
+            </div>
+            <div class="pcard__row pcard__row--pain">
+              <span class="pcard__row-icon"><i class="fa-solid fa-triangle-exclamation"></i></span>
+              <span>Sem documentação formal &mdash; depende de contato direto com Demilis</span>
+            </div>
+            <div class="pcard__sections">
+              <span class="pcard__section-tag">01 &middot; Sobre o DS</span>
+              <span class="pcard__section-tag">02 &middot; Fundação</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Devs PC -->
+        <article class="pcard pcard--pc">
+          <div class="pcard__header">
+            <p class="pcard__name">Polícia Civil</p>
+            <p class="pcard__role">Clientes institucionais</p>
+          </div>
+          <div class="pcard__body">
+            <div class="pcard__row pcard__row--action">
+              <span class="pcard__row-icon"><i class="fa-solid fa-circle-play"></i></span>
+              <span>Entende como usar componentes e aplicar a identidade da PC</span>
+            </div>
+            <div class="pcard__row pcard__row--need">
+              <span class="pcard__row-icon"><i class="fa-solid fa-bullseye"></i></span>
+              <span>Guia de uso + exemplo de tematização por cliente</span>
+            </div>
+            <div class="pcard__row pcard__row--pain">
+              <span class="pcard__row-icon"><i class="fa-solid fa-triangle-exclamation"></i></span>
+              <span>Sem referência de como customizar sem quebrar o sistema</span>
+            </div>
+            <div class="pcard__sections">
+              <span class="pcard__section-tag">01 &middot; Sobre o DS</span>
+              <span class="pcard__section-tag">02 &middot; Fundação</span>
+              <span class="pcard__section-tag">06 &middot; Temas</span>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- ── Etapa 3: Consulta ── -->
+    <section class="stage">
+      <div class="stage__header">
+        <div class="stage__number">3</div>
+        <div class="stage__info">
+          <h2 class="stage__title">Consulta</h2>
+          <p class="stage__desc">Buscar um componente, entender propriedades, estados e acessibilidade</p>
+        </div>
+        <span class="stage__icon"><i class="fa-solid fa-magnifying-glass"></i></span>
+      </div>
+      <div class="stage__cards">
+
+        <!-- Demilis -->
+        <article class="pcard pcard--demilis">
+          <div class="pcard__header">
+            <p class="pcard__name">Demilis</p>
+            <p class="pcard__role">Criador do UI Kit &middot; gatekeeper de front-end</p>
+          </div>
+          <div class="pcard__body">
+            <div class="pcard__row pcard__row--action">
+              <span class="pcard__row-icon"><i class="fa-solid fa-circle-play"></i></span>
+              <span>Revisa especificação de componente para validar antes de implementar</span>
+            </div>
+            <div class="pcard__row pcard__row--need">
+              <span class="pcard__row-icon"><i class="fa-solid fa-bullseye"></i></span>
+              <span>Spec formal com props, estados e critérios de acessibilidade</span>
+            </div>
+            <div class="pcard__row pcard__row--pain">
+              <span class="pcard__row-icon"><i class="fa-solid fa-triangle-exclamation"></i></span>
+              <span>Sem spec formal &mdash; valida &ldquo;de cabeça&rdquo; com base na experiência</span>
+            </div>
+            <div class="pcard__sections">
+              <span class="pcard__section-tag">03 &middot; Acessibilidade</span>
+              <span class="pcard__section-tag">04 &middot; Comp. Base</span>
+              <span class="pcard__section-tag">05 &middot; Comp. SISP</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Devs CiASC -->
+        <article class="pcard pcard--devs">
+          <div class="pcard__header">
+            <p class="pcard__name">Desenvolvedores</p>
+            <p class="pcard__role">Consumidores diretos</p>
+          </div>
+          <div class="pcard__body">
+            <div class="pcard__row pcard__row--action">
+              <span class="pcard__row-icon"><i class="fa-solid fa-circle-play"></i></span>
+              <span>Busca componente no catálogo, verifica propriedades e estados</span>
+            </div>
+            <div class="pcard__row pcard__row--need">
+              <span class="pcard__row-icon"><i class="fa-solid fa-bullseye"></i></span>
+              <span>Catálogo navegável com exemplos Angular copiáveis</span>
+            </div>
+            <div class="pcard__row pcard__row--pain">
+              <span class="pcard__row-icon"><i class="fa-solid fa-triangle-exclamation"></i></span>
+              <span>Informação descentralizada &mdash; precisa perguntar ao Demilis</span>
+            </div>
+            <div class="pcard__sections">
+              <span class="pcard__section-tag">04 &middot; Comp. Base</span>
+              <span class="pcard__section-tag">05 &middot; Comp. SISP</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- POs -->
+        <article class="pcard pcard--pos">
+          <div class="pcard__header">
+            <p class="pcard__name">POs</p>
+            <p class="pcard__role">Gestão de produto</p>
+          </div>
+          <div class="pcard__body">
+            <div class="pcard__row pcard__row--action">
+              <span class="pcard__row-icon"><i class="fa-solid fa-circle-play"></i></span>
+              <span>Verifica o que está padronizado e disponível para o time</span>
+            </div>
+            <div class="pcard__row pcard__row--need">
+              <span class="pcard__row-icon"><i class="fa-solid fa-bullseye"></i></span>
+              <span>Visão de progresso e cobertura do sistema</span>
+            </div>
+            <div class="pcard__row pcard__row--pain">
+              <span class="pcard__row-icon"><i class="fa-solid fa-triangle-exclamation"></i></span>
+              <span>Sem visibilidade &mdash; não sabe o que existe nem o que falta</span>
+            </div>
+            <div class="pcard__sections">
+              <span class="pcard__section-tag">01 &middot; Sobre o DS</span>
+              <span class="pcard__section-tag">04 &middot; Comp. Base</span>
+              <span class="pcard__section-tag">05 &middot; Comp. SISP</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Terceiros -->
+        <article class="pcard pcard--terceiros">
+          <div class="pcard__header">
+            <p class="pcard__name">Terceiros</p>
+            <p class="pcard__role">Contratados</p>
+          </div>
+          <div class="pcard__body">
+            <div class="pcard__row pcard__row--action">
+              <span class="pcard__row-icon"><i class="fa-solid fa-circle-play"></i></span>
+              <span>Busca componente para a feature que vai implementar</span>
+            </div>
+            <div class="pcard__row pcard__row--need">
+              <span class="pcard__row-icon"><i class="fa-solid fa-bullseye"></i></span>
+              <span>Docs com exemplos de código copiáveis e regras de uso</span>
+            </div>
+            <div class="pcard__row pcard__row--pain">
+              <span class="pcard__row-icon"><i class="fa-solid fa-triangle-exclamation"></i></span>
+              <span>Sem referência &mdash; acaba implementando do zero</span>
+            </div>
+            <div class="pcard__sections">
+              <span class="pcard__section-tag">04 &middot; Comp. Base</span>
+              <span class="pcard__section-tag">05 &middot; Comp. SISP</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Devs PC -->
+        <article class="pcard pcard--pc">
+          <div class="pcard__header">
+            <p class="pcard__name">Polícia Civil</p>
+            <p class="pcard__role">Clientes institucionais</p>
+          </div>
+          <div class="pcard__body">
+            <div class="pcard__row pcard__row--action">
+              <span class="pcard__row-icon"><i class="fa-solid fa-circle-play"></i></span>
+              <span>Verifica se o componente suporta o tema da Polícia Civil</span>
+            </div>
+            <div class="pcard__row pcard__row--need">
+              <span class="pcard__row-icon"><i class="fa-solid fa-bullseye"></i></span>
+              <span>Documentação de tokens + variantes de tema por cliente</span>
+            </div>
+            <div class="pcard__row pcard__row--pain">
+              <span class="pcard__row-icon"><i class="fa-solid fa-triangle-exclamation"></i></span>
+              <span>Sem sistema de tokens &mdash; cores extraídas visualmente</span>
+            </div>
+            <div class="pcard__sections">
+              <span class="pcard__section-tag">04 &middot; Comp. Base</span>
+              <span class="pcard__section-tag">05 &middot; Comp. SISP</span>
+              <span class="pcard__section-tag">06 &middot; Temas</span>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- ── Etapa 4: Implementação ── -->
+    <section class="stage">
+      <div class="stage__header">
+        <div class="stage__number">4</div>
+        <div class="stage__info">
+          <h2 class="stage__title">Implementação</h2>
+          <p class="stage__desc">Usar o componente no código Angular do produto</p>
+        </div>
+        <span class="stage__icon"><i class="fa-solid fa-code"></i></span>
+      </div>
+      <div class="stage__cards">
+
+        <!-- Demilis -->
+        <article class="pcard pcard--demilis">
+          <div class="pcard__header">
+            <p class="pcard__name">Demilis</p>
+            <p class="pcard__role">Criador do UI Kit &middot; gatekeeper de front-end</p>
+          </div>
+          <div class="pcard__body">
+            <div class="pcard__row pcard__row--action">
+              <span class="pcard__row-icon"><i class="fa-solid fa-circle-play"></i></span>
+              <span>Implementa ou refatora componente Angular (sisp-lib-*)</span>
+            </div>
+            <div class="pcard__row pcard__row--need">
+              <span class="pcard__row-icon"><i class="fa-solid fa-bullseye"></i></span>
+              <span>Spec aprovada + referência visual no Figma</span>
+            </div>
+            <div class="pcard__row pcard__row--pain">
+              <span class="pcard__row-icon"><i class="fa-solid fa-triangle-exclamation"></i></span>
+              <span>Sem Figma &mdash; implementa sem referência visual formal</span>
+            </div>
+            <div class="pcard__sections">
+              <span class="pcard__section-tag">04 &middot; Comp. Base</span>
+              <span class="pcard__section-tag">05 &middot; Comp. SISP</span>
+              <span class="pcard__section-tag">07 &middot; Figma</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Devs CiASC -->
+        <article class="pcard pcard--devs">
+          <div class="pcard__header">
+            <p class="pcard__name">Desenvolvedores</p>
+            <p class="pcard__role">Consumidores diretos</p>
+          </div>
+          <div class="pcard__body">
+            <div class="pcard__row pcard__row--action">
+              <span class="pcard__row-icon"><i class="fa-solid fa-circle-play"></i></span>
+              <span>Integra componente no produto que está desenvolvendo</span>
+            </div>
+            <div class="pcard__row pcard__row--need">
+              <span class="pcard__row-icon"><i class="fa-solid fa-bullseye"></i></span>
+              <span>Exemplo Angular funcional e documentado</span>
+            </div>
+            <div class="pcard__row pcard__row--pain">
+              <span class="pcard__row-icon"><i class="fa-solid fa-triangle-exclamation"></i></span>
+              <span>Copia código &ldquo;na mão&rdquo; sem garantia de estar atualizado</span>
+            </div>
+            <div class="pcard__sections">
+              <span class="pcard__section-tag">04 &middot; Comp. Base</span>
+              <span class="pcard__section-tag">05 &middot; Comp. SISP</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Terceiros -->
+        <article class="pcard pcard--terceiros">
+          <div class="pcard__header">
+            <p class="pcard__name">Terceiros</p>
+            <p class="pcard__role">Contratados</p>
+          </div>
+          <div class="pcard__body">
+            <div class="pcard__row pcard__row--action">
+              <span class="pcard__row-icon"><i class="fa-solid fa-circle-play"></i></span>
+              <span>Implementa componente no produto contratado</span>
+            </div>
+            <div class="pcard__row pcard__row--need">
+              <span class="pcard__row-icon"><i class="fa-solid fa-bullseye"></i></span>
+              <span>Exemplos + regras de uso + restrições claras</span>
+            </div>
+            <div class="pcard__row pcard__row--pain">
+              <span class="pcard__row-icon"><i class="fa-solid fa-triangle-exclamation"></i></span>
+              <span>Sem padrão documentado &mdash; implementação divergente gera retrabalho</span>
+            </div>
+            <div class="pcard__sections">
+              <span class="pcard__section-tag">04 &middot; Comp. Base</span>
+              <span class="pcard__section-tag">05 &middot; Comp. SISP</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Devs PC -->
+        <article class="pcard pcard--pc">
+          <div class="pcard__header">
+            <p class="pcard__name">Polícia Civil</p>
+            <p class="pcard__role">Clientes institucionais</p>
+          </div>
+          <div class="pcard__body">
+            <div class="pcard__row pcard__row--action">
+              <span class="pcard__row-icon"><i class="fa-solid fa-circle-play"></i></span>
+              <span>Implementa com o tema da Polícia Civil aplicado</span>
+            </div>
+            <div class="pcard__row pcard__row--need">
+              <span class="pcard__row-icon"><i class="fa-solid fa-bullseye"></i></span>
+              <span>Override de tokens documentado e funcional</span>
+            </div>
+            <div class="pcard__row pcard__row--pain">
+              <span class="pcard__row-icon"><i class="fa-solid fa-triangle-exclamation"></i></span>
+              <span>Não existe sistema de temas &mdash; customização quebra o padrão</span>
+            </div>
+            <div class="pcard__sections">
+              <span class="pcard__section-tag">04 &middot; Comp. Base</span>
+              <span class="pcard__section-tag">05 &middot; Comp. SISP</span>
+              <span class="pcard__section-tag">06 &middot; Temas</span>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- ── Etapa 5: Customização ── -->
+    <section class="stage">
+      <div class="stage__header">
+        <div class="stage__number">5</div>
+        <div class="stage__info">
+          <h2 class="stage__title">Customização</h2>
+          <p class="stage__desc">Adaptar identidade visual por cliente sem alterar os componentes</p>
+        </div>
+        <span class="stage__icon"><i class="fa-solid fa-palette"></i></span>
+      </div>
+      <div class="stage__cards">
+
+        <!-- Devs PC -->
+        <article class="pcard pcard--pc">
+          <div class="pcard__header">
+            <p class="pcard__name">Polícia Civil</p>
+            <p class="pcard__role">Clientes institucionais</p>
+          </div>
+          <div class="pcard__body">
+            <div class="pcard__row pcard__row--action">
+              <span class="pcard__row-icon"><i class="fa-solid fa-circle-play"></i></span>
+              <span>Aplica identidade visual da PC: cores (dourado), tipografia, brasão</span>
+            </div>
+            <div class="pcard__row pcard__row--need">
+              <span class="pcard__row-icon"><i class="fa-solid fa-bullseye"></i></span>
+              <span>Sistema de tokens semânticos + guia de override por cliente</span>
+            </div>
+            <div class="pcard__row pcard__row--pain">
+              <span class="pcard__row-icon"><i class="fa-solid fa-triangle-exclamation"></i></span>
+              <span>&ldquo;Já temos normativa interna de identidade visual&rdquo; &mdash; mas sem como aplicar no sistema</span>
+            </div>
+            <div class="pcard__sections">
+              <span class="pcard__section-tag">02 &middot; Fundação</span>
+              <span class="pcard__section-tag">06 &middot; Temas</span>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- ── Etapa 6: Contribuição ── -->
+    <section class="stage">
+      <div class="stage__header">
+        <div class="stage__number">6</div>
+        <div class="stage__info">
+          <h2 class="stage__title">Contribuição</h2>
+          <p class="stage__desc">Propor mudança, novo componente ou reportar problema</p>
+        </div>
+        <span class="stage__icon"><i class="fa-solid fa-code-pull-request"></i></span>
+      </div>
+      <div class="stage__cards">
+
+        <!-- Demilis -->
+        <article class="pcard pcard--demilis">
+          <div class="pcard__header">
+            <p class="pcard__name">Demilis</p>
+            <p class="pcard__role">Criador do UI Kit &middot; gatekeeper de front-end</p>
+          </div>
+          <div class="pcard__body">
+            <div class="pcard__row pcard__row--action">
+              <span class="pcard__row-icon"><i class="fa-solid fa-circle-play"></i></span>
+              <span>Valida contribuições, faz review, merge e versiona</span>
+            </div>
+            <div class="pcard__row pcard__row--need">
+              <span class="pcard__row-icon"><i class="fa-solid fa-bullseye"></i></span>
+              <span>Processo de review formal e changelog versionado</span>
+            </div>
+            <div class="pcard__row pcard__row--pain">
+              <span class="pcard__row-icon"><i class="fa-solid fa-triangle-exclamation"></i></span>
+              <span>Conhecimento centralizado &mdash; ele é o único guardião do front-end</span>
+            </div>
+            <div class="pcard__sections">
+              <span class="pcard__section-tag">01 &middot; Sobre o DS</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Devs CiASC -->
+        <article class="pcard pcard--devs">
+          <div class="pcard__header">
+            <p class="pcard__name">Desenvolvedores</p>
+            <p class="pcard__role">Consumidores diretos</p>
+          </div>
+          <div class="pcard__body">
+            <div class="pcard__row pcard__row--action">
+              <span class="pcard__row-icon"><i class="fa-solid fa-circle-play"></i></span>
+              <span>Propõe ajuste em componente existente ou sugere novo</span>
+            </div>
+            <div class="pcard__row pcard__row--need">
+              <span class="pcard__row-icon"><i class="fa-solid fa-bullseye"></i></span>
+              <span>Canal de contribuição documentado e acessível</span>
+            </div>
+            <div class="pcard__row pcard__row--pain">
+              <span class="pcard__row-icon"><i class="fa-solid fa-triangle-exclamation"></i></span>
+              <span>Sem processo formal &mdash; mudança depende de conversa informal</span>
+            </div>
+            <div class="pcard__sections">
+              <span class="pcard__section-tag">01 &middot; Sobre o DS</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Terceiros -->
+        <article class="pcard pcard--terceiros">
+          <div class="pcard__header">
+            <p class="pcard__name">Terceiros</p>
+            <p class="pcard__role">Contratados</p>
+          </div>
+          <div class="pcard__body">
+            <div class="pcard__row pcard__row--action">
+              <span class="pcard__row-icon"><i class="fa-solid fa-circle-play"></i></span>
+              <span>Reporta problema encontrado durante a implementação</span>
+            </div>
+            <div class="pcard__row pcard__row--need">
+              <span class="pcard__row-icon"><i class="fa-solid fa-bullseye"></i></span>
+              <span>Canal acessível para feedback e reporte de bugs</span>
+            </div>
+            <div class="pcard__row pcard__row--pain">
+              <span class="pcard__row-icon"><i class="fa-solid fa-triangle-exclamation"></i></span>
+              <span>Sem governança &mdash; não sabe a quem reportar</span>
+            </div>
+            <div class="pcard__sections">
+              <span class="pcard__section-tag">01 &middot; Sobre o DS</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Devs PC -->
+        <article class="pcard pcard--pc">
+          <div class="pcard__header">
+            <p class="pcard__name">Polícia Civil</p>
+            <p class="pcard__role">Clientes institucionais</p>
+          </div>
+          <div class="pcard__body">
+            <div class="pcard__row pcard__row--action">
+              <span class="pcard__row-icon"><i class="fa-solid fa-circle-play"></i></span>
+              <span>Solicita componente novo ou reporta incompatibilidade com tema</span>
+            </div>
+            <div class="pcard__row pcard__row--need">
+              <span class="pcard__row-icon"><i class="fa-solid fa-bullseye"></i></span>
+              <span>Canal externo para demandas de clientes do DS</span>
+            </div>
+            <div class="pcard__row pcard__row--pain">
+              <span class="pcard__row-icon"><i class="fa-solid fa-triangle-exclamation"></i></span>
+              <span>Processo atual: GLPI &rarr; email &rarr; JIRA &mdash; sem canal específico para o DS</span>
+            </div>
+            <div class="pcard__sections">
+              <span class="pcard__section-tag">01 &middot; Sobre o DS</span>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ═══ Insights do Discovery ═══ -->
+  <div class="insights">
+    <div class="insights__inner">
+      <div class="insights__header">
+        <h2 class="insights__title">Dores reais &rarr; O que o DS resolve</h2>
+        <p class="insights__subtitle">Citações do discovery mapeadas às respostas que o Design System entrega</p>
+      </div>
+      <div class="insights__grid">
+
+        <!-- 1 — Visibilidade -->
+        <div class="insight">
+          <div class="insight__before">
+            <span class="insight__label insight__label--before">
+              <i class="fa-solid fa-triangle-exclamation"></i> Hoje
+            </span>
+            <p class="insight__quote">
+              &ldquo;Não uso para nada.&rdquo;
+            </p>
+            <p class="insight__source">Felipe Sommer &mdash; PO, CiASC</p>
+          </div>
+          <div class="insight__after">
+            <span class="insight__label insight__label--after">
+              <i class="fa-solid fa-circle-check"></i> Com o DS
+            </span>
+            <p class="insight__resolution">
+              Portal com visão completa do que existe, está padronizado e disponível para uso &mdash; POs conseguem consultar sem depender do time técnico.
+            </p>
+            <div class="insight__tags">
+              <span class="insight__tag insight__tag--stage">Etapa 1 &middot; Descoberta</span>
+              <span class="insight__tag insight__tag--section">01 &middot; Sobre o DS</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2 — Governança -->
+        <div class="insight">
+          <div class="insight__before">
+            <span class="insight__label insight__label--before">
+              <i class="fa-solid fa-triangle-exclamation"></i> Hoje
+            </span>
+            <p class="insight__quote">
+              &ldquo;Delegar a uma única pessoa num sistema tão crítico é um risco.&rdquo;
+            </p>
+            <p class="insight__source">Felipe Sommer &mdash; PO, CiASC</p>
+          </div>
+          <div class="insight__after">
+            <span class="insight__label insight__label--after">
+              <i class="fa-solid fa-circle-check"></i> Com o DS
+            </span>
+            <p class="insight__resolution">
+              Processo de contribuição documentado com specs formais, review e changelog &mdash; conhecimento distribuído, não centralizado em uma pessoa.
+            </p>
+            <div class="insight__tags">
+              <span class="insight__tag insight__tag--stage">Etapa 6 &middot; Contribuição</span>
+              <span class="insight__tag insight__tag--section">01 &middot; Sobre o DS</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3 — Mandato -->
+        <div class="insight">
+          <div class="insight__before">
+            <span class="insight__label insight__label--before">
+              <i class="fa-solid fa-triangle-exclamation"></i> Hoje
+            </span>
+            <p class="insight__quote">
+              &ldquo;Quando for batido o martelo.&rdquo;
+            </p>
+            <p class="insight__source">Holiwod Borges &mdash; PO técnico, CiASC</p>
+          </div>
+          <div class="insight__after">
+            <span class="insight__label insight__label--after">
+              <i class="fa-solid fa-circle-check"></i> Com o DS
+            </span>
+            <p class="insight__resolution">
+              DS como produto real com documentação, governança e processo de adoção claro &mdash; o artefato que formaliza o &ldquo;martelo&rdquo;.
+            </p>
+            <div class="insight__tags">
+              <span class="insight__tag insight__tag--stage">Etapa 2 &middot; Onboarding</span>
+              <span class="insight__tag insight__tag--section">01 &middot; Sobre o DS</span>
+              <span class="insight__tag insight__tag--section">02 &middot; Fundação</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4 — Autonomia PC -->
+        <div class="insight">
+          <div class="insight__before">
+            <span class="insight__label insight__label--before">
+              <i class="fa-solid fa-triangle-exclamation"></i> Hoje
+            </span>
+            <p class="insight__quote">
+              &ldquo;Fantástico &mdash; já temos normativa interna de identidade visual.&rdquo;
+            </p>
+            <p class="insight__source">Diego Coradini &mdash; Inteligência, Polícia Civil de SC</p>
+          </div>
+          <div class="insight__after">
+            <span class="insight__label insight__label--after">
+              <i class="fa-solid fa-circle-check"></i> Com o DS
+            </span>
+            <p class="insight__resolution">
+              Sistema de tokens semânticos com override por cliente &mdash; a identidade da PC (dourado, brasão) se aplica sem quebrar os componentes.
+            </p>
+            <div class="insight__tags">
+              <span class="insight__tag insight__tag--stage">Etapa 5 &middot; Customização</span>
+              <span class="insight__tag insight__tag--section">02 &middot; Fundação</span>
+              <span class="insight__tag insight__tag--section">06 &middot; Temas</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ Footer ═══ -->
+  <footer class="footer">
+    <div class="footer__inner">
+      <div class="footer__block">
+        <p class="footer__label">Projeto</p>
+        <p class="footer__value">
+          DS SISP &mdash; Design System CiASC/SC
+        </p>
+      </div>
+      <div class="footer__block">
+        <p class="footer__label">Cliente</p>
+        <p class="footer__value">
+          CiASC<br>
+          Governo de Santa Catarina
+        </p>
+      </div>
+      <div class="footer__block">
+        <p class="footer__label">Consultoria</p>
+        <p class="footer__value">
+          Meloon &mdash; Giuliana Lopes Galvão<br>
+          Lead UX Designer
+        </p>
+      </div>
+      <div class="footer__block">
+        <p class="footer__label">Data</p>
+        <p class="footer__value">Junho 2026</p>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <p>User Journey &middot; Service Design &middot; Sprint 1 &middot; D2-deliver</p>
+    </div>
+  </footer>
+
+</body>
+</html>

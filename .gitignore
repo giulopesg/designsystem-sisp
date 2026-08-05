@@ -1,6 +1,35 @@
+# OS
 .DS_Store
+Thumbs.db
+
+# Editor
 *.swp
 *.swo
 *~
-.env
+.vscode/
+.idea/
+
+# Dependencies
 node_modules/
+dist/
+
+# Environment
+.env
+.env.*
+
+# Screenshots de referência (22MB — não versionar)
+uikit-screencapture/
+
+# PDFs de pesquisa
+content/*.pdf
+
+# Claude Code local
+.claude/settings.local.json
+.claude/plans/
+
+# Angular build
+.angular/
+tmp/
+
+# Misc
+*.log

@@ -1,0 +1,11 @@
+{
+  "name": "sisp-lib",
+  "version": "0.0.1",
+  "description": "Design System SISP — Angular component library",
+  "peerDependencies": {
+    "@angular/common": "^17.0.0",
+    "@angular/core": "^17.0.0"
+  },
+  "keywords": ["sisp", "design-system", "angular", "ciasc"],
+  "license": "UNLICENSED"
+}

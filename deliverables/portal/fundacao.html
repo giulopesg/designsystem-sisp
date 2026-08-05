@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fundação — DS SISP</title>
+
+  <link rel="stylesheet" href="../../design-tokens/tokens.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <style>
+    /* ═══ RESET + BASE ═══ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body);
+      font-size: var(--text-base);
+      line-height: var(--leading-normal);
+      color: var(--color-text-primary);
+      background-color: var(--color-bg);
+    }
+    a { color: inherit; text-decoration: none; }
+    code { font-family: var(--font-mono); font-size: var(--text-sm); }
+
+    .skip-link {
+      position: absolute; top: -100%; left: var(--space-4);
+      background-color: var(--color-primary); color: var(--color-primary-contrast);
+      padding: var(--space-2) var(--space-4); border-radius: var(--radius-md);
+      font-weight: var(--font-semibold); font-size: var(--text-sm); z-index: 1000;
+      transition: top var(--transition-fast);
+    }
+    .skip-link:focus { top: var(--space-2); }
+
+    /* ═══ HEADER ═══ */
+    .header {
+      position: sticky; top: 0; z-index: var(--z-sticky);
+      background-color: var(--color-dark-surface);
+      border-bottom: 1px solid var(--color-dark-border);
+    }
+    .header__inner {
+      max-width: var(--max-width); margin: 0 auto; padding: 0 var(--space-6);
+      display: flex; align-items: center; height: 56px; gap: var(--space-6);
+    }
+    .header__brand { display: flex; align-items: center; gap: var(--space-2); flex-shrink: 0; }
+    .header__logo {
+      width: 28px; height: 28px; background-color: var(--color-primary);
+      border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center;
+      color: var(--color-primary-contrast); font-family: var(--font-heading);
+      font-size: var(--text-xs); font-weight: var(--font-bold);
+    }
+    .header__name {
+      font-family: var(--font-heading); font-size: var(--text-base);
+      font-weight: var(--font-bold); color: var(--color-dark-text); white-space: nowrap;
+    }
+    .header__nav { display: flex; align-items: center; gap: var(--space-1); flex: 1; }
+    .header__nav-link {
+      font-size: var(--text-sm); font-weight: var(--font-medium); color: var(--color-dark-muted);
+      padding: var(--space-2) var(--space-3); border-radius: var(--radius-md);
+      transition: color var(--transition-fast), background-color var(--transition-fast); white-space: nowrap;
+    }
+    .header__nav-link:hover { color: var(--color-dark-text); background-color: var(--color-dark-border); }
+    .header__nav-link--active { color: var(--color-dark-text); background-color: var(--color-dark-hover); }
+    .header__search { position: relative; flex-shrink: 0; }
+    .header__search-input {
+      width: 200px; height: var(--space-8); padding: 0 var(--space-3) 0 var(--space-8);
+      font-family: var(--font-body); font-size: var(--text-sm); color: var(--color-dark-text);
+      background-color: var(--color-dark-border); border: 1px solid var(--color-dark-hover);
+      border-radius: var(--radius-full); outline: none;
+      transition: border-color var(--transition-fast), width var(--transition-normal);
+    }
+    .header__search-input::placeholder { color: var(--color-dark-muted); }
+    .header__search-input:focus { border-color: var(--color-primary); width: 260px; }
+    .header__search-icon {
+      position: absolute; left: var(--space-3); top: 50%; transform: translateY(-50%);
+      color: var(--color-dark-muted); font-size: var(--text-xs); pointer-events: none;
+    }
+    .header__hamburger {
+      display: none; background: none; border: none; color: var(--color-dark-text);
+      font-size: var(--text-xl); cursor: pointer; padding: var(--space-2);
+      border-radius: var(--radius-md);
+    }
+    .mobile-nav {
+      display: none; position: fixed; top: 56px; left: 0; right: 0; bottom: 0;
+      background-color: var(--color-dark-surface); z-index: var(--z-overlay);
+      padding: var(--space-4); flex-direction: column; gap: var(--space-1); overflow-y: auto;
+    }
+    .mobile-nav.is-open { display: flex; }
+    .mobile-nav__link {
+      display: block; font-size: var(--text-base); font-weight: var(--font-medium);
+      color: var(--color-dark-muted); padding: var(--space-3) var(--space-4);
+      border-radius: var(--radius-md); transition: color var(--transition-fast), background-color var(--transition-fast);
+    }
+    .mobile-nav__link:hover { color: var(--color-dark-text); background-color: var(--color-dark-border); }
+
+    /* ═══ BREADCRUMB ═══ */
+    .breadcrumb {
+      max-width: var(--max-width); margin: 0 auto; padding: var(--space-4) var(--space-6);
+      display: flex; align-items: center; gap: var(--space-2); font-size: var(--text-sm); color: var(--color-text-muted);
+    }
+    .breadcrumb__link { color: var(--color-text-secondary); transition: color var(--transition-fast); }
+    .breadcrumb__link:hover { color: var(--color-primary); }
+    .breadcrumb__sep { color: var(--color-text-muted); }
+    .breadcrumb__current { color: var(--color-text-primary); font-weight: var(--font-semibold); }
+
+    /* ═══ PAGE LAYOUT ═══ */
+    .page {
+      max-width: var(--max-width); margin: 0 auto; padding: 0 var(--space-6) var(--space-12);
+      display: grid; grid-template-columns: 200px 1fr; gap: var(--space-8);
+    }
+
+    /* ═══ SIDEBAR TOC ═══ */
+    .toc { position: sticky; top: 72px; align-self: start; }
+    .toc__title {
+      font-family: var(--font-heading); font-size: var(--text-2xs); font-weight: var(--font-bold);
+      text-transform: uppercase; letter-spacing: 0.1em; color: var(--color-text-muted); margin-bottom: var(--space-4);
+    }
+    .toc__list { list-style: none; display: flex; flex-direction: column; gap: var(--space-0-5); }
+    .toc__link {
+      display: block; font-size: var(--text-sm); color: var(--color-text-secondary);
+      padding: var(--space-2) var(--space-3); border-left: 3px solid transparent;
+      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+      transition: color var(--transition-fast), border-color var(--transition-fast), background-color var(--transition-fast);
+    }
+    .toc__link:hover { color: var(--color-text-primary); background-color: var(--color-bg-subtle); }
+    .toc__link--active {
+      color: var(--color-primary); font-weight: var(--font-semibold);
+      border-left-color: var(--color-primary); background-color: var(--color-primary-muted);
+    }
+
+    /* ═══ CONTENT ═══ */
+    .content { min-width: 0; }
+    .zone { margin-bottom: var(--space-10); }
+    .zone__title {
+      font-family: var(--font-heading); font-size: var(--text-xl); font-weight: var(--font-bold);
+      color: var(--color-text-primary); margin-bottom: var(--space-4);
+      padding-bottom: var(--space-3); border-bottom: 1px solid var(--color-border);
+    }
+    .zone__subtitle {
+      font-family: var(--font-heading); font-size: var(--text-sm); font-weight: var(--font-bold);
+      color: var(--color-text-primary); margin-bottom: var(--space-3); margin-top: var(--space-6);
+    }
+    .zone__desc {
+      font-size: var(--text-sm); color: var(--color-text-secondary);
+      line-height: var(--leading-relaxed); margin-bottom: var(--space-4);
+    }
+
+    /* ═══ PAGE HEADER ═══ */
+    .page-header { margin-bottom: var(--space-8); }
+    .page-header__title {
+      font-family: var(--font-heading); font-size: var(--text-3xl); font-weight: var(--font-bold);
+      color: var(--color-text-primary); line-height: var(--leading-tight); margin-bottom: var(--space-3);
+    }
+    .page-header__desc {
+      font-size: var(--text-lg); color: var(--color-text-secondary);
+      line-height: var(--leading-relaxed); max-width: 720px;
+    }
+
+    /* ═══ TOKEN FLOW ═══ */
+    .token-flow {
+      display: flex; align-items: center; gap: var(--space-3);
+      margin-top: var(--space-6); margin-bottom: var(--space-4);
+    }
+    .token-flow__card {
+      flex: 1; background-color: var(--color-bg-subtle); border: 1px solid var(--color-border);
+      border-radius: var(--radius-md); padding: var(--space-4);
+    }
+    .token-flow__label {
+      font-family: var(--font-heading); font-size: var(--text-2xs); font-weight: var(--font-bold);
+      text-transform: uppercase; letter-spacing: 0.08em; color: var(--color-text-muted); margin-bottom: var(--space-1);
+    }
+    .token-flow__value {
+      font-family: var(--font-mono); font-size: var(--text-sm); font-weight: var(--font-medium);
+      color: var(--color-primary); margin-bottom: var(--space-0-5);
+    }
+    .token-flow__desc { font-size: var(--text-xs); color: var(--color-text-muted); }
+    .token-flow__arrow { color: var(--color-text-muted); font-size: var(--text-xl); flex-shrink: 0; }
+    .token-flow__note {
+      font-size: var(--text-sm); color: var(--color-text-secondary); font-style: italic;
+      margin-top: var(--space-2);
+    }
+
+    /* ═══ COLOR SWATCHES ═══ */
+    .swatch-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+      gap: var(--space-3); margin-bottom: var(--space-6);
+    }
+    .swatch {
+      border: 1px solid var(--color-border); border-radius: var(--radius-md); overflow: hidden;
+      transition: box-shadow var(--transition-fast);
+    }
+    .swatch:hover { box-shadow: var(--shadow-md); }
+    .swatch__color { height: 48px; }
+    .swatch__info { padding: var(--space-2) var(--space-3); }
+    .swatch__token { font-family: var(--font-mono); font-size: var(--text-xs); color: var(--color-text-primary); font-weight: var(--font-medium); }
+    .swatch__hex { font-family: var(--font-mono); font-size: var(--text-2xs); color: var(--color-text-muted); margin-top: 1px; }
+    .swatch__ref { font-size: var(--text-2xs); color: var(--color-text-muted); margin-top: 1px; }
+
+    /* ═══ CONTRAST TABLE ═══ */
+    .contrast-table { width: 100%; border-collapse: collapse; font-size: var(--text-sm); margin-top: var(--space-4); }
+    .contrast-table thead { background-color: var(--color-bg-subtle); }
+    .contrast-table th {
+      text-align: left; font-family: var(--font-heading); font-size: var(--text-xs); font-weight: var(--font-bold);
+      text-transform: uppercase; letter-spacing: 0.06em; color: var(--color-text-secondary);
+      padding: var(--space-3) var(--space-4); border-bottom: 2px solid var(--color-border);
+    }
+    .contrast-table td {
+      padding: var(--space-3) var(--space-4); border-bottom: 1px solid var(--color-border); vertical-align: middle;
+    }
+    .contrast-table tr:hover td { background-color: var(--color-bg-subtle); }
+    .contrast-table__token {
+      display: inline-flex; align-items: center; gap: var(--space-2);
+    }
+    .contrast-table__dot {
+      width: 16px; height: 16px; border-radius: var(--radius-full);
+      border: 1px solid var(--color-border); flex-shrink: 0;
+    }
+    .contrast-table__mono { font-family: var(--font-mono); font-size: var(--text-xs); }
+    .contrast-table__pass {
+      display: inline-flex; align-items: center; gap: var(--space-1);
+      color: var(--color-success); font-weight: var(--font-semibold); font-size: var(--text-xs);
+    }
+
+    /* ═══ FONT CARDS ═══ */
+    .font-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-4); margin-bottom: var(--space-6); }
+    .font-card {
+      background-color: var(--color-bg-subtle); border-radius: var(--radius-lg); padding: var(--space-5);
+    }
+    .font-card__sample { font-size: var(--text-lg); font-weight: var(--font-bold); margin-bottom: var(--space-1); }
+    .font-card__sample--heading { font-family: var(--font-heading); }
+    .font-card__sample--body { font-family: var(--font-body); }
+    .font-card__sample--mono { font-family: var(--font-mono); }
+    .font-card__token { font-family: var(--font-mono); font-size: var(--text-xs); color: var(--color-primary); margin-bottom: var(--space-2); }
+    .font-card__desc { font-size: var(--text-sm); color: var(--color-text-secondary); line-height: var(--leading-relaxed); margin-bottom: var(--space-2); }
+    .font-card__weights { font-size: var(--text-xs); color: var(--color-text-muted); }
+
+    /* ═══ TYPE SCALE ═══ */
+    .type-scale { display: flex; flex-direction: column; gap: var(--space-2); }
+    .type-scale__row {
+      display: grid; grid-template-columns: 120px 60px 1fr; align-items: baseline; gap: var(--space-3);
+      padding: var(--space-2) 0; border-bottom: 1px solid var(--color-border);
+    }
+    .type-scale__token { font-family: var(--font-mono); font-size: var(--text-xs); color: var(--color-text-secondary); }
+    .type-scale__size { font-family: var(--font-mono); font-size: var(--text-xs); color: var(--color-text-muted); }
+    .type-scale__sample { font-family: var(--font-heading); color: var(--color-text-primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+    /* ═══ SPACING BARS ═══ */
+    .spacing-bars { display: flex; flex-direction: column; gap: var(--space-2); }
+    .spacing-row {
+      display: grid; grid-template-columns: 100px 50px 1fr; align-items: center; gap: var(--space-3);
+      padding: var(--space-1) 0;
+    }
+    .spacing-row__token { font-family: var(--font-mono); font-size: var(--text-xs); color: var(--color-text-secondary); }
+    .spacing-row__value { font-family: var(--font-mono); font-size: var(--text-xs); color: var(--color-text-muted); }
+    .spacing-row__bar {
+      height: 20px; background-color: var(--color-primary); border-radius: var(--radius-sm);
+      opacity: 0.8; transition: opacity var(--transition-fast);
+    }
+    .spacing-row:hover .spacing-row__bar { opacity: 1; }
+
+    /* ═══ RADIUS PREVIEWS ═══ */
+    .radius-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: var(--space-4); }
+    .radius-item { text-align: center; }
+    .radius-item__box {
+      width: 56px; height: 40px; margin: 0 auto var(--space-2);
+      background-color: var(--color-bg-muted); border: 2px solid var(--color-border-strong);
+    }
+    .radius-item__token { font-family: var(--font-mono); font-size: var(--text-xs); color: var(--color-text-primary); }
+    .radius-item__value { font-size: var(--text-xs); color: var(--color-text-muted); margin-top: 2px; }
+    .radius-item__desc { font-size: var(--text-2xs); color: var(--color-text-muted); margin-top: 2px; }
+
+    /* ═══ SHADOW PREVIEWS ═══ */
+    .shadow-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-5); }
+    .shadow-item { text-align: center; }
+    .shadow-item__box {
+      width: 120px; height: 80px; margin: 0 auto var(--space-3);
+      background-color: var(--color-surface); border-radius: var(--radius-lg);
+    }
+    .shadow-item__token { font-family: var(--font-mono); font-size: var(--text-xs); color: var(--color-text-primary); }
+    .shadow-item__css { font-family: var(--font-mono); font-size: var(--text-2xs); color: var(--color-text-muted); margin-top: 2px; }
+
+    /* ═══ ICON GRID ═══ */
+    .icon-rules { list-style: none; display: flex; flex-direction: column; gap: var(--space-2); margin-bottom: var(--space-5); }
+    .icon-rules li {
+      font-size: var(--text-sm); color: var(--color-text-secondary); line-height: var(--leading-relaxed);
+      padding-left: var(--space-5); position: relative;
+    }
+    .icon-rules li::before {
+      content: ''; position: absolute; left: 0; top: 8px;
+      width: 6px; height: 6px; border-radius: var(--radius-full); background-color: var(--color-primary);
+    }
+    .icon-grid { display: flex; flex-wrap: wrap; gap: var(--space-4); }
+    .icon-item {
+      display: flex; flex-direction: column; align-items: center; gap: var(--space-2);
+      padding: var(--space-3); border: 1px solid var(--color-border); border-radius: var(--radius-md);
+      min-width: 72px; transition: border-color var(--transition-fast), background-color var(--transition-fast);
+    }
+    .icon-item:hover { border-color: var(--color-border-strong); background-color: var(--color-bg-subtle); }
+    .icon-item__icon { font-size: 24px; color: var(--color-text-primary); }
+    .icon-item__name { font-size: var(--text-2xs); color: var(--color-text-muted); font-family: var(--font-mono); }
+
+    /* ═══ FOOTER ═══ */
+    .footer {
+      background-color: var(--color-dark-surface); color: var(--color-dark-muted);
+      padding: var(--space-12) var(--space-6) var(--space-8);
+    }
+    .footer__inner { max-width: var(--max-width); margin: 0 auto; }
+    .footer__grid {
+      display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: var(--space-8);
+      padding-bottom: var(--space-8); border-bottom: 1px solid var(--color-dark-border);
+    }
+    .footer__brand-desc { font-size: var(--text-sm); line-height: var(--leading-relaxed); margin-top: var(--space-3); }
+    .footer__col-title {
+      font-family: var(--font-heading); font-size: var(--text-xs); font-weight: var(--font-semibold);
+      text-transform: uppercase; letter-spacing: 0.1em; color: var(--color-dark-text); margin-bottom: var(--space-4);
+    }
+    .footer__links { list-style: none; display: flex; flex-direction: column; gap: var(--space-2); }
+    .footer__link { font-size: var(--text-sm); color: var(--color-dark-muted); transition: color var(--transition-fast); }
+    .footer__link:hover { color: var(--color-dark-text); }
+    .footer__bottom {
+      display: flex; justify-content: space-between; align-items: center;
+      padding-top: var(--space-6); font-size: var(--text-xs); flex-wrap: wrap; gap: var(--space-2);
+    }
+    .footer__copyright { color: var(--color-dark-muted); }
+    .footer__version { font-family: var(--font-mono); font-size: var(--text-xs); color: var(--color-dark-border-strong); }
+
+    /* ═══ RESPONSIVE — TABLET ═══ */
+    @media (max-width: 1023px) {
+      .page { grid-template-columns: 180px 1fr; gap: var(--space-6); }
+      .font-cards { grid-template-columns: 1fr; }
+      .shadow-grid { grid-template-columns: repeat(2, 1fr); }
+      .radius-grid { grid-template-columns: repeat(3, 1fr); }
+      .footer__grid { grid-template-columns: 1fr 1fr; }
+    }
+
+    /* ═══ RESPONSIVE — MOBILE ═══ */
+    @media (max-width: 767px) {
+      .header__inner { padding: 0 var(--space-4); }
+      .header__nav, .header__search { display: none; }
+      .header__hamburger { display: flex; margin-left: auto; }
+      .breadcrumb { padding: var(--space-3) var(--space-4); }
+      .page { grid-template-columns: 1fr; padding: 0 var(--space-4) var(--space-8); }
+      .toc { display: none; }
+      .page-header__title { font-size: var(--text-2xl); }
+      .page-header__desc { font-size: var(--text-base); }
+      .token-flow { flex-direction: column; }
+      .token-flow__arrow { transform: rotate(90deg); }
+      .swatch-grid { grid-template-columns: repeat(2, 1fr); }
+      .contrast-table-wrap { display: none; }
+      .font-cards { grid-template-columns: 1fr; }
+      .type-scale__row { grid-template-columns: 80px 40px 1fr; gap: var(--space-2); }
+      .spacing-row { grid-template-columns: 80px 40px 1fr; gap: var(--space-2); }
+      .radius-grid { grid-template-columns: repeat(3, 1fr); gap: var(--space-3); }
+      .radius-item__desc { display: none; }
+      .shadow-grid { grid-template-columns: repeat(2, 1fr); gap: var(--space-3); }
+      .shadow-item__box { width: 100px; height: 64px; }
+      .shadow-item__css { display: none; }
+      .icon-rules { display: none; }
+      .footer { padding: var(--space-8) var(--space-4) var(--space-6); }
+      .footer__grid { grid-template-columns: 1fr; gap: var(--space-6); }
+      .footer__bottom { flex-direction: column; text-align: center; }
+    }
+
+    :focus-visible { outline: 2px solid var(--color-border-focus); outline-offset: 2px; }
+    :focus:not(:focus-visible) { outline: none; }
+    .table-wrap { overflow-x: auto; }
+  </style>
+</head>
+<body>
+
+  <a href="#main-content" class="skip-link">Ir para conteúdo principal</a>
+
+  <!-- ═══ HEADER ═══ -->
+  <header class="header" role="banner">
+    <div class="header__inner">
+      <a href="index.html" class="header__brand" aria-label="DS SISP — Home">
+        <div class="header__logo" aria-hidden="true">DS</div>
+        <span class="header__name">DS SISP</span>
+      </a>
+      <nav class="header__nav" role="navigation" aria-label="Navegação principal">
+        <a href="index.html#sobre" class="header__nav-link">Sobre</a>
+        <a href="fundacao.html" class="header__nav-link header__nav-link--active">Fundação</a>
+        <a href="index.html#acessibilidade" class="header__nav-link">Acessibilidade</a>
+        <a href="componente.html" class="header__nav-link">Componentes</a>
+        <a href="index.html#temas" class="header__nav-link">Temas</a>
+        <a href="index.html#figma" class="header__nav-link">Figma</a>
+      </nav>
+      <div class="header__search">
+        <i class="fa-solid fa-magnifying-glass header__search-icon" aria-hidden="true"></i>
+        <input type="search" class="header__search-input" placeholder="Buscar componente..." aria-label="Buscar componente">
+      </div>
+      <button class="header__hamburger" aria-label="Abrir menu" aria-expanded="false" id="hamburger-btn">
+        <i class="fa-solid fa-bars" id="hamburger-icon"></i>
+      </button>
+    </div>
+  </header>
+
+  <nav class="mobile-nav" id="mobile-nav" role="navigation" aria-label="Navegação mobile">
+    <a href="index.html#sobre" class="mobile-nav__link" onclick="closeMobileNav()">Sobre</a>
+    <a href="fundacao.html" class="mobile-nav__link" onclick="closeMobileNav()">Fundação</a>
+    <a href="index.html#acessibilidade" class="mobile-nav__link" onclick="closeMobileNav()">Acessibilidade</a>
+    <a href="componente.html" class="mobile-nav__link" onclick="closeMobileNav()">Componentes</a>
+    <a href="index.html#temas" class="mobile-nav__link" onclick="closeMobileNav()">Temas</a>
+    <a href="index.html#figma" class="mobile-nav__link" onclick="closeMobileNav()">Figma</a>
+  </nav>
+
+  <!-- ═══ BREADCRUMB ═══ -->
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <a href="index.html" class="breadcrumb__link">Home</a>
+    <span class="breadcrumb__sep" aria-hidden="true">&rsaquo;</span>
+    <span class="breadcrumb__current" aria-current="page">Fundação</span>
+  </nav>
+
+  <!-- ═══ PAGE LAYOUT ═══ -->
+  <div class="page">
+
+    <!-- Sidebar TOC -->
+    <aside class="toc" aria-label="Índice da página">
+      <p class="toc__title">Nesta página</p>
+      <ul class="toc__list">
+        <li><a href="#como-funciona" class="toc__link toc__link--active" data-toc>Como funciona</a></li>
+        <li><a href="#cores" class="toc__link" data-toc>Cores</a></li>
+        <li><a href="#tipografia" class="toc__link" data-toc>Tipografia</a></li>
+        <li><a href="#espacamento" class="toc__link" data-toc>Espaçamento</a></li>
+        <li><a href="#bordas" class="toc__link" data-toc>Bordas e cantos</a></li>
+        <li><a href="#sombras" class="toc__link" data-toc>Sombras</a></li>
+        <li><a href="#iconografia" class="toc__link" data-toc>Iconografia</a></li>
+      </ul>
+    </aside>
+
+    <!-- Main content -->
+    <main id="main-content" class="content">
+
+      <!-- Page header -->
+      <div class="page-header" id="como-funciona">
+        <h1 class="page-header__title">Fundação</h1>
+        <p class="page-header__desc">
+          Os tokens de design são os valores fundamentais que garantem consistência visual em todo o sistema.
+          Organizados em dois níveis &mdash; primitivos (valores brutos da paleta) e semânticos (intenção que os componentes consomem) &mdash;
+          eles permitem theming por cliente sem alterar componentes.
+        </p>
+
+        <!-- Token flow diagram -->
+        <div class="token-flow">
+          <div class="token-flow__card">
+            <div class="token-flow__label">Valor bruto</div>
+            <div class="token-flow__value">#C4000B</div>
+            <div class="token-flow__desc">Hex, px, rem</div>
+          </div>
+          <span class="token-flow__arrow" aria-hidden="true">&rarr;</span>
+          <div class="token-flow__card">
+            <div class="token-flow__label">Primitivo</div>
+            <div class="token-flow__value">--p-sc-red</div>
+            <div class="token-flow__desc">Paleta nomeada</div>
+          </div>
+          <span class="token-flow__arrow" aria-hidden="true">&rarr;</span>
+          <div class="token-flow__card">
+            <div class="token-flow__label">Semântico</div>
+            <div class="token-flow__value">--color-primary</div>
+            <div class="token-flow__desc">Intenção de uso</div>
+          </div>
+          <span class="token-flow__arrow" aria-hidden="true">&rarr;</span>
+          <div class="token-flow__card">
+            <div class="token-flow__label">Componente</div>
+            <div class="token-flow__value">Button.bg</div>
+            <div class="token-flow__desc">Bind final</div>
+          </div>
+        </div>
+        <p class="token-flow__note">
+          &rarr; Theming por cliente: apenas os tokens semânticos são sobrescritos.
+          Ex: PC usa dourado &rarr; só <code>--color-primary</code> muda.
+        </p>
+      </div>
+
+      <!-- ═══ CORES ═══ -->
+      <section class="zone" id="cores">
+        <h2 class="zone__title">Cores</h2>
+
+        <h3 class="zone__subtitle">Primitivos</h3>
+        <p class="zone__desc">Valores brutos da paleta — nunca usados diretamente nos componentes.</p>
+        <div class="swatch-grid">
+          <div class="swatch"><div class="swatch__color" style="background-color: #C4000B;"></div><div class="swatch__info"><div class="swatch__token">--p-sc-red</div><div class="swatch__hex">#C4000B</div></div></div>
+          <div class="swatch"><div class="swatch__color" style="background-color: #9B0008;"></div><div class="swatch__info"><div class="swatch__token">--p-sc-red-dark</div><div class="swatch__hex">#9B0008</div></div></div>
+          <div class="swatch"><div class="swatch__color" style="background-color: #FEF2F2;"></div><div class="swatch__info"><div class="swatch__token">--p-sc-red-light</div><div class="swatch__hex">#FEF2F2</div></div></div>
+          <div class="swatch"><div class="swatch__color" style="background-color: #336633;"></div><div class="swatch__info"><div class="swatch__token">--p-sc-green</div><div class="swatch__hex">#336633</div></div></div>
+          <div class="swatch"><div class="swatch__color" style="background-color: #F9FAFB;"></div><div class="swatch__info"><div class="swatch__token">--p-neutral-50</div><div class="swatch__hex">#F9FAFB</div></div></div>
+          <div class="swatch"><div class="swatch__color" style="background-color: #E5E7EB;"></div><div class="swatch__info"><div class="swatch__token">--p-neutral-200</div><div class="swatch__hex">#E5E7EB</div></div></div>
+          <div class="swatch"><div class="swatch__color" style="background-color: #4B5563;"></div><div class="swatch__info"><div class="swatch__token">--p-neutral-600</div><div class="swatch__hex">#4B5563</div></div></div>
+          <div class="swatch"><div class="swatch__color" style="background-color: #111827;"></div><div class="swatch__info"><div class="swatch__token">--p-neutral-900</div><div class="swatch__hex">#111827</div></div></div>
+        </div>
+
+        <h3 class="zone__subtitle">Semânticos</h3>
+        <p class="zone__desc">Intenção de uso — estes são sobrescritos por tema. Os componentes consomem apenas semânticos.</p>
+        <div class="swatch-grid">
+          <div class="swatch"><div class="swatch__color" style="background-color: #C4000B;"></div><div class="swatch__info"><div class="swatch__token">--color-primary</div><div class="swatch__ref">&rarr; --p-sc-red</div></div></div>
+          <div class="swatch"><div class="swatch__color" style="background-color: #9B0008;"></div><div class="swatch__info"><div class="swatch__token">--color-primary-hover</div><div class="swatch__ref">&rarr; --p-sc-red-dark</div></div></div>
+          <div class="swatch"><div class="swatch__color" style="background-color: #166534;"></div><div class="swatch__info"><div class="swatch__token">--color-success</div><div class="swatch__ref">&rarr; --p-success-text</div></div></div>
+          <div class="swatch"><div class="swatch__color" style="background-color: #92400E;"></div><div class="swatch__info"><div class="swatch__token">--color-warning</div><div class="swatch__ref">&rarr; --p-warning-text</div></div></div>
+          <div class="swatch"><div class="swatch__color" style="background-color: #991B1B;"></div><div class="swatch__info"><div class="swatch__token">--color-danger</div><div class="swatch__ref">&rarr; --p-danger-text</div></div></div>
+          <div class="swatch"><div class="swatch__color" style="background-color: #1E3A8A;"></div><div class="swatch__info"><div class="swatch__token">--color-info</div><div class="swatch__ref">&rarr; --p-info-text</div></div></div>
+          <div class="swatch"><div class="swatch__color" style="background-color: #08060F;"></div><div class="swatch__info"><div class="swatch__token">--color-text-primary</div><div class="swatch__ref">&rarr; --p-dark</div></div></div>
+          <div class="swatch"><div class="swatch__color" style="background-color: #4B5563;"></div><div class="swatch__info"><div class="swatch__token">--color-text-secondary</div><div class="swatch__ref">&rarr; --p-neutral-600</div></div></div>
+        </div>
+
+        <h3 class="zone__subtitle">Contraste WCAG AA</h3>
+        <div class="table-wrap contrast-table-wrap">
+          <table class="contrast-table">
+            <thead><tr><th>Token</th><th>Sobre</th><th>Ratio</th><th>WCAG AA</th></tr></thead>
+            <tbody>
+              <tr><td><span class="contrast-table__token"><span class="contrast-table__dot" style="background-color: #C4000B;"></span><span class="contrast-table__mono">--color-primary</span></span></td><td>Texto sobre branco</td><td><strong>5.2:1</strong></td><td><span class="contrast-table__pass"><i class="fa-solid fa-check"></i> AA normal</span></td></tr>
+              <tr><td><span class="contrast-table__token"><span class="contrast-table__dot" style="background-color: #08060F;"></span><span class="contrast-table__mono">--color-text-primary</span></span></td><td>Body text</td><td><strong>17.9:1</strong></td><td><span class="contrast-table__pass"><i class="fa-solid fa-check"></i> AAA</span></td></tr>
+              <tr><td><span class="contrast-table__token"><span class="contrast-table__dot" style="background-color: #4B5563;"></span><span class="contrast-table__mono">--color-text-secondary</span></span></td><td>Secondary text</td><td><strong>7.0:1</strong></td><td><span class="contrast-table__pass"><i class="fa-solid fa-check"></i> AA normal</span></td></tr>
+              <tr><td><span class="contrast-table__token"><span class="contrast-table__dot" style="background-color: #166534;"></span><span class="contrast-table__mono">--color-success</span></span></td><td>Success sobre branco</td><td><strong>7.8:1</strong></td><td><span class="contrast-table__pass"><i class="fa-solid fa-check"></i> AA normal</span></td></tr>
+              <tr><td><span class="contrast-table__token"><span class="contrast-table__dot" style="background-color: #991B1B;"></span><span class="contrast-table__mono">--color-danger</span></span></td><td>Danger sobre branco</td><td><strong>7.8:1</strong></td><td><span class="contrast-table__pass"><i class="fa-solid fa-check"></i> AA normal</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ═══ TIPOGRAFIA ═══ -->
+      <section class="zone" id="tipografia">
+        <h2 class="zone__title">Tipografia</h2>
+
+        <div class="font-cards">
+          <div class="font-card">
+            <div class="font-card__sample font-card__sample--heading">Montserrat</div>
+            <div class="font-card__token">--font-heading</div>
+            <p class="font-card__desc">Headings e títulos do portal DS</p>
+            <span class="font-card__weights">SemiBold 600, Bold 700</span>
+          </div>
+          <div class="font-card">
+            <div class="font-card__sample font-card__sample--body">Arial / Arimo</div>
+            <div class="font-card__token">--font-body</div>
+            <p class="font-card__desc">Body text, labels, componentes Angular</p>
+            <span class="font-card__weights">Regular 400, Bold 700</span>
+          </div>
+          <div class="font-card">
+            <div class="font-card__sample font-card__sample--mono">Fira Code</div>
+            <div class="font-card__token">--font-mono</div>
+            <p class="font-card__desc">Código, dados técnicos, monospace</p>
+            <span class="font-card__weights">Regular 400</span>
+          </div>
+        </div>
+
+        <h3 class="zone__subtitle">Escala tipográfica</h3>
+        <div class="type-scale">
+          <div class="type-scale__row"><span class="type-scale__token">--text-4xl</span><span class="type-scale__size">36px</span><span class="type-scale__sample" style="font-size: 36px;">Design System SISP</span></div>
+          <div class="type-scale__row"><span class="type-scale__token">--text-3xl</span><span class="type-scale__size">30px</span><span class="type-scale__sample" style="font-size: 30px;">Design System SISP</span></div>
+          <div class="type-scale__row"><span class="type-scale__token">--text-2xl</span><span class="type-scale__size">24px</span><span class="type-scale__sample" style="font-size: 24px;">Design System SISP</span></div>
+          <div class="type-scale__row"><span class="type-scale__token">--text-xl</span><span class="type-scale__size">20px</span><span class="type-scale__sample" style="font-size: 20px;">Design System SISP</span></div>
+          <div class="type-scale__row"><span class="type-scale__token">--text-lg</span><span class="type-scale__size">18px</span><span class="type-scale__sample" style="font-size: 18px;">Design System SISP</span></div>
+          <div class="type-scale__row"><span class="type-scale__token">--text-base</span><span class="type-scale__size">16px</span><span class="type-scale__sample" style="font-size: 16px;">Design System SISP</span></div>
+          <div class="type-scale__row"><span class="type-scale__token">--text-sm</span><span class="type-scale__size">14px</span><span class="type-scale__sample" style="font-size: 14px;">Design System SISP</span></div>
+          <div class="type-scale__row"><span class="type-scale__token">--text-xs</span><span class="type-scale__size">12px</span><span class="type-scale__sample" style="font-size: 12px;">Design System SISP</span></div>
+        </div>
+      </section>
+
+      <!-- ═══ ESPAÇAMENTO ═══ -->
+      <section class="zone" id="espacamento">
+        <h2 class="zone__title">Espaçamento</h2>
+        <p class="zone__desc">Escala de espaçamento com base em 4px. Usada para padding, margin e gap em toda a interface.</p>
+
+        <div class="spacing-bars">
+          <div class="spacing-row"><span class="spacing-row__token">--space-1</span><span class="spacing-row__value">4px</span><div class="spacing-row__bar" style="width: 32px;"></div></div>
+          <div class="spacing-row"><span class="spacing-row__token">--space-2</span><span class="spacing-row__value">8px</span><div class="spacing-row__bar" style="width: 64px;"></div></div>
+          <div class="spacing-row"><span class="spacing-row__token">--space-3</span><span class="spacing-row__value">12px</span><div class="spacing-row__bar" style="width: 96px;"></div></div>
+          <div class="spacing-row"><span class="spacing-row__token">--space-4</span><span class="spacing-row__value">16px</span><div class="spacing-row__bar" style="width: 128px;"></div></div>
+          <div class="spacing-row"><span class="spacing-row__token">--space-5</span><span class="spacing-row__value">20px</span><div class="spacing-row__bar" style="width: 160px;"></div></div>
+          <div class="spacing-row"><span class="spacing-row__token">--space-6</span><span class="spacing-row__value">24px</span><div class="spacing-row__bar" style="width: 192px;"></div></div>
+          <div class="spacing-row"><span class="spacing-row__token">--space-8</span><span class="spacing-row__value">32px</span><div class="spacing-row__bar" style="width: 256px;"></div></div>
+          <div class="spacing-row"><span class="spacing-row__token">--space-12</span><span class="spacing-row__value">48px</span><div class="spacing-row__bar" style="width: 384px;"></div></div>
+          <div class="spacing-row"><span class="spacing-row__token">--space-16</span><span class="spacing-row__value">64px</span><div class="spacing-row__bar" style="width: 512px;"></div></div>
+        </div>
+      </section>
+
+      <!-- ═══ BORDAS E CANTOS ═══ -->
+      <section class="zone" id="bordas">
+        <h2 class="zone__title">Bordas e cantos</h2>
+
+        <div class="radius-grid">
+          <div class="radius-item"><div class="radius-item__box" style="border-radius: 0;"></div><div class="radius-item__token">--radius-none</div><div class="radius-item__value">0px</div><div class="radius-item__desc">Reset</div></div>
+          <div class="radius-item"><div class="radius-item__box" style="border-radius: 4px;"></div><div class="radius-item__token">--radius-sm</div><div class="radius-item__value">4px</div><div class="radius-item__desc">Inputs, tags, labels</div></div>
+          <div class="radius-item"><div class="radius-item__box" style="border-radius: 6px;"></div><div class="radius-item__token">--radius-md</div><div class="radius-item__value">6px</div><div class="radius-item__desc">Botões</div></div>
+          <div class="radius-item"><div class="radius-item__box" style="border-radius: 8px;"></div><div class="radius-item__token">--radius-lg</div><div class="radius-item__value">8px</div><div class="radius-item__desc">Cards, modais</div></div>
+          <div class="radius-item"><div class="radius-item__box" style="border-radius: 12px;"></div><div class="radius-item__token">--radius-xl</div><div class="radius-item__value">12px</div><div class="radius-item__desc">Cards grandes</div></div>
+          <div class="radius-item"><div class="radius-item__box" style="border-radius: 9999px;"></div><div class="radius-item__token">--radius-full</div><div class="radius-item__value">9999px</div><div class="radius-item__desc">Pills, badges</div></div>
+        </div>
+      </section>
+
+      <!-- ═══ SOMBRAS ═══ -->
+      <section class="zone" id="sombras">
+        <h2 class="zone__title">Sombras</h2>
+
+        <div class="shadow-grid">
+          <div class="shadow-item"><div class="shadow-item__box" style="box-shadow: var(--shadow-sm);"></div><div class="shadow-item__token">--shadow-sm</div><div class="shadow-item__css">0 1px 2px</div></div>
+          <div class="shadow-item"><div class="shadow-item__box" style="box-shadow: var(--shadow-md);"></div><div class="shadow-item__token">--shadow-md</div><div class="shadow-item__css">0 4px 6px</div></div>
+          <div class="shadow-item"><div class="shadow-item__box" style="box-shadow: var(--shadow-lg);"></div><div class="shadow-item__token">--shadow-lg</div><div class="shadow-item__css">0 10px 15px</div></div>
+          <div class="shadow-item"><div class="shadow-item__box" style="box-shadow: var(--shadow-xl);"></div><div class="shadow-item__token">--shadow-xl</div><div class="shadow-item__css">0 20px 25px</div></div>
+        </div>
+      </section>
+
+      <!-- ═══ ICONOGRAFIA ═══ -->
+      <section class="zone" id="iconografia">
+        <h2 class="zone__title">Iconografia</h2>
+
+        <p class="zone__desc">
+          <strong>Font Awesome Free</strong> &mdash; O DS SISP usa Font Awesome Free como biblioteca de ícones.
+          Os ícones são consumidos via classes CSS (<code>fa-solid</code>, <code>fa-regular</code>) e dimensionados em 5 tamanhos padronizados
+          (XS 16px, SM 20px, MD 24px, LG 28px, XL 32px).
+        </p>
+
+        <h3 class="zone__subtitle">Regras de uso</h3>
+        <ul class="icon-rules">
+          <li>Usar sempre os tamanhos padronizados do token system (XS&ndash;XL)</li>
+          <li>Manter consistência: mesmo contexto = mesmo tamanho de ícone</li>
+          <li>Ícones decorativos devem ter <code>aria-hidden="true"</code></li>
+          <li>Ícones informativos precisam de label acessível (<code>sr-only</code> ou <code>aria-label</code>)</li>
+        </ul>
+
+        <h3 class="zone__subtitle">Amostra de ícones (Size=MD, 24px)</h3>
+        <div class="icon-grid">
+          <div class="icon-item"><i class="fa-solid fa-house icon-item__icon" aria-hidden="true"></i><span class="icon-item__name">home</span></div>
+          <div class="icon-item"><i class="fa-solid fa-user icon-item__icon" aria-hidden="true"></i><span class="icon-item__name">user</span></div>
+          <div class="icon-item"><i class="fa-solid fa-magnifying-glass icon-item__icon" aria-hidden="true"></i><span class="icon-item__name">search</span></div>
+          <div class="icon-item"><i class="fa-solid fa-bell icon-item__icon" aria-hidden="true"></i><span class="icon-item__name">bell</span></div>
+          <div class="icon-item"><i class="fa-solid fa-gear icon-item__icon" aria-hidden="true"></i><span class="icon-item__name">cog</span></div>
+          <div class="icon-item"><i class="fa-solid fa-check icon-item__icon" aria-hidden="true"></i><span class="icon-item__name">check</span></div>
+          <div class="icon-item"><i class="fa-solid fa-xmark icon-item__icon" aria-hidden="true"></i><span class="icon-item__name">times</span></div>
+          <div class="icon-item"><i class="fa-solid fa-plus icon-item__icon" aria-hidden="true"></i><span class="icon-item__name">plus</span></div>
+          <div class="icon-item"><i class="fa-solid fa-pen icon-item__icon" aria-hidden="true"></i><span class="icon-item__name">edit</span></div>
+          <div class="icon-item"><i class="fa-solid fa-trash icon-item__icon" aria-hidden="true"></i><span class="icon-item__name">trash</span></div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- ═══ FOOTER ═══ -->
+  <footer class="footer" role="contentinfo">
+    <div class="footer__inner">
+      <div class="footer__grid">
+        <div>
+          <div class="header__brand" style="margin-bottom: var(--space-3);"><div class="header__logo" aria-hidden="true">DS</div><span class="header__name">DS SISP</span></div>
+          <p class="footer__brand-desc">Design System do SISP &mdash; CiASC / Governo de Santa Catarina. Componentes Angular documentados com tokens, acessibilidade WCAG AA e suporte a múltiplos temas.</p>
+        </div>
+        <div>
+          <p class="footer__col-title">Documentação</p>
+          <ul class="footer__links">
+            <li><a href="index.html#sobre" class="footer__link">Sobre o DS</a></li>
+            <li><a href="fundacao.html" class="footer__link">Fundação</a></li>
+            <li><a href="index.html#acessibilidade" class="footer__link">Acessibilidade</a></li>
+            <li><a href="componente.html" class="footer__link">Componentes Base</a></li>
+            <li><a href="#" class="footer__link">Componentes SISP</a></li>
+          </ul>
+        </div>
+        <div>
+          <p class="footer__col-title">Recursos</p>
+          <ul class="footer__links">
+            <li><a href="#" class="footer__link">Figma UI Kit</a></li>
+            <li><a href="#" class="footer__link">Tokens CSS</a></li>
+            <li><a href="#" class="footer__link">Dev Mode</a></li>
+            <li><a href="#" class="footer__link">Temas</a></li>
+            <li><a href="#" class="footer__link">Changelog</a></li>
+          </ul>
+        </div>
+        <div>
+          <p class="footer__col-title">Governança</p>
+          <ul class="footer__links">
+            <li><a href="#" class="footer__link">Como contribuir</a></li>
+            <li><a href="#" class="footer__link">Guia SC v1.4</a></li>
+            <li><a href="#" class="footer__link">WCAG 2.1 AA</a></li>
+            <li><a href="#" class="footer__link">Contato</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer__bottom">
+        <p class="footer__copyright">&copy; 2026 CiASC &mdash; Centro de Informática e Automação de Santa Catarina</p>
+        <span class="footer__version">v1.0.0</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ═══ JAVASCRIPT ═══ -->
+  <script>
+    /* Hamburger */
+    const hamburgerBtn = document.getElementById('hamburger-btn');
+    const hamburgerIcon = document.getElementById('hamburger-icon');
+    const mobileNav = document.getElementById('mobile-nav');
+    hamburgerBtn.addEventListener('click', function () {
+      const isOpen = mobileNav.classList.toggle('is-open');
+      hamburgerBtn.setAttribute('aria-expanded', isOpen);
+      hamburgerIcon.className = isOpen ? 'fa-solid fa-xmark' : 'fa-solid fa-bars';
+      document.body.style.overflow = isOpen ? 'hidden' : '';
+    });
+    function closeMobileNav() {
+      mobileNav.classList.remove('is-open');
+      hamburgerBtn.setAttribute('aria-expanded', 'false');
+      hamburgerIcon.className = 'fa-solid fa-bars';
+      document.body.style.overflow = '';
+    }
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && mobileNav.classList.contains('is-open')) { closeMobileNav(); hamburgerBtn.focus(); }
+    });
+
+    /* TOC scroll spy */
+    const tocLinks = document.querySelectorAll('[data-toc]');
+    const zones = document.querySelectorAll('.zone, .page-header');
+    function updateToc() {
+      const scrollY = window.scrollY + 100;
+      let current = 'como-funciona';
+      zones.forEach(function (z) { if (z.offsetTop <= scrollY) { current = z.getAttribute('id'); } });
+      tocLinks.forEach(function (link) {
+        link.classList.remove('toc__link--active');
+        if (link.getAttribute('href') === '#' + current) link.classList.add('toc__link--active');
+      });
+    }
+    window.addEventListener('scroll', updateToc, { passive: true });
+
+    /* Cmd+K */
+    document.addEventListener('keydown', function (e) {
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+        e.preventDefault();
+        var s = document.querySelector('.header__search-input');
+        if (s) s.focus();
+      }
+    });
+  </script>
+
+</body>
+</html>
