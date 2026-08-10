@@ -1742,6 +1742,13 @@ Quem: Giuliana (instrução), Claude (execução)
 Data: 2026-08-04
 Sprint: 7
 
+**D167 · Discovery DV — analise + personas + fluxo + wireframes**
+Decisao: conduziu discovery interno da Delegacia Virtual analisando 3 paginas de producao (Home, Advertencia, Etapa 1 Fato Ocorrido). Criou pagina "Discovery DV" no Figma com 3 secoes: Personas (3 cards — Cidadao Vitima, Cidadao Estrangeiro, Policial Homologador), Fluxo de Uso (3 passos com acoes), Wireframes (WF-DV-01 Home, WF-DV-02 Advertencia como modal, WF-DV-03 Etapa 1 com stepper 4 fases). 10 problemas de UX identificados. Decisoes aprovadas: categorias como atalho com advertencia modal, ambas opcoes de stepper no wireframe, CTA "Registrar" como acao primaria.
+Justificativa: D163 bloqueava layouts por falta de discovery. Giuliana decidiu fazer discovery interno usando site producao em vez de esperar Demilis.
+Quem: Giuliana (instrucao + aprovacoes), Claude (analise + execucao)
+Data: 2026-08-05
+Sprint: 6
+
 **D166 · Repo GitHub organizado**
 Decisao: organizou repo `giulopesg/designsystem-sisp` com toda a documentacao, specs, tokens, e scaffold Angular.
 Justificativa: 6+ meses de trabalho nao versionado — risco de perda. Screenshots (22MB) gitignored, portal/ e deliverables/portal/ mantidos como diretorios separados (Vercel vs workspace), scaffold Angular em src/ para Sprint 10.
