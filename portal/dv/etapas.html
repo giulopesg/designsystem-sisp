@@ -1,0 +1,946 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="pc">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Delegacia Virtual — Etapas do Registro</title>
+
+  <link rel="stylesheet" href="../design-tokens/tokens.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <style>
+    /* ═══ RESET + BASE ═══ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body);
+      font-size: var(--text-base);
+      line-height: var(--leading-normal);
+      color: var(--color-text-primary);
+      background-color: var(--color-bg);
+    }
+    a { color: inherit; text-decoration: none; }
+
+    .skip-link {
+      position: absolute; top: -100%; left: var(--space-4);
+      background-color: var(--color-primary); color: var(--color-primary-contrast);
+      padding: var(--space-2) var(--space-4); border-radius: var(--radius-md);
+      font-weight: var(--font-semibold); font-size: var(--text-sm); z-index: 1000;
+      transition: top var(--transition-fast);
+    }
+    .skip-link:focus { top: var(--space-2); }
+
+    /* ═══ BARRA ACESSIBILIDADE ═══ */
+    .a11y-bar {
+      background-color: var(--color-dark-surface);
+      font-size: var(--text-xs); color: var(--color-text-inverse);
+      height: 30px;
+    }
+    .a11y-bar__inner {
+      max-width: 1440px; margin: 0 auto;
+      padding: var(--space-1) var(--space-12);
+      display: flex; align-items: center; justify-content: space-between;
+      height: 100%;
+    }
+    .a11y-bar__left { display: flex; align-items: center; gap: var(--space-4); }
+    .a11y-bar__left span { font-weight: var(--font-semibold); }
+    .a11y-bar__left a { color: var(--color-text-inverse); text-decoration: underline; }
+    .a11y-bar__left a:hover { opacity: 0.8; }
+    .a11y-bar__controls { display: flex; align-items: center; gap: var(--space-1); }
+    .a11y-bar__controls button {
+      background: none; border: none; color: var(--color-text-inverse);
+      font-size: var(--text-xs); font-family: var(--font-body);
+      cursor: pointer; padding: var(--space-1) var(--space-2);
+      border-radius: var(--radius-sm);
+      transition: background-color var(--transition-fast);
+    }
+    .a11y-bar__controls button:hover { background-color: var(--color-dark-hover); }
+    .a11y-bar__sep { color: rgba(255,255,255,0.3); }
+
+    /* ═══ IDENTITY BAR (SC-21) ═══ */
+    .identity-bar {
+      background-color: var(--color-dark-surface);
+      height: 97px;
+    }
+    .identity-bar__inner {
+      max-width: 1440px; margin: 0 auto;
+      padding: 0 var(--space-6);
+      display: flex; align-items: center; justify-content: space-between;
+      height: 100%;
+    }
+    .identity-bar__brand {
+      display: flex; align-items: center; gap: var(--space-3);
+    }
+    .identity-bar__logo-pc {
+      height: 61px; width: 48px; object-fit: contain;
+    }
+    .identity-bar__name-group {
+      display: flex; flex-direction: column; gap: 2px;
+    }
+    .identity-bar__name {
+      font-family: var(--font-heading); font-size: var(--text-base);
+      font-weight: var(--font-semibold); color: var(--color-text-inverse);
+    }
+    .identity-bar__name-sub {
+      font-family: var(--font-body); font-size: var(--text-sm);
+      color: var(--color-text-inverse);
+    }
+    .identity-bar__nav-zone {
+      display: flex; align-items: center; gap: var(--space-8);
+    }
+    .identity-bar__nav {
+      display: flex; align-items: stretch; height: 45px;
+    }
+    .identity-bar__nav-link {
+      display: flex; align-items: center;
+      font-size: var(--text-sm); font-weight: var(--font-regular);
+      color: var(--color-dark-muted);
+      padding: 0 var(--space-4);
+      border-bottom: 3px solid transparent;
+      transition: color var(--transition-fast), border-color var(--transition-fast);
+    }
+    .identity-bar__nav-link:hover { color: var(--color-dark-text); }
+    .identity-bar__nav-link--active {
+      color: var(--color-primary);
+      border-bottom-color: var(--color-primary);
+      font-weight: var(--font-bold);
+    }
+    .identity-bar__logo-gov {
+      height: 28px; width: 110px; object-fit: contain;
+    }
+
+    /* ═══ BREADCRUMB ═══ */
+    .breadcrumb {
+      max-width: 1440px; margin: 0 auto;
+      padding: var(--space-4) var(--space-12);
+      display: flex; align-items: center; gap: var(--space-3);
+      font-size: var(--text-sm);
+      height: 53px;
+    }
+    .breadcrumb__link {
+      color: var(--color-primary);
+      transition: opacity var(--transition-fast);
+    }
+    .breadcrumb__link:hover { opacity: 0.8; }
+    .breadcrumb__sep {
+      color: var(--color-text-muted);
+    }
+    .breadcrumb__current {
+      color: var(--color-text-muted);
+    }
+
+    /* ═══ STEPPER (SC-13) ═══ */
+    .stepper-section {
+      background-color: var(--color-bg-subtle);
+    }
+    .stepper-wrapper {
+      max-width: 1440px; margin: 0 auto;
+      padding: var(--space-6) var(--space-12) var(--space-4);
+    }
+    .stepper {
+      display: flex; align-items: flex-start; justify-content: space-between;
+      position: relative;
+    }
+    .stepper__line {
+      position: absolute; top: 16px; left: 40px; right: 40px;
+      height: 2px; background-color: var(--color-border);
+      z-index: 0;
+    }
+    .stepper__step {
+      display: flex; flex-direction: column; align-items: center;
+      gap: var(--space-2); position: relative; z-index: 1;
+      flex: 1; text-align: center;
+    }
+    .stepper__step-text {
+      display: flex; flex-direction: column; gap: var(--space-1);
+    }
+    .stepper__circle {
+      width: 32px; height: 32px;
+      border-radius: var(--radius-full);
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--font-heading); font-size: var(--text-sm);
+      font-weight: var(--font-bold);
+      background-color: var(--color-bg);
+      flex-shrink: 0;
+    }
+    .stepper__step--active .stepper__circle {
+      background-color: var(--color-primary);
+      color: var(--color-primary-contrast);
+    }
+    .stepper__step--upcoming .stepper__circle {
+      border: 2px solid var(--color-border-strong);
+      color: var(--color-text-muted);
+      background-color: var(--color-bg);
+    }
+    .stepper__step--optional .stepper__circle {
+      border: 2px dashed var(--color-border-strong);
+      color: var(--color-text-muted);
+      background-color: var(--color-bg);
+    }
+    .stepper__label {
+      font-family: var(--font-heading); font-size: var(--text-xs);
+      font-weight: var(--font-bold); color: var(--color-text-primary);
+      line-height: var(--leading-tight);
+    }
+    .stepper__step--active .stepper__label {
+      color: var(--color-primary);
+    }
+    .stepper__step--upcoming .stepper__label,
+    .stepper__step--optional .stepper__label {
+      font-weight: var(--font-medium);
+      color: var(--color-text-muted);
+    }
+    .stepper__desc {
+      font-size: var(--text-2xs); color: var(--color-text-muted);
+      line-height: var(--leading-normal);
+    }
+    .stepper__actions {
+      margin-top: var(--space-4);
+      display: flex; justify-content: flex-end;
+    }
+
+    /* ═══ TEMPO ESTIMADO ═══ */
+    .tempo-estimado {
+      max-width: 1440px; margin: 0 auto;
+      padding: var(--space-1) var(--space-12);
+      display: flex; align-items: center; gap: var(--space-2);
+      font-size: var(--text-sm); color: var(--color-text-secondary);
+    }
+    .tempo-estimado__icon {
+      color: var(--color-text-muted); font-size: var(--text-sm);
+    }
+
+    /* ═══ CONTENT SECTION ═══ */
+    .content-section {
+      max-width: 1440px; margin: 0 auto;
+      padding: var(--space-6) var(--space-12) var(--space-5);
+    }
+    .content-section__header {
+      display: flex; align-items: center; justify-content: space-between;
+      gap: var(--space-4);
+      margin-bottom: var(--space-4);
+    }
+    .content-section__title {
+      font-family: var(--font-heading); font-size: var(--text-xl);
+      font-weight: var(--font-bold); color: var(--color-text-primary);
+    }
+    .content-section__title span {
+      color: var(--color-danger);
+    }
+
+    /* ═══ SEARCH INPUT (BC-29) ═══ */
+    .search-input {
+      position: relative; width: 360px; flex-shrink: 0;
+    }
+    .search-input__field {
+      width: 100%; height: 40px;
+      padding: 0 var(--space-4) 0 var(--space-10);
+      font-family: var(--font-body); font-size: var(--text-sm);
+      color: var(--color-text-primary);
+      background-color: var(--color-bg);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      outline: none;
+      transition: border-color var(--transition-fast);
+    }
+    .search-input__field::placeholder { color: var(--color-text-muted); }
+    .search-input__field:focus { border-color: var(--color-border-focus); }
+    .search-input__icon {
+      position: absolute; left: var(--space-4); top: 50%; transform: translateY(-50%);
+      color: var(--color-text-muted); font-size: var(--text-sm); pointer-events: none;
+    }
+
+    /* ═══ FILTER BAR ═══ */
+    .filter-bar {
+      display: flex; align-items: center; gap: var(--space-3);
+      margin-bottom: var(--space-5);
+      flex-wrap: wrap;
+    }
+    .filter-tab {
+      display: inline-flex; align-items: center; justify-content: center;
+      padding: var(--space-2) var(--space-4);
+      font-family: var(--font-body); font-size: var(--text-sm);
+      font-weight: var(--font-medium);
+      color: var(--color-text-secondary);
+      background-color: var(--color-bg-subtle);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-full);
+      cursor: pointer; user-select: none;
+      transition: background-color var(--transition-fast), border-color var(--transition-fast), color var(--transition-fast);
+    }
+    .filter-tab:hover {
+      background-color: var(--color-bg-muted);
+      border-color: var(--color-border-strong);
+    }
+    .filter-tab--active {
+      background-color: var(--color-primary);
+      color: var(--color-primary-contrast);
+      border-color: var(--color-primary);
+      font-weight: var(--font-bold);
+    }
+    .filter-tab--active:hover {
+      background-color: var(--color-primary-hover);
+      border-color: var(--color-primary-hover);
+    }
+
+    /* ═══ FACT CARDS GRID ═══ */
+    .fact-grid {
+      display: grid; grid-template-columns: repeat(5, 1fr);
+      gap: var(--space-4);
+    }
+    .fact-card {
+      display: flex; flex-direction: column; align-items: center;
+      gap: var(--space-3);
+      padding: var(--space-6) var(--space-4);
+      border: 2px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      background-color: var(--color-surface);
+      cursor: pointer; user-select: none;
+      text-align: center;
+      transition: border-color var(--transition-fast), background-color var(--transition-fast), box-shadow var(--transition-fast), transform var(--transition-fast);
+    }
+    .fact-card:hover {
+      border-color: var(--color-border-strong);
+      box-shadow: var(--shadow-sm);
+      transform: translateY(-1px);
+    }
+    .fact-card--selected {
+      border-color: var(--color-primary);
+      background-color: var(--color-primary-muted);
+      box-shadow: var(--shadow-md);
+    }
+    .fact-card--selected:hover {
+      border-color: var(--color-primary);
+    }
+    .fact-card__icon-circle {
+      width: 32px; height: 32px;
+      background-color: var(--color-primary-muted);
+      border-radius: var(--radius-full);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--color-primary); font-size: var(--text-sm);
+      flex-shrink: 0;
+    }
+    .fact-card--selected .fact-card__icon-circle {
+      background-color: var(--color-primary);
+      color: var(--color-primary-contrast);
+    }
+    .fact-card__title {
+      font-family: var(--font-heading); font-size: var(--text-lg);
+      font-weight: var(--font-bold); color: var(--color-text-primary);
+      line-height: var(--leading-tight);
+    }
+    .fact-card__action {
+      font-size: var(--text-sm); color: var(--color-primary);
+      font-weight: var(--font-medium);
+    }
+    .fact-card--selected .fact-card__action {
+      font-weight: var(--font-bold);
+    }
+
+    /* ═══ ACTION BAR ═══ */
+    .action-bar {
+      max-width: 1440px; margin: 0 auto;
+      padding: var(--space-6) var(--space-12);
+      display: flex; align-items: center; justify-content: space-between;
+    }
+
+    /* ═══ BOTOES (BC-05) ═══ */
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center;
+      gap: var(--space-2);
+      font-family: var(--font-body); font-weight: var(--font-bold);
+      border: 2px solid transparent; border-radius: var(--radius-md);
+      cursor: pointer; transition: background-color var(--transition-fast), border-color var(--transition-fast), color var(--transition-fast);
+      text-decoration: none;
+    }
+    .btn--md { padding: var(--space-2) var(--space-5); font-size: var(--text-sm); height: 40px; }
+    .btn--primary {
+      background-color: var(--color-primary); color: var(--color-primary-contrast);
+      border-color: var(--color-primary);
+    }
+    .btn--primary:hover { background-color: var(--color-primary-hover); border-color: var(--color-primary-hover); }
+    .btn--secondary-light {
+      background-color: transparent;
+      color: var(--color-text-primary);
+      border-color: var(--color-border-strong);
+    }
+    .btn--secondary-light:hover {
+      background-color: var(--color-bg-subtle);
+      border-color: var(--color-primary);
+    }
+    .btn--disabled {
+      opacity: 0.5; cursor: not-allowed;
+      pointer-events: none;
+    }
+
+    /* ═══ LIBRAS FLUTUANTE ═══ */
+    .libras-fab {
+      position: fixed; bottom: var(--space-6); right: var(--space-6);
+      width: 56px; height: 56px;
+      background-color: #3F51B5; color: #FFFFFF;
+      border: none; border-radius: var(--radius-full);
+      display: flex; align-items: center; justify-content: center;
+      font-size: var(--text-xl);
+      cursor: pointer; z-index: var(--z-toast);
+      box-shadow: var(--shadow-lg);
+      transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+    }
+    .libras-fab:hover {
+      transform: scale(1.1);
+      box-shadow: var(--shadow-xl);
+    }
+    .libras-fab:focus-visible {
+      outline: 2px solid var(--color-border-focus);
+      outline-offset: 2px;
+    }
+    .libras-fab__label {
+      position: absolute; right: 68px; top: 50%; transform: translateY(-50%);
+      background-color: var(--color-text-primary); color: var(--color-text-inverse);
+      font-size: var(--text-xs); font-weight: var(--font-semibold);
+      padding: var(--space-1) var(--space-3); border-radius: var(--radius-sm);
+      white-space: nowrap; pointer-events: none;
+      opacity: 0; transition: opacity var(--transition-fast);
+    }
+    .libras-fab:hover .libras-fab__label { opacity: 1; }
+
+    /* ═══ FOOTER (SC-18) ═══ */
+    .footer {
+      background-color: var(--color-dark-surface);
+      color: var(--color-text-inverse);
+      padding: var(--space-8) 0 var(--space-4);
+    }
+    .footer__inner {
+      max-width: var(--max-width); margin: 0 auto;
+      padding: 0 var(--space-6);
+    }
+    .footer__columns {
+      display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: var(--space-12);
+      margin-bottom: var(--space-6);
+    }
+    .footer__brand-logo {
+      width: 32px; height: 32px;
+      background-color: var(--color-primary);
+      border-radius: var(--radius-md);
+      margin-bottom: var(--space-2);
+    }
+    .footer__brand-title {
+      font-family: var(--font-heading); font-size: var(--text-base);
+      font-weight: var(--font-bold); margin-bottom: var(--space-2);
+    }
+    .footer__brand-desc {
+      font-size: var(--text-xs); color: var(--color-dark-muted);
+      line-height: var(--leading-normal);
+    }
+    .footer__col-title {
+      font-size: var(--text-sm); font-weight: var(--font-bold);
+      margin-bottom: var(--space-3);
+    }
+    .footer__col-links {
+      list-style: none; display: flex; flex-direction: column;
+      gap: var(--space-2);
+    }
+    .footer__col-links a {
+      font-size: var(--text-sm); color: var(--color-text-inverse);
+      transition: opacity var(--transition-fast);
+    }
+    .footer__col-links a:hover { opacity: 0.7; }
+    .footer__separator {
+      height: 1px; background-color: var(--color-text-inverse);
+      opacity: 0.15; margin-bottom: var(--space-4);
+    }
+    .footer__bottom {
+      display: flex; justify-content: space-between; align-items: center;
+      font-size: var(--text-xs); color: var(--color-dark-muted);
+    }
+    .footer__bottom-left {
+      display: flex; align-items: center; gap: var(--space-3);
+    }
+    .footer__ciasc-logo {
+      height: 24px; width: auto;
+    }
+    .footer__version {
+      font-family: var(--font-mono); font-size: var(--text-xs);
+    }
+
+    /* ═══ RESPONSIVO ═══ */
+    @media (max-width: 1023px) {
+      .fact-grid { grid-template-columns: repeat(3, 1fr); }
+      .footer__columns { grid-template-columns: repeat(2, 1fr); gap: var(--space-8); }
+      .stepper__desc { display: none; }
+    }
+
+    @media (max-width: 767px) {
+      .a11y-bar__inner { padding: var(--space-1) var(--space-4); }
+      .a11y-bar { font-size: 10px; }
+      .a11y-bar__controls button { font-size: 10px; padding: var(--space-1); }
+
+      .identity-bar__inner { padding: 0 var(--space-4); }
+      .identity-bar__nav-zone { display: none; }
+      .identity-bar__hamburger { display: block; }
+
+      .breadcrumb { padding: var(--space-4); }
+
+      .stepper-wrapper { padding: var(--space-4); }
+      .stepper {
+        flex-direction: column; align-items: flex-start;
+        gap: var(--space-3);
+      }
+      .stepper__line { display: none; }
+      .stepper__step {
+        flex-direction: row; align-items: center;
+        text-align: left; gap: var(--space-3);
+      }
+      .stepper__actions {
+        margin-top: var(--space-3);
+      }
+      .stepper__actions .btn { width: 100%; }
+
+      .tempo-estimado { padding: var(--space-1) var(--space-4); }
+
+      .content-section { padding: var(--space-4); }
+      .content-section__header {
+        flex-direction: column; align-items: flex-start;
+      }
+      .search-input { width: 100%; }
+      .filter-bar { gap: var(--space-2); }
+      .fact-grid { grid-template-columns: 1fr; }
+
+      .action-bar {
+        padding: var(--space-4);
+        flex-direction: column-reverse; gap: var(--space-3); align-items: stretch;
+      }
+      .action-bar .btn { width: 100%; }
+
+      .footer__columns { grid-template-columns: 1fr; gap: var(--space-6); }
+      .footer__bottom { flex-direction: column; gap: var(--space-2); text-align: center; }
+
+      .mobile-nav { display: none; }
+      .mobile-nav.is-open { display: flex; }
+    }
+
+    /* ═══ ACESSIBILIDADE ═══ */
+    :focus-visible {
+      outline: 2px solid var(--color-border-focus);
+      outline-offset: 2px;
+    }
+    .btn:focus-visible { outline-offset: 2px; }
+
+    /* Hamburger hidden on desktop */
+    .identity-bar__hamburger {
+      display: none; background: none; border: none;
+      color: var(--color-dark-text); font-size: var(--text-xl);
+      cursor: pointer; padding: var(--space-2);
+    }
+    .mobile-nav {
+      display: none; position: fixed; top: 99px; left: 0; right: 0; bottom: 0;
+      background-color: var(--color-dark-surface); z-index: var(--z-overlay);
+      padding: var(--space-4); flex-direction: column; gap: var(--space-1);
+    }
+    .mobile-nav.is-open { display: flex; }
+    .mobile-nav__link {
+      display: block; font-size: var(--text-base); font-weight: var(--font-medium);
+      color: var(--color-dark-muted); padding: var(--space-3) var(--space-4);
+      border-radius: var(--radius-md);
+      transition: color var(--transition-fast), background-color var(--transition-fast);
+    }
+    .mobile-nav__link:hover { color: var(--color-dark-text); background-color: var(--color-dark-hover); }
+  </style>
+</head>
+
+<body>
+  <a href="#main-content" class="skip-link">Ir para conteúdo principal</a>
+
+  <!-- ═══ BARRA ACESSIBILIDADE ═══ -->
+  <div class="a11y-bar" role="banner">
+    <div class="a11y-bar__inner">
+      <div class="a11y-bar__left">
+        <span>Acessibilidade</span>
+        <a href="#main-content">Ir para o conteúdo</a>
+      </div>
+      <div class="a11y-bar__controls">
+        <button type="button" aria-label="Diminuir fonte">A-</button>
+        <button type="button" aria-label="Fonte padrão">A</button>
+        <button type="button" aria-label="Aumentar fonte">A+</button>
+        <span class="a11y-bar__sep" aria-hidden="true">|</span>
+        <button type="button">Alto contraste</button>
+        <span class="a11y-bar__sep" aria-hidden="true">|</span>
+        <button type="button">Libras</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ IDENTITY BAR (SC-21) ═══ -->
+  <header class="identity-bar">
+    <div class="identity-bar__inner">
+      <div class="identity-bar__brand">
+        <img src="assets/logopoliciacivil-superior.png" alt="Polícia Civil de Santa Catarina" class="identity-bar__logo-pc">
+        <div class="identity-bar__name-group">
+          <span class="identity-bar__name">Polícia Civil</span>
+          <span class="identity-bar__name-sub">Delegacia Virtual</span>
+        </div>
+      </div>
+      <div class="identity-bar__nav-zone">
+        <nav class="identity-bar__nav" role="navigation" aria-label="Navegação principal">
+          <a href="home.html" class="identity-bar__nav-link">Início</a>
+          <a href="#" class="identity-bar__nav-link identity-bar__nav-link--active">Serviços</a>
+          <a href="#" class="identity-bar__nav-link">Sobre o DV</a>
+          <a href="#" class="identity-bar__nav-link">Ajuda</a>
+        </nav>
+        <img src="assets/logo-governo-sc-branco.png" alt="Governo de Santa Catarina" class="identity-bar__logo-gov">
+      </div>
+      <button class="identity-bar__hamburger" aria-label="Abrir menu" aria-expanded="false" aria-controls="mobile-nav">
+        <i class="fas fa-bars" aria-hidden="true"></i>
+      </button>
+    </div>
+  </header>
+
+  <!-- Mobile Nav -->
+  <nav class="mobile-nav" id="mobile-nav" aria-label="Menu mobile">
+    <a href="home.html" class="mobile-nav__link">Início</a>
+    <a href="#" class="mobile-nav__link">Serviços</a>
+    <a href="#" class="mobile-nav__link">Sobre o DV</a>
+    <a href="#" class="mobile-nav__link">Ajuda</a>
+  </nav>
+
+  <main id="main-content">
+
+    <!-- ═══ BREADCRUMB ═══ -->
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="home.html" class="breadcrumb__link">Home</a>
+      <span class="breadcrumb__sep" aria-hidden="true">›</span>
+      <a href="nova-ocorrencia.html" class="breadcrumb__link">Nova Ocorrência</a>
+      <span class="breadcrumb__sep" aria-hidden="true">›</span>
+      <span class="breadcrumb__current" aria-current="page">Registro (Fase 1 de 4)</span>
+    </nav>
+
+    <!-- ═══ STEPPER (SC-13) ═══ -->
+    <div class="stepper-section">
+    <div class="stepper-wrapper">
+      <div class="stepper" role="list" aria-label="Etapas do registro">
+        <div class="stepper__line" aria-hidden="true"></div>
+
+        <div class="stepper__step stepper__step--active" role="listitem" aria-current="step">
+          <div class="stepper__circle">1</div>
+          <div class="stepper__step-text">
+            <span class="stepper__label">Dados da Ocorrência</span>
+            <span class="stepper__desc">Tipo, local e data</span>
+          </div>
+        </div>
+
+        <div class="stepper__step stepper__step--upcoming" role="listitem">
+          <div class="stepper__circle">2</div>
+          <div class="stepper__step-text">
+            <span class="stepper__label">Envolvidos</span>
+            <span class="stepper__desc">Vítimas, autores</span>
+          </div>
+        </div>
+
+        <div class="stepper__step stepper__step--upcoming" role="listitem">
+          <div class="stepper__circle">3</div>
+          <div class="stepper__step-text">
+            <span class="stepper__label">Narrativa</span>
+            <span class="stepper__desc">Descrição dos fatos</span>
+          </div>
+        </div>
+
+        <div class="stepper__step stepper__step--optional" role="listitem">
+          <div class="stepper__circle">&mdash;</div>
+          <div class="stepper__step-text">
+            <span class="stepper__label">Anexos</span>
+            <span class="stepper__desc">Fotos, documentos</span>
+          </div>
+        </div>
+
+        <div class="stepper__step stepper__step--upcoming" role="listitem">
+          <div class="stepper__circle">5</div>
+          <div class="stepper__step-text">
+            <span class="stepper__label">Revisão</span>
+            <span class="stepper__desc">Conferir e registrar</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="stepper__actions">
+        <button type="button" class="btn btn--primary btn--md" id="btn-proximo" aria-label="Ir para a seção de seleção do fato ocorrido">
+          Próximo <i class="fas fa-arrow-down" aria-hidden="true" style="font-size: var(--text-xs);"></i>
+        </button>
+      </div>
+    </div>
+    </div>
+
+    <!-- ═══ TEMPO ESTIMADO ═══ -->
+    <div class="tempo-estimado">
+      <i class="fas fa-pen tempo-estimado__icon" aria-hidden="true"></i>
+      <span>Tempo estimado: 8–12 min</span>
+    </div>
+
+    <!-- ═══ CONTENT SECTION ═══ -->
+    <section class="content-section" id="content-section" aria-label="Seleção do fato ocorrido">
+
+      <!-- Title Row -->
+      <div class="content-section__header">
+        <h1 class="content-section__title">Fato Ocorrido — selecione um fato ocorrido <span>*</span></h1>
+        <div class="search-input">
+          <i class="fas fa-magnifying-glass search-input__icon" aria-hidden="true"></i>
+          <input type="search" class="search-input__field" placeholder="Buscar..." aria-label="Buscar tipo de ocorrência" id="search-facts">
+        </div>
+      </div>
+
+      <!-- Filter Tabs -->
+      <div class="filter-bar" role="tablist" aria-label="Filtrar por categoria">
+        <button type="button" class="filter-tab filter-tab--active" role="tab" aria-selected="true" data-filter="todos">Todos</button>
+        <button type="button" class="filter-tab" role="tab" aria-selected="false" data-filter="pessoa">Contra a pessoa</button>
+        <button type="button" class="filter-tab" role="tab" aria-selected="false" data-filter="patrimonio">Contra o patrimônio</button>
+        <button type="button" class="filter-tab" role="tab" aria-selected="false" data-filter="documentos">Documentos e objetos</button>
+        <button type="button" class="filter-tab" role="tab" aria-selected="false" data-filter="outros">Outros</button>
+      </div>
+
+      <!-- Fact Cards Grid -->
+      <div class="fact-grid" role="radiogroup" aria-label="Tipos de ocorrência">
+
+        <div class="fact-card" role="radio" aria-checked="false" tabindex="0" data-category="patrimonio" data-value="furto-roubo">
+          <div class="fact-card__icon-circle">
+            <i class="fas fa-lock" aria-hidden="true"></i>
+          </div>
+          <span class="fact-card__title">Furto ou Roubo</span>
+          <span class="fact-card__action">Selecionar</span>
+        </div>
+
+        <div class="fact-card" role="radio" aria-checked="false" tabindex="0" data-category="pessoa" data-value="violencia-domestica">
+          <div class="fact-card__icon-circle">
+            <i class="fas fa-shield-halved" aria-hidden="true"></i>
+          </div>
+          <span class="fact-card__title">Violência Doméstica</span>
+          <span class="fact-card__action">Selecionar</span>
+        </div>
+
+        <div class="fact-card" role="radio" aria-checked="false" tabindex="0" data-category="pessoa" data-value="ameaca-calunia">
+          <div class="fact-card__icon-circle">
+            <i class="fas fa-triangle-exclamation" aria-hidden="true"></i>
+          </div>
+          <span class="fact-card__title">Ameaça, Calúnia ou Difamação</span>
+          <span class="fact-card__action">Selecionar</span>
+        </div>
+
+        <div class="fact-card" role="radio" aria-checked="false" tabindex="0" data-category="documentos" data-value="perda-documentos">
+          <div class="fact-card__icon-circle">
+            <i class="fas fa-magnifying-glass" aria-hidden="true"></i>
+          </div>
+          <span class="fact-card__title">Perda de Documentos/Objetos</span>
+          <span class="fact-card__action">Selecionar</span>
+        </div>
+
+        <div class="fact-card" role="radio" aria-checked="false" tabindex="0" data-category="outros" data-value="outras">
+          <div class="fact-card__icon-circle">
+            <i class="fas fa-ellipsis" aria-hidden="true"></i>
+          </div>
+          <span class="fact-card__title">Outras Ocorrências</span>
+          <span class="fact-card__action">Selecionar</span>
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- ═══ ACTION BAR ═══ -->
+    <div class="action-bar">
+      <a href="nova-ocorrencia.html" class="btn btn--secondary-light btn--md">
+        <i class="fas fa-chevron-left" aria-hidden="true" style="font-size: var(--text-xs);"></i> Voltar
+      </a>
+      <button type="button" class="btn btn--primary btn--md btn--disabled" id="btn-continuar" disabled aria-disabled="true">
+        Continuar <i class="fas fa-chevron-right" aria-hidden="true" style="font-size: var(--text-xs);"></i>
+      </button>
+    </div>
+
+  </main>
+
+  <!-- ═══ LIBRAS FLUTUANTE ═══ -->
+  <button class="libras-fab" type="button" aria-label="Abrir VLibras — Tradutor de Libras" title="VLibras">
+    <i class="fas fa-hands-asl-interpreting" aria-hidden="true"></i>
+    <span class="libras-fab__label">Libras</span>
+  </button>
+
+  <!-- ═══ FOOTER (SC-18 Institucional) ═══ -->
+  <footer class="footer" role="contentinfo">
+    <div class="footer__inner">
+      <div class="footer__columns">
+
+        <div class="footer__brand">
+          <div class="footer__brand-logo" aria-hidden="true"></div>
+          <p class="footer__brand-title">Delegacia Virtual</p>
+          <p class="footer__brand-desc">Polícia Civil de Santa Catarina. Registre ocorrências online de forma rápida e segura.</p>
+        </div>
+
+        <div>
+          <p class="footer__col-title">Sobre</p>
+          <ul class="footer__col-links">
+            <li><a href="#">Delegacia Virtual</a></li>
+            <li><a href="#">Polícia Civil de SC</a></li>
+            <li><a href="#">Missão e transparência</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <p class="footer__col-title">Emergência</p>
+          <ul class="footer__col-links">
+            <li><a href="#">197 – Polícia Civil</a></li>
+            <li><a href="#">181 – Disque Denúncia</a></li>
+            <li><a href="#">Acesso à Informação</a></li>
+            <li><a href="#">Ouvidoria</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <p class="footer__col-title">Ajuda</p>
+          <ul class="footer__col-links">
+            <li><a href="#">Dúvidas DP Virtual</a></li>
+            <li><a href="#">Lista de Delegacias</a></li>
+            <li><a href="#">CNPJ e endereço</a></li>
+            <li><a href="#">Contato</a></li>
+          </ul>
+        </div>
+
+      </div>
+
+      <div class="footer__separator"></div>
+
+      <div class="footer__bottom">
+        <div class="footer__bottom-left">
+          <img src="assets/Logo-CIASC-PNG-sem-escrita-inferior-1.png" alt="CIASC" class="footer__ciasc-logo">
+          <span>Desenvolvido pela CIASC — Centro de Informática e Automação do Estado de SC</span>
+        </div>
+        <span class="footer__version">Versão 1.0</span>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    /* ═══ Hamburger toggle ═══ */
+    const hamburger = document.querySelector('.identity-bar__hamburger');
+    const mobileNav = document.getElementById('mobile-nav');
+    if (hamburger) {
+      hamburger.addEventListener('click', () => {
+        const isOpen = mobileNav.classList.toggle('is-open');
+        hamburger.setAttribute('aria-expanded', isOpen);
+      });
+    }
+
+    /* ═══ Font size controls ═══ */
+    const fontBtns = document.querySelectorAll('.a11y-bar__controls button');
+    let currentSize = 100;
+    fontBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const label = btn.textContent.trim();
+        if (label === 'A-') currentSize = Math.max(80, currentSize - 10);
+        else if (label === 'A+') currentSize = Math.min(140, currentSize + 10);
+        else if (label === 'A') currentSize = 100;
+        else if (label === 'Alto contraste') document.body.classList.toggle('high-contrast');
+        document.documentElement.style.fontSize = currentSize + '%';
+      });
+    });
+
+    /* ═══ "Proximo" button scrolls to content section ═══ */
+    const btnProximo = document.getElementById('btn-proximo');
+    if (btnProximo) {
+      btnProximo.addEventListener('click', () => {
+        const section = document.getElementById('content-section');
+        if (section) {
+          section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    }
+
+    /* ═══ Filter tabs ═══ */
+    const filterTabs = document.querySelectorAll('.filter-tab');
+    const factCards = document.querySelectorAll('.fact-card');
+
+    filterTabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        /* Update active state */
+        filterTabs.forEach(t => {
+          t.classList.remove('filter-tab--active');
+          t.setAttribute('aria-selected', 'false');
+        });
+        tab.classList.add('filter-tab--active');
+        tab.setAttribute('aria-selected', 'true');
+
+        /* Filter cards */
+        const filter = tab.getAttribute('data-filter');
+        factCards.forEach(card => {
+          if (filter === 'todos' || card.getAttribute('data-category') === filter) {
+            card.style.display = '';
+          } else {
+            card.style.display = 'none';
+          }
+        });
+      });
+    });
+
+    /* ═══ Card selection (single select — radio behavior) ═══ */
+    const btnContinuar = document.getElementById('btn-continuar');
+
+    function selectCard(card) {
+      /* Deselect all */
+      factCards.forEach(c => {
+        c.classList.remove('fact-card--selected');
+        c.setAttribute('aria-checked', 'false');
+        const action = c.querySelector('.fact-card__action');
+        if (action) action.textContent = 'Selecionar';
+      });
+
+      /* Select this one */
+      card.classList.add('fact-card--selected');
+      card.setAttribute('aria-checked', 'true');
+      const action = card.querySelector('.fact-card__action');
+      if (action) action.textContent = 'Selecionado';
+
+      /* Enable continue button */
+      if (btnContinuar) {
+        btnContinuar.disabled = false;
+        btnContinuar.classList.remove('btn--disabled');
+        btnContinuar.removeAttribute('aria-disabled');
+      }
+    }
+
+    factCards.forEach(card => {
+      card.addEventListener('click', () => selectCard(card));
+      card.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          selectCard(card);
+        }
+      });
+    });
+
+    /* ═══ Search filter ═══ */
+    const searchInput = document.getElementById('search-facts');
+    if (searchInput) {
+      searchInput.addEventListener('input', () => {
+        const query = searchInput.value.toLowerCase().trim();
+        factCards.forEach(card => {
+          const title = card.querySelector('.fact-card__title').textContent.toLowerCase();
+          if (title.includes(query)) {
+            card.style.display = '';
+          } else {
+            card.style.display = 'none';
+          }
+        });
+
+        /* Reset filter tabs to "Todos" when searching */
+        if (query.length > 0) {
+          filterTabs.forEach(t => {
+            t.classList.remove('filter-tab--active');
+            t.setAttribute('aria-selected', 'false');
+          });
+          filterTabs[0].classList.add('filter-tab--active');
+          filterTabs[0].setAttribute('aria-selected', 'true');
+        }
+      });
+    }
+  </script>
+</body>
+</html>
