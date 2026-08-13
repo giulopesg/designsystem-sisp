@@ -4,7 +4,7 @@
 > Define quem tu és neste projeto, como o agente deve se comportar, e qual o estado atual do ciclo.
 
 **Sistema:** GiuOS v1.0 — adaptado para DS SISP  
-**Última atualização:** 2026-08-04  
+**Última atualização:** 2026-08-10  
 **Ciclo atual:** building  
 **Fase atual do Diamond:** D2-deliver  
 
@@ -62,7 +62,7 @@ component-spec.md (aprovada por Giuliana)
 11. **Composição atômica — nunca recriar o que já existe.** Todo elemento visual dentro de um componente que já exista como componente no DS **deve ser uma instância** desse componente, nunca uma recriação manual. Checkbox dentro de Table → instância do Checkbox. Badge de status dentro de Table → instância do Badge. Botão dentro de Modal → instância do Button. Isso garante: (a) fonte única de verdade — mudança no componente base propaga para todos; (b) consistência visual automática; (c) manutenção centralizada.
 12. **Auditoria de componentes antes de criar.** Antes de especificar ou criar qualquer novo componente, **auditar o inventário de componentes existentes** para identificar elementos reutilizáveis — não apenas visuais idênticos, mas padrões funcionais equivalentes. Se um elemento novo tem o mesmo comportamento de um componente existente (ex: nav items no Header = Tabs; lista de opções em Dropdown = Select), usar o componente existente como instância ou base. A pergunta obrigatória é: "este elemento já existe como componente, mesmo que com outro nome ou em outro contexto?" Isso garante escalabilidade do DS e reduz a superfície de manutenção.
 13. **Responsividade obrigatória.** Todo componente com layout complexo deve ter variante `Layout=Mobile` no Figma. Breakpoints: Mobile (<768px), Tablet (768–1023px), Desktop (≥1024px) — alinhado com Bootstrap. Componentes auto-contidos (width 100% ou <320px) não precisam de variante responsiva. Nomenclatura: propriedade `Layout` com valores `Desktop` e `Mobile`. Tablet segue Desktop com ajustes de padding via tokens responsivos. Referência completa: `.claude/rules/responsiveness.md`.
-14. **Layouts usam apenas instâncias e estilos existentes.** Ao criar layouts de tela (Sprint 6+), cada elemento visual **deve ser uma instância** de um Component Set existente no Figma. Proibido: criar componentes novos ad-hoc, criar text styles novos, criar color styles novos, trocar fontes (Arial/Arimo permanecem como estão nos componentes). Os layouts são composições dos 46 Component Sets — não superfícies de criação de novos elementos. Variáveis Figma existentes (Colors, Typography, Spacing, Border Radius) são as únicas permitidas para binding.
+14. **Layouts usam apenas instâncias e estilos existentes.** Ao criar layouts de tela (Sprint 6+), cada elemento visual **deve ser uma instância** de um Component Set existente no Figma. Proibido: criar componentes novos ad-hoc, criar text styles novos, criar color styles novos, trocar fontes (Arial/Arimo permanecem como estão nos componentes). Os layouts são composições dos 61 Component Sets — não superfícies de criação de novos elementos. Variáveis Figma existentes (Colors, Typography, Spacing, Border Radius) são as únicas permitidas para binding.
 15. **Text Styles obrigatórios.** Todo text node dentro de um Component Set deve ter um text style aplicado (dos 21 existentes: Heading, Overline, Body, Label, Mono). Exceções: ícones decorativos Font Awesome. Após criar/modificar qualquer Component Set, auditar text nodes para 100% compliance. Color fills de text bound a variáveis de Cores Semânticas.
 
 ---
@@ -103,15 +103,15 @@ core-personas:
   - Devs PC (clientes externos com sistemas próprios)
 anchor-product: Delegacia Virtual (DV) — 90% migrada para o UI Kit
 current-cycle: building
-current-sprint: Sprint 7 — SISP Components Consultas + Dados
+current-sprint: Sprint 8 — Protótipo navegável + componentes adicionais
 prd-status: approved
-spec-status: complete (47 specs — Sprint 3: 6, Sprint 4: 7, Sprint 4.1: 13, Sprint 5: 6 [5 aprovadas + 1 com gaps aprovada], Sprint 6: 8 DC + 1 SC, Sprint 7: 8 SC aprovadas)
+spec-status: complete (56 specs — Sprint 3: 6, Sprint 4: 7, Sprint 4.1: 13, Sprint 5: 6 [5 aprovadas + 1 com gaps aprovada], Sprint 6: 10 DC + 1 SC, Sprint 7: 8 SC aprovadas, Sprint 8: 1 BC + 4 SC)
 figma-file-key: YUSNqTRVZTK2eV7D3fXypx
-figma-component-sets: 56 (Sprint 3: 10, Sprint 4: 8, Sprint 4.1: 13, Sprint 5: 6, Sprint 6: 10 DC + 1 SC, Sprint 7: 8 SC)
+figma-component-sets: 60 (Sprint 3: 10, Sprint 4: 8, Sprint 4.1: 13, Sprint 5: 7, Sprint 6: 10 DC, Sprint 7: 8 SC, Sprint 8: 1 BC + 3 SC) + 1 standalone Component (SC-21 Identity Bar)
 figma-pages: 12 (Wireframes, Sitemap, User Journeys, Validação Visual, Fundação, Taxonomia, Componentes, SISP Components, Pendências, Layouts DV, Componentes Portal, Layouts DS Portal)
 figma-variables: 108 (4 coleções — Colors, Typography, Spacing, Border Radius + 4 tokens responsivos + 5 tokens D141: text-2xs, 4× dark-mode)
 figma-text-styles: 21 (Heading, Overline, Body, Label, Mono — Overline adicionado D142)
-figma-bindings: 4366 (Sprint 3–5: 332 fontSize + 1805 spacing + 177 borderRadius + 157 color fills | Sprint 7: 427 textStyles + 490 spacing + 432 borderRadius + 546 color fills)
+figma-bindings: 4410 (Sprint 3–5: 332 fontSize + 1805 spacing + 177 borderRadius + 157 color fills | Sprint 7: 427 textStyles + 490 spacing + 432 borderRadius + 546 color fills | SC-19: 8 textStyles + 26 spacing + 10 color fills)
 ```
 
 ---
@@ -158,7 +158,7 @@ Sprint 5    ✅ → Figma: SISP Components DV — 6 Component Sets, 32 specs, au
 Sprint R1   ✅ → Responsividade: variantes Layout=Mobile para 18 componentes + tokens responsivos
 Sprint 6    ⏳ → Layouts DV Core + DS Portal — telas DV (Login ✅, Manutenção ✅, Layout-Frame ✅) + telas portal (WF-02 Página de Componente ✅ — 3 DC Components + Desktop/Mobile, WF-01 Home do Portal ✅ — 3 DC Components + Desktop/Mobile, WF-03 Página de Fundação ✅ — Desktop 1440×2826 + Mobile 375×2244) + telas DV restantes (Dashboard, Lista BOs, Criação BO, Detalhes BO, Notificações, Sessão)
 Sprint 7    ✅ → SISP Components Consultas + Dados — 8 specs aprovadas + 8 Component Sets Figma (SC-01, SC-02, SC-03, SC-04, SC-06, SC-09, SC-11, SC-14 — 30 variantes, 100% bindings auditados). 2 bloqueadas (SC-05 inacessível, SC-16 não existe). Taxonomia atualizada
-Sprint 8    ⏳ → Protótipo navegável — flows interativos no Figma (Login → Dashboard → Criar BO → Consultar → Detalhes)
+Sprint 8    ⏳ → Protótipo navegável + componentes adicionais — BC-29 Search + SC-18 Footer DV + SC-19 Hero + SC-20 Service Card + SC-21 Identity Bar + protótipos HTML DV (home + nova-ocorrencia)
 Sprint 9    ⏳ → Testes de usabilidade remotos
 Sprint 10   ⏳ → Refatoração Angular (sisp-lib-[nome])
 ```
@@ -271,6 +271,22 @@ Sprint 10   ⏳ → Refatoração Angular (sisp-lib-[nome])
 | SC-14 | Timelines | 804:7204 | 3 (State=Default/Collapsed/Empty) — timeline vertical, date-pills BC-04 Badge |
 
 > **Seção Figma:** "SISP Components" (325:1010), sub-seções "CONSULTAS POLICIAIS" (804:6053) e "DADOS & VISUALIZAÇÃO" (804:6054)
+
+### Sprint 8 — Componentes adicionais (5 sets)
+
+| ID | Component Set | Figma Node ID | Variantes |
+|---|---|---|---|
+| BC-29 | Search | 969:9072 | 5 (State=Default/Focus/Filled/Loading/Disabled) — campo de busca reutilizável, BC-15 Icons SM ×5 + BC-16 Loader Spinner SM ×1 |
+| SC-18 | Footer DV | 969:9150 | 2 (Type=Institucional 1440×178 compact — 4 colunas SOBRE/INSTITUCIONAL/EMERGÊNCIA/AJUDA, Overline/Montserrat títulos, social icons, versão; Type=Simplificado 3 colunas) — footer DV, dark/surface. Instâncias nos layouts DV a 296px com overrides: coluna brand "Delegacia Virtual" + CIASC logo no bottom |
+| SC-19 | Hero | 969:9236 | 2 (Layout=Desktop 1440×301 + Layout=Mobile 375×285) — hero section dark/surface + text/inverse, eyebrow Overline/XS, CTAs BC-05 Button Primary/Secondary LG |
+| SC-20 | Service Card | 968:8784 | 1 (State=Default) — card de serviço DV, ícone circular primary/muted 40×40 + BC-15 Icons MD, text properties Title + Description. Usado em grid de serviços DV Home |
+| SC-21 | Identity Bar | 974:9679 | 1 (State=Default 1440×97) — barra de identidade institucional DV, dark/surface. Logo Zone (PC badge 48×61 + "Polícia Civil" Montserrat SemiBold 16px + "Delegacia Virtual" Arial 14px) + Nav Bar (BC-26 Tabs Underline instance + Governo SC logo 110×28). Substitui BC-14 Headers nos layouts DV |
+
+> **Seção Figma BC-29:** "Componentes" (111:1146), section "AÇÕES & FORMULÁRIOS" (238:510), sub-section "BC-29 · Search — Componente" (969:9073)
+> **Seção Figma SC-18:** "SISP Components" (325:1010), section "SC-18 · Footer DV — Componente" (969:9151)
+> **Seção Figma SC-19:** "SISP Components" (325:1010), section "SC-19 · Hero — Componente" (969:9211)
+> **Seção Figma SC-20:** "SISP Components" (325:1010), section "SC-20 · Service Card — Componente" (974:9587)
+> **Seção Figma SC-21:** "SISP Components" (325:1010), section "SC-21 · Identity Bar" (974:9681)
 
 ### Sprint 6 — Doc Components (10 sets — portal DS only, não viram Angular)
 

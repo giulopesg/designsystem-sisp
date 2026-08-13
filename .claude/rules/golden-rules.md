@@ -79,6 +79,9 @@ Isso garante:
 | DC-09 Page Tag (Icon=Yes) | BC-15 Icons (XS) |
 | DC-10 Callout Card | BC-15 Icons (LG) |
 | SC-17 Login SISP | BC-05 Button (Primary MD, 2×) + BC-15 Icons (XS, 4×) |
+| SC-19 Hero | BC-05 Button (Primary LG, 1× + Secondary LG, 1× opcional) |
+| SC-20 Service Card | BC-15 Icons (MD) — ícone em container circular primary/muted 40×40 |
+| SC-21 Identity Bar | BC-26 Tabs (Underline instance — 4 Tab Items) |
 
 ### Padrão aceito — Close Buttons:
 Close Buttons (×) em Alerts, Toasts e Modals são frames manuais 24×24. Aceito porque são menores que Button SM (32px). Candidato a micro-componente futuro.

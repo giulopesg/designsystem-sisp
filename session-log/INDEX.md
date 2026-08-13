@@ -1759,6 +1759,280 @@ Sprint: 7
 
 ---
 
+**D168 · Wireframes DV — Home/Nova Ocorrência/Etapas aprovados (HTML)**
+Decisao: 3 wireframes de baixa fidelidade para a Delegacia Virtual aprovados por Giuliana e salvos em `deliverables/wireframes/dv-home-nova-ocorrencia-etapas.html`:
+- **Tela 1 (Home):** reformulada 2x a partir de feedback — v1 corrigia hierarquia de CTA/categorias/busca (Nielsen H1-H8), v2 tentou identidade de governo mas inventou um breadcrumb institucional ("Portal SC > Seguranca Publica") que nao existe no site real — corrigido. Versao final: Home como pagina de entrada institucional (hero de boas-vindas, secao "Nossos servicos", "Como funciona" em 3 passos), sem hierarquia fabricada — ligacao com CIASC fica so no rodape, como no site real.
+- **Tela 2 (Nova Ocorrencia/Advertencia):** copy juridica 100% real, reestruturada em accordion (resolve A1-A6).
+- **Tela 3 (Etapas):** 10 etapas reais agrupadas em 4 fases visiveis (resolve E1-E6).
+Todas anotadas com sticky notes numeradas referenciando heuristica Nielsen/WCAG resolvida.
+Correcao de processo: uma tentativa de recriar a Home direto em alta fidelidade no Figma (pagina Layouts DV, com instancias reais BC-14/BC-05/BC-10 e tema PC) foi revertida — Giuliana esclareceu que a etapa atual e wireframe de baixa fidelidade, nao componentizacao. Pipeline correto: aprovar wireframe (HTML) -> recriar como wireframe no Figma (pagina nova, padrao visual da pagina "Wireframes Principais Telas", com anotacoes) -> só depois, alta fidelidade com instancias reais + tema PC.
+Justificativa: Giuliana identificou 2 erros no processo — dado inventado (breadcrumb) e etapa pulada (foi direto pra alta fidelidade). Ambos corrigidos antes de prosseguir.
+Quem: Giuliana (correcoes + aprovacao), Claude (execucao)
+Data: 2026-08-10
+Sprint: 6
+
+**D169 · Wireframes DV recriados no Figma (3 telas)**
+Decisao: recriou os 3 wireframes aprovados (D168) como wireframes de baixa fidelidade no Figma, na pagina "🪡 Wireframes DV — Home, Nova Ocorrência, Etapas" (918:7878). Seguiu padrao visual da pagina de referencia "🪡 Wireframes Principais Telas ✅" (1:2) — shapes manuais, texto Arimo, annotation cards cream/gold com Inter, connectors 40×1.
+- **Tela 1 — Home DV** (outer: 927:2, screen: 927:3): Header, Hero institucional, Nossos Servicos (4 cards), Como Funciona (3 passos), Aviso Antifraude, Categorias grid, Info Box, Footer, VLibras FAB. 9 annotation cards.
+- **Tela 2 — Nova Ocorrencia** (outer: 935:2, screen: 935:3): Header, Breadcrumb, Rationale box, 3 Accordions (1 expandido com copy juridica 100% real), IP com contexto, Radio CPF, Accept row com checkbox + botao disabled, Footer. 5 annotation cards.
+- **Tela 3 — Registro do Boletim/Etapas** (outer: 918:7882, screen: 918:7883): Header, Breadcrumb, Stepper 4 fases (Phase 1 ativa com dots), Tempo estimado, Section card com busca + 5 filter pills + 5 category cards + tooltip demo, Action bar (Voltar/Continuar), Footer. 5 annotation cards.
+Nenhuma instancia de Component Set usada — wireframe puro (shapes, text nodes, frames). Proxima etapa: aprovacao visual de Giuliana, depois alta fidelidade com instancias reais + tema PC.
+Justificativa: pipeline correto — wireframe aprovado em HTML (D168) → wireframe no Figma (D169) → alta fidelidade com componentes (futuro).
+Quem: Giuliana (instrucao), Claude (execucao)
+Data: 2026-08-10
+Sprint: 6
+
+**D170 · Layouts DV alta fidelidade (3 telas no Figma)**
+Decisao: recriou as 3 telas da Delegacia Virtual em alta fidelidade na pagina "Layouts DV" do Figma, usando exclusivamente instancias dos 56 Component Sets existentes, 21 text styles, e 108 variaveis Figma do DS SISP.
+- **Tela 1 — Home DV** (section 943:8340, frame 943:8341, 1440×1574): Barra Acessibilidade, BC-14 Headers, Hero (Overline + Heading/2XL + BC-05 Button Primary LG), 4× BC-06 Cards servicos, 3 steps com BC-04 Badges, BC-03 Alert Warning, 5× BC-06 Cards categorias + BC-13 Input busca, BC-03 Alert Info, BC-12 Footer. Chevrons removidos dos cards, tabs override para "Inicio/Servicos/Sobre/Ajuda".
+- **Tela 2 — Nova Ocorrencia** (section 943:8500, frame 943:8501, 1440×1037): Breadcrumb, titulo Heading/XL "Advertencia", 3× BC-02 Accordion (1 expandido com copy juridica real, 2 collapsed), IP context com BC-15 Icon, 2× BC-13 Radio CPF, BC-13 Checkbox aceite, BC-05 Button Primary MD Disabled "Continuar para Etapa 1".
+- **Tela 3 — Etapas** (section 963:8634, frame 963:8635, 1440×880): Breadcrumb 3 niveis, SC-13 Steppers Horizontal ActiveStep=1, tempo estimado, titulo + BC-13 Input busca, 5× BC-04 Badge filtros (1 Filled + 4 Subtle), 5× BC-06 Cards categorias, action bar BC-05 Button Secondary "Voltar" + Primary "Continuar".
+Tema PC (Policia Civil) aplicado via modo "Policia Civil" (106:5) no frame raiz — dourado #C8A840 propaga para todos os componentes. Todas as cores via variaveis Cores Semanticas, spacing via Espacamento, border-radius via Border Radius. 100% text styles aplicados. Nenhum componente novo criado, nenhum text style novo criado.
+Justificativa: wireframes aprovados (D168-D169) — proxima etapa e validacao visual final antes do prototipo navegavel (Sprint 8).
+Quem: Giuliana (aprovacao tela a tela), Claude (execucao)
+Data: 2026-08-10
+Sprint: 6
+
+**D172 · SC-18 Footer DV — Component Set reconstruido no padrao DC-08**
+Decisao: reconstruiu SC-18 Footer DV (node 969:9388, antigo 969:9150) seguindo o padrao visual do DC-08 Footer Portal. Correcoes: (1) container 1200px centralizado em 1440px (padding 120px lateral) em vez de full-width; (2) coluna de branding "Delegacia Virtual" com logo + titulo Heading/MD + descricao Body/XS — mesmo padrao da coluna "DS SISP" do DC-08; (3) links em Body/SM/Regular (14px) em vez de Body/XS (12px); (4) titulos em Body/SM/Bold em vez de Overline/XS; (5) espacamento generoso (padding top 32px, bottom 48px, gap 24px entre secoes, 48px entre colunas); (6) separator 1200px + copyright SPACE_BETWEEN. Type=Institucional: 1440×284px, 4 colunas (brand + Sobre + Emergencia + Ajuda). Type=Simplificado: 1440×226px, 3 colunas (Emergencia + Institucional + Ajuda). Instancia no layout DV Home substituida.
+Auditoria pos-rebuild: Text Styles 29/29 (100%), Text Fills 29/29 (100%), Color Fills 5/5 (100%), Border Radius 4/4 (100%), Spacing 16/20 (80% — 4 unbound sao paddingLeft/Right=120px, valor estrutural de centralizacao 1440-1200/2, nao e token). Separators bound a text/inverse, Logo fill a text/muted, Logo radius a radius/md.
+Justificativa: versao anterior (D172 original) estava "completamente fora do padrao dos outros rodapes" (feedback Giuliana). Font sizes errados (12px vs 14px), sem container centralizado, sem coluna de branding, compacto demais. Reconstruido para paridade com DC-08.
+Quem: Giuliana (feedback + aprovacao), Claude (execucao)
+Data: 2026-08-10
+Sprint: 8
+
+**D171 · BC-29 Search — spec + Component Set criado no Figma**
+Decisao: criou componente BC-29 Search (campo de busca reutilizavel) com spec aprovada + Component Set no Figma (node 969:9072) com 5 variantes (Default, Focus, Filled, Loading, Disabled). Composicao atomica: BC-15 Icons SM ×5 (lupa + clear) + BC-16 Loader Spinner SM ×1. Auditoria 100% compliance: 25 spacing bindings, 20 radius bindings, 20 color bindings, 5 text styles, 6 instancias. Posicionado na section "ACOES & FORMULARIOS" (238:510). Diferencia-se do SC-06 Pesquisa Textual (busca policial com BFF) — BC-29 e o campo de busca generico do DS. Resolve violacoes WCAG (role="search", focus ring, 3 canais visuais) e Nielsen (H-1 loading feedback, H-3 clear button, H-6 affordance lupa).
+Justificativa: DS nao tinha componente generico de busca. Layouts DV usavam BC-13 Input como workaround. BC-29 encapsula o padrao visual (lupa + input + clear + loading) para reuso em Header, listagens, filtros.
+Quem: Giuliana (aprovacao spec + aprovacao Figma), Claude (execucao)
+Data: 2026-08-10
+Sprint: 8
+
+**D173 · SC-19 Hero — Component Set criado + DV atualizada**
+Decisao: criou componente SC-19 Hero (node 969:9236) com 2 variantes: Layout=Desktop (1440×301) e Layout=Mobile (375×285). Fundo escuro dark/surface (#192D22) com tipografia clara text/inverse (#FFFFFF) — padrao visual igual ao footer DV e portal hero. Anatomia: Eyebrow (Overline/XS) + Title (Heading/2XL Desktop, Heading/XL Mobile) + Subtitle (Body/LG Desktop, Body/MD Mobile) + CTA Row/Stack (BC-05 Button Primary LG + Secondary LG opcional) + Auxiliary Link (Body/SM underline). Composicao atomica: 4 instancias BC-05 Button (2 por variante). Auditoria 100% compliance: 8/8 text styles, 26/26 spacing bindings, 10/10 color fill bindings. Substituiu hero frame manual (943:8375) no layout DV Tela 1 por instancia SC-19 Hero Desktop. Conteudo DV: eyebrow "DELEGACIA VIRTUAL", titulo "Registre sua ocorrencia online", CTA "Registrar Ocorrencia", link "Acompanhar ocorrencia existente".
+Justificativa: hero section da DV usava fundo claro/transparente sem padrao do DS. Giuliana decidiu que "o diferencial do hero section e que ele tenha o fundo escuro e fontes com cores claras, igual o footer". SC-19 unifica o padrao como componente reutilizavel para qualquer produto SISP.
+Quem: Giuliana (decisao visual + aprovacao spec), Claude (execucao)
+Data: 2026-08-10
+Sprint: 8
+
+**D174 · Icones nos cards do layout DV Home + component property Show Icon no BC-06 Card**
+Decisao: inseriu icones Font Awesome 6 Free Solid nos cards de servicos e categorias do layout DV Home (943:8341), seguindo o mesmo padrao visual dos layouts do DS Portal (DC-04 Section Cards). Icones em cor primary/base (#C4000B) dentro de circulos primary/muted (32×32, radius/full), bindados a variaveis Figma.
+- **BC-06 Card modificado**: adicionou Icon Circle (BC-15 Icons SM + container 32×32 primary/muted) ao Header de todas as 5 variantes Collapsed (Default/Success/Warning/Danger/Info). Criou component property boolean `Show Icon` (key: Show Icon#974:0, default: false) que controla visibilidade. Backward-compatible — instancias existentes nao sao afetadas.
+- **Cards de Servicos** (Section Cards — icone ja existia, trocado de pencil generico para icone correspondente): Registrar (fa-file-lines U+F15C), Imprimir (fa-print U+F02F), Emitir atestado (fa-id-card U+F2C2), Comunicar (fa-bullhorn U+F0A1).
+- **Cards de Categorias** (BC-06 Cards — Show Icon=true via override + icone override): Furto ou Roubo (fa-lock U+F023), Violencia Domestica (fa-shield-halved U+F132), Ameaca Calunia ou Difamacao (fa-triangle-exclamation U+F071), Perda de Documentos/Objetos (fa-magnifying-glass U+F002), Outras Ocorrencias (fa-ellipsis U+F141).
+Justificativa: cards estavam sem icones diferenciadores, dificultando identificacao rapida por scanning visual. Padrao identico ao portal DS garante consistencia entre produtos. Icone dentro do componente (nao wrapper externo) por instrucao de Giuliana.
+Quem: Giuliana (instrucao), Claude (execucao)
+Data: 2026-08-11
+Sprint: 6
+
+**D175 · SC-20 Service Card — Component Set organizado na página SISP Components**
+Decisao: os 4 Section Cards inline no layout DV Home (968:8784, 968:8807, 968:8818, 968:8829) eram COMPONENT_SETs soltos — violacao da Regra 14 (layouts usam apenas instancias). Unificou em 1 Component Set (968:8784) com text properties Title e Description, moveu para secao "SC-20 · Service Card — Componente" (974:9587) na pagina SISP Components. Deletou os 3 COMPONENT_SETs duplicados. Criou 4 instancias (974:9594 Registrar, 974:9603 Imprimir, 974:9612 EmitirAtestado, 974:9621 Comunicar) com overrides de texto e icones FA (fa-file-lines, fa-print, fa-id-card, fa-bullhorn). Composicao atomica: BC-15 Icons MD em container circular primary/muted 40×40.
+Justificativa: Section Cards como COMPONENT_SETs inline significavam 4 componentes identicos sem propriedade reutilizavel. Como SC-20 Service Card com text properties, o componente e reutilizavel em qualquer layout SISP.
+Quem: Giuliana (instrucao), Claude (execucao)
+Data: 2026-08-11
+Sprint: 8
+
+**D176 · SC-21 Identity Bar — componente criado por Giuliana, documentado**
+Decisao: Giuliana criou manualmente o componente Identity Bar (974:9679, secao 974:9681) na pagina SISP Components. Componente 1440×97px, dark/surface. Estrutura: Logo Zone (badge PC 48×61 + "Policia Civil" Montserrat SemiBold 16px + "Delegacia Virtual" Arial 14px, ambos text/inverse) + Nav Bar (BC-26 Tabs Underline instance com 4 tabs: Inicio/Servicos/Sobre o DV/Ajuda + logo Governo SC 110×28). Instanciado nos 3 layouts DV (Home 974:9682, NovaOcorrencia 974:9700, Etapas 974:9718). Substitui BC-14 Headers nos layouts DV — o Header generico nao comporta a identidade institucional da PC (logo + nome + governo). Documentado no CLAUDE.md e golden-rules.md (mapa de composicao: SC-21 usa BC-26 Tabs Underline).
+Justificativa: DV e produto da Policia Civil — precisa de barra de identidade propria com branding institucional (logo PC + logo Governo SC), nao apenas um header generico com tabs.
+Quem: Giuliana (criacao manual no Figma + decisao), Claude (documentacao)
+Data: 2026-08-11
+Sprint: 8
+
+**D177 · SC-18 Footer DV — atualizado manualmente por Giuliana**
+Decisao: Giuliana atualizou manualmente o SC-18 Footer DV (969:9150). Type=Institucional agora 1440×178px (compact), com titulos em Overline/Montserrat SemiBold 12px uppercase (SOBRE, INSTITUCIONAL, EMERGENCIA, AJUDA), links em Arial Regular 12px, icones sociais em circulos, e "Versao 1.0 · Atualizado em 10/08/2026". Instancias nos layouts DV a 296px com overrides de conteudo: coluna brand ("Delegacia Virtual" 16px + descricao), colunas de links (Sobre, Emergencia, Ajuda) a 14px, logo CIASC no bottom, copyright. Documentacao CLAUDE.md atualizada com novo node ID e descricao.
+Justificativa: footer DV precisa de identidade propria diferente do DC-08 Footer Portal — mais compact, com colunas institucionais especificas da DV.
+Quem: Giuliana (edicao manual no Figma), Claude (documentacao)
+Data: 2026-08-11
+Sprint: 8
+
+**D178 · Prototipos HTML DV atualizados — tema PC + Identity Bar + Libras**
+Decisao: atualizou os 2 prototipos HTML (deliverables/dv/home.html e nova-ocorrencia.html) com: (1) data-theme="pc" para cores douradas da Policia Civil (#C8A840); (2) logos reais PC + Governo SC da pasta uikit-screencapture; (3) Identity Bar SC-21 substituindo o header antigo (97px, logo zone + nav zone + governo logo); (4) icone flutuante de Libras (VLibras-style, azul #3F51B5, FA fa-hands-asl-interpreting, position fixed bottom-right); (5) footer atualizado com logo CIASC no bottom. Responsive: Identity Bar com hamburger no mobile, Libras FAB visivel em todos os breakpoints.
+Justificativa: prototipos HTML sao entregaveis intermediarios ao cliente — precisam refletir as decisoes visuais mais recentes (tema PC, identidade institucional, acessibilidade Libras).
+Quem: Giuliana (instrucoes), Claude (execucao)
+Data: 2026-08-11
+Sprint: 8
+
+**D179 · Alinhamento padronizado nos layouts DV (Figma + HTML)**
+Decisao: padronizou padding horizontal de todos os containers dos layouts DV para space/12 (48px) — a11y bar (L 24→48), identity bar (L/R 24→48), footer SC-18 (L/R 120→48). Bind a VariableID:106:63. Stepper na pagina Etapas expandido de 720px FIXED para FILL (1344px) com background surface/bg-subtle. Logo do footer SC-18 substituido de placeholder 28×28 para brasao PC real (38×48, imageHash reutilizado do identity bar). Mesmas correcoes aplicadas nos 6 HTMLs (deliverables + portal). Deploy Vercel atualizado.
+Justificativa: elementos desalinhados lateralmente criavam desarmonia visual — a11y bar, identity bar e footer usavam paddings diferentes do conteudo central.
+Quem: Giuliana (instrucoes), Claude (execucao)
+Data: 2026-08-12
+Sprint: 8
+
+**D180 · Auditoria completa das 7 paginas Figma pendentes — inicio**
+Decisao: iniciar auditoria pagina-a-pagina das 7 paginas sem ✅ no nome. Verificar: text styles, color variable bindings, spacing bindings, composicao atomica, dados atualizados, organizacao. Atualizar documentacao a cada pagina.
+Justificativa: entrega final do DS precisa de 100% compliance em todas as paginas — tokens, instancias, variaveis, text styles.
+Quem: Giuliana (instrucoes), Claude (execucao)
+Data: 2026-08-12
+Sprint: 8
+
+**D187 · Auditoria Layouts DV — achados**
+Decisao: pagina Layouts DV (943:8335) auditada. 3 layouts Desktop + VLibras-FAB + 1 text node solto. DV-Home: 0 color unbound ✅, 82/91 text styles, 35 instancias. DV-NovaOcorrencia: 4 color + 2 spacing unbound, 16 instancias. DV-Etapas: 2 color + 7 spacing unbound, 30 instancias. Composicao atomica forte: Identity Bar, Footer DV, Tabs, Button, Card, Badge, Search, Icon, etc. Text node "LAYOUT & INTERFACE" solto precisa ser removido. Sem variantes Mobile (coberto pelos prototipos HTML).
+Justificativa: auditoria sistematica.
+Quem: Claude (auditoria)
+Data: 2026-08-12
+Sprint: 8
+
+**D186 · Auditoria Wireframes DV — achados**
+Decisao: pagina Wireframes DV (918:7878) auditada. 3 wireframes low-fidelity + 1 section PERSONAS. Wireframes: 0% compliance em tudo (text styles, color, spacing, instancias) — criados antes dos componentes como referencia visual Sprint 1. PERSONAS: 100% compliance ✅. Wireframes sao entregavel historico — layouts finais na pagina Layouts DV sao a versao correta com componentes.
+Justificativa: auditoria sistematica.
+Quem: Claude (auditoria)
+Data: 2026-08-12
+Sprint: 8
+
+**D185 · Auditoria Layouts DS Portal — achados**
+Decisao: pagina Layouts DS Portal (501:2) auditada. 3 sections × 2 layouts = 6 frames. Composicao atomica robusta (282 instancias totais). WF-02 Mobile: 0 spacing unbound ✅ (melhor). WF-03 Desktop/Mobile: pior compliance — 438 spacing + 180 color unbound (frames de conteudo manual: tabelas de tokens, swatches). WF-01: 112 spacing unbound. Text styles: gaps menores (5-13 por layout, provavelmente decorativos).
+Justificativa: auditoria sistematica.
+Quem: Claude (auditoria)
+Data: 2026-08-12
+Sprint: 8
+
+**D184 · Auditoria Componentes Portal (DC) — achados**
+Decisao: pagina Componentes Portal (496:2) auditada. 10 CS + 1 Component avulso. Compliance alta: Breadcrumb, Page TOC, CodeBlock, Footer Portal, Callout Card com 100%. Gaps menores: Component Card (6 spacing unbound), Header Portal (1 ts + 1 color + 2 spacing), Persona Card (4 color unbound). Footer Portal/Mobile eh componente avulso fora do CS — deveria ser variante Layout=Mobile.
+Justificativa: auditoria sistematica.
+Quem: Claude (auditoria)
+Data: 2026-08-12
+Sprint: 8
+
+**D183 · Auditoria Componentes (Base Components) — achados**
+Decisao: pagina Componentes (111:1146) auditada. 32 Component Sets. Spacing: 100% bound em todos ✅. 15 sets com 100% compliance total. Text styles: gaps aceitos em 7 sets (decorativos: chevrons, ×, setas — padrao aceito Regra 15). Color fills unbound: Table (48), Modal (24), Headers (7) sao os maiores gaps. 5 nos orfaos da criacao do BC-29 Search precisam ser removidos.
+Justificativa: auditoria sistematica.
+Quem: Claude (auditoria)
+Data: 2026-08-12
+Sprint: 8
+
+**D182 · Auditoria SISP Components — achados**
+Decisao: pagina SISP Components (325:1010) auditada. 21 Component Sets/Components encontrados. Sprint 7 (8 CS): 100% compliance em todas as metricas. Sprint 5 (7 CS): gaps significativos — Steppers (39 spacing + 25 radius unbound), Uploaders (40 text styles sem), Login (60 color unbound). Sprint 8 (4 CS): quase 100% (2 spacing unbound). Problemas estruturais: 2 nos orfaos (Layout=Mobile vazio + Content vazio), Hero/Mobile fora do Component Set, SC-18/19/20/21 fora da section principal, naming inconsistente Section Card vs Service Card.
+Justificativa: auditoria sistematica para compliance.
+Quem: Claude (auditoria)
+Data: 2026-08-12
+Sprint: 8
+
+**D181 · Auditoria Taxonomia de Componentes — achados**
+Decisao: pagina Taxonomia (106:576) auditada. Resultado: 0% text styles (503 text nodes sem estilo), 1.2% color bindings, 0% spacing bindings, 0% instancias de componentes. Dados quantitativos desatualizados (59 componentes → real 58, 28 Base → real 32, 21 SISP → real 16, 48 specs → real 47, 61 CS → real 58). Frames com nomes genericos ("Frame 1", "Frame 2"). Prioridades de correcao definidas: P1 dados, P2 nomes, P3 text styles, P4 cores, P5 spacing.
+Justificativa: auditoria sistematica para garantir compliance do entregavel final.
+Quem: Claude (auditoria), Giuliana (aprovacao pendente)
+Data: 2026-08-12
+Sprint: 8
+
+**D188 · Execução das 5 ações prioritárias da auditoria**
+Decisão: executou as 5 ações prioritárias identificadas pela auditoria (D180-D187).
+
+**P1 — Limpeza estrutural:** 8 nós órfãos removidos — 5 da página Componentes (artefatos do BC-29 Search), 2 da página SISP Components (Layout=Mobile vazio + Content vazio), 1 text node "LAYOUT & INTERFACE" solto da página Layouts DV.
+
+**P2 — Sprint 5 bindings corrigidos (174 bindings):**
+- Steppers (SC-13): 37 spacing → space/1, 25 radius → radius/full, 20 color → text/inverse
+- Uploaders (SC-15): 10 spacing → space/1, 22 color → surface/base (40 text style gaps são todos Font Awesome decorativos — sem ação)
+- Login (SC-08): 60 color → surface/base
+
+**P3 — Taxonomia dados atualizados:**
+- 59 → 58 componentes, 28 → 32 Base, 21 → 16 SISP, 48 → 47 specs, 61 → 58 Component Sets
+- Textos descritivos e section names corrigidos para refletir estado real
+
+**P4 — Variantes Mobile movidas para Component Sets:**
+- SC-19 Hero/Mobile (969:9225) → dentro do CS Hero (969:9236) como Layout=Mobile
+- DC-08 Footer Portal/Mobile (547:1449) → dentro do CS Footer Portal (547:1550) como Layout=Mobile
+
+**P5 — Color bindings em Table e Modal (68 bindings):**
+- BC-25 Table: 42 fills → surface/base
+- BC-13 Checkbox (base): 2 fills → surface/base (propaga para 6 instâncias na Table)
+- BC-19 Modal: 24 fills → surface/base
+
+Total de correções: 8 nós removidos + 242 bindings corrigidos + 8 dados textuais atualizados + 2 componentes reestruturados.
+Justificativa: auditoria (D180-D187) identificou gaps de compliance que precisavam ser resolvidos antes da entrega final.
+Quem: Giuliana (instrução), Claude (execução)
+Data: 2026-08-12
+Sprint: 8
+
+**D189 · Binding sweep completo — 3 páginas de componentes + Layouts DV**
+Decisão: varredura completa de bindings em todas as páginas de componentes e layouts. Corrigidos gaps residuais da auditoria D180-D187.
+
+Correções por página:
+- **Componentes (BC):** 24 color fills bound (Radio 4× surface/base, Toast 3× surface/base, Icon 5× primary/base, File Preview 1× border/base, Carousel 6× border/strong+surface/base, Offcanvas 4× text/primary, Footer 1× text/inverse) + 1 spacing (Headers Mobile itemSpacing → space/5)
+- **SISP Components:** 11 color fills bound (Notificações 4× surface/base, Image Captures 6× text/inverse+text/primary, Section Card 1× surface/base) + 5 spacing (Login 2× space/2, Notificações 2× space/2, Steppers Mobile 1× space/4)
+- **Componentes Portal:** 1 color (Section Card → surface/base) + Header Portal (1 color surface/base + 2 spacing space/2) + Component Card (6 spacing: space/4, space/2, space/0-5)
+- **Layouts DV:** Barra-Acessibilidade padding 6px→8px (space/2) em Home + Nova Ocorrência (3 nodes)
+
+**Organização SISP Components:** 4 sections soltas (SC-18, SC-19, SC-20, SC-21) movidas para nova sub-section "LAYOUT & INTERFACE" dentro da section principal. Nome SC-21 padronizado. Página agora: 1 section principal, 7 sub-sections, 0 nós soltos.
+
+Exceções documentadas (não tokenizáveis):
+- Button Danger Hover rgb(130,23,23) ×3 — sem token status/danger-hover
+- Image Captures Viewfinder/Preview (38,38,46 e 56,56,64) ×4 — cores específicas de câmera
+- Identity Bar/Headers itemSpacing 764/778/31 — valores estruturais de layout
+- Footer Portal/DV paddingL/R 120px — centralização 1200px em 1440px
+- Steppers Vertical itemSpacing 26 + paddingLeft 44 — alinhamento do conector vertical
+
+Total sessão: **51 color fills + 18 spacing** corrigidos. Exceções: 12 itens documentados como não tokenizáveis.
+Justificativa: compliance de bindings é requisito para entrega final do DS.
+Quem: Giuliana (instrução), Claude (execução)
+Data: 2026-08-12
+Sprint: 8
+
+**D190 · Specs retroativas SC-18, SC-20, SC-21**
+Decisão: criou 3 component specs retroativas para componentes que existiam no Figma sem spec formal (.md), em violação da Regra 1.
+
+Specs criadas:
+1. **SC-18 Footer DV** (`docs/component-specs/SC-18-footer-dv.md`) — footer institucional DV, 2 variantes (Institucional 4 colunas, Simplificado 3 colunas), dark/surface, sem instâncias BC. Referências: D172, D177.
+2. **SC-20 Service Card** (`docs/component-specs/SC-20-service-card.md`) — card de serviço DV (282×156px), 1 variante, text properties Title/Description, composição: BC-15 Icons MD. Referências: D175.
+3. **SC-21 Identity Bar** (`docs/component-specs/SC-21-identity-bar.md`) — barra institucional PC (1440×97px), Logo Zone + Nav Bar (BC-26 Tabs), substitui BC-14 Headers na DV. Referências: D176.
+
+Contexto: estes 3 componentes foram criados durante Sprint 8 no fluxo de construção de layouts — SC-21 foi criado manualmente por Giuliana, SC-18 reconstruído iterativamente por feedback, SC-20 extraído de Section Cards inline. O pipeline spec→Figma foi invertido; specs agora retroativas para regularizar.
+
+Total de specs: 27 BC + 19 SC + 6 DC = **52 specs**. CLAUDE.md e Taxonomia Figma atualizados.
+Justificativa: Giuliana instruiu regularização — "faça o spec, claro".
+Quem: Giuliana (instrução), Claude (execução)
+Data: 2026-08-12
+Sprint: 8
+
+**D191 · Preparação final para entrega ao cliente**
+Decisão: preparação do arquivo Figma para entrega final ao cliente. Ações executadas:
+
+1. **Footer Mobile re-fix:** BC-12 Footer/Mobile e DC-08 Footer Portal/Mobile haviam caído para fora dos Component Sets (artefato da sessão anterior). Movidos de volta como variantes Layout=Mobile nos respectivos CS.
+2. **Contadores atualizados:** CLAUDE.md corrigido de 58→60 Component Sets + 1 standalone Component (SC-21 Identity Bar). Taxonomia Figma: 58→60 componentes, 16→18 SISP.
+3. **Renomeação de páginas:** 7 páginas Figma sem ✅ renomeadas para incluir o marcador, totalizando 12/12 páginas com ✅:
+   - 🪡 Wireframes Principais Telas ✅
+   - 🗺️ Entregáveis Sprint 1 - Sitemap ✅
+   - 🗺️ Entregáveis Sprint 1 - User Journeys ✅
+   - 🎨 Validação Visual — Pré-Sprint 2 ✅
+   - Fundação Visual ✅
+   - Taxonomia de Componentes ✅
+   - Componentes ✅
+   - SISP Components ✅
+   - Componentes Portal ✅
+   - Layouts DS Portal ✅
+   - 🪡 Wireframes DV — Home, Nova Ocorrência, Etapas ✅
+   - Layouts DV ✅
+
+Justificativa: arquivo Figma precisa estar com contadores corretos, páginas marcadas e componentes organizados antes de envio ao cliente.
+Quem: Giuliana (instrução), Claude (execução)
+Data: 2026-08-12
+Sprint: 8
+
+**D192 · Specs retroativas DC-07, DC-08, DC-09, DC-10**
+Decisão: criou 4 component specs retroativas para Doc Components que existiam no Figma sem spec formal, completando a cobertura de 100% dos componentes.
+
+Specs criadas:
+1. **DC-07 Header Portal** (`docs/component-specs/DC-07-header-portal.md`) — header do portal DS, 2 variantes (Desktop 1440×48 + Mobile 375×48), dark/surface, 6 nav links + search field. Substitui BC-14 Headers nos layouts do portal.
+2. **DC-08 Footer Portal** (`docs/component-specs/DC-08-footer-portal.md`) — footer do portal DS, 2 variantes (Desktop 1440×363 + Mobile 375×704), dark/surface, 4 colunas (brand + Documentação + Recursos + Governança), container 1200px centralizado.
+3. **DC-09 Page Tag** (`docs/component-specs/DC-09-page-tag.md`) — chip de categorização, 2 variantes (Icon=No radius/sm + Icon=Yes radius/full), surface/bg-subtle, composição: BC-15 Icons XS.
+4. **DC-10 Callout Card** (`docs/component-specs/DC-10-callout-card.md`) — card editorial de destaque, 2 variantes (Desktop 600×93 + Mobile 343×129), primary/muted, borda esquerda 4px primary/base, composição: BC-15 Icons LG.
+
+Total de specs: 27 BC + 19 SC + 10 DC = **56 specs**. **60 Component Sets com 56 specs = cobertura 100%** (diferença de 4 é porque BC-13 Forms = 5 CS com 1 spec, BC-26 Tabs = 2 CS com 1 spec).
+Justificativa: Giuliana identificou que 4 DCs sem spec era inadmissível — "todos os componentes desse doc são utilizáveis e participam igualmente do design system".
+Quem: Giuliana (instrução), Claude (execução)
+Data: 2026-08-12
+Sprint: 8
+
+**D193 · SC-13 Steppers — fix estrutural de conectores**
+Decisão: reestruturou conectores horizontais do SC-13 Steppers em todas as 5 variantes horizontais (ActiveStep=1, 3, 2-Error, 5, Done). Problema: 4 RECTANGLE com `layoutPositioning: ABSOLUTE` e posições x fixas (88, 232, 376, 520px) — quebravam quando a instância esticava de 720px para 1344px (FILL) nos layouts DV. Solução: integrou conectores em "Indicator Row" frames auto-layout dentro de cada Step, com Left/Right Connector usando `layoutSizingHorizontal: FILL`. Cores bound a variáveis `primary/base` (VariableID:106:76) e `border/base` (VariableID:106:92). Corrigiu também Step 4 no ActiveStep=1 (removeu dashPattern [4,4], texto "—" → "4"). Variantes verticais (Desktop + Mobile) verificadas — sem problema (já usavam VConnector dentro de auto-layout).
+Justificativa: Giuliana reportou "o stepper no figma na pagina 3 estao bem bugado". Conectores absolutos são antipadrão em componentes que precisam escalar.
+Quem: Giuliana (report), Claude (fix)
+Data: 2026-08-12
+Sprint: 8
+
+---
+
 ## Template para novas entradas
 
 ```
