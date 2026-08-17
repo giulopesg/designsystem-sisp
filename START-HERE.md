@@ -7,7 +7,7 @@ Este e o primeiro arquivo que o agente le ao abrir este projeto.
 ## Estado atual do projeto (2026-08-12)
 
 **Fase:** D2 — Building · Sprint 8 em andamento
-**O que ja existe:** Discovery completo · Analises WCAG + Nielsen · Pesquisa qualitativa (3 perfis) · Sprint plan · Tokens CSS · 6 decisoes de design resolvidas · Sprints 0–7 + R1 entregues · 60 Component Sets no Figma · 108 variaveis Figma · 21 Text Styles · 4366+ bindings verificados · 56 component-specs aprovadas · Taxonomia atualizada · Prototipos DV interativos (HTML)
+**O que ja existe:** Discovery completo · Analises WCAG + Nielsen · Pesquisa qualitativa (3 perfis) · Sprint plan · Tokens CSS · 6 decisoes de design resolvidas · Sprints 0–7 + R1 entregues · 62 Component Sets no Figma · 104 variaveis Figma · 21 Text Styles · 4400+ bindings verificados · 57 component-specs aprovadas · Taxonomia atualizada · Prototipos DV interativos (HTML)
 **Proxima acao imediata:** Sprint 8 — Prototipo navegavel Figma (flows interativos Login → Dashboard → Criar BO)
 
 ---
@@ -31,7 +31,7 @@ Voce esta operando dentro do GiuOS aplicado ao projeto **DS SISP** — redesign 
 
 Responda internamente antes de interagir:
 - Estamos no Sprint 8 — qual o foco? (Prototipo navegavel + componentes adicionais)
-- Quais tokens CSS e variaveis Figma estao disponiveis? (108 variaveis, 4 colecoes)
+- Quais tokens CSS e variaveis Figma estao disponiveis? (104 variaveis, 5 colecoes)
 - Qual e a audiencia real deste DS? (ver CLAUDE.md → core-personas)
 - Quais componentes tem prioridade? (DV primeiro — Regra 10)
 - Qual o file key do Figma? (`YUSNqTRVZTK2eV7D3fXypx`)
@@ -52,7 +52,7 @@ Apos ler tudo, responda com:
 - Ler `docs/analyses/nielsen-analysis.md` antes de qualquer spec
 - Cada spec resolve violacoes WCAG AA **e** Nielsen do componente
 - Usar `docs/component-specs/_template.md` como base
-- 56 specs aprovadas (`docs/component-specs/`)
+- 57 specs aprovadas (`docs/component-specs/`)
 
 ### Para componentes no Figma:
 - Figma file key: `YUSNqTRVZTK2eV7D3fXypx`
@@ -83,10 +83,10 @@ Apos ler tudo, responda com:
 | Tipografia portal | Montserrat |
 | Tipografia componentes | Arial (Arimo no Figma cloud) |
 | Tokens CSS | `design-tokens/tokens.css` |
-| Variaveis Figma | 108 variaveis em 4 colecoes |
+| Variaveis Figma | 104 variaveis em 5 colecoes |
 | Text Styles | 21 estilos (Heading, Overline, Body, Label, Mono) |
-| Component Sets | 60 (27 BC + 19 SC + 10 DC + 4 extras) |
-| Component Specs | 56 aprovadas (`docs/component-specs/`) |
+| Component Sets | 62 (27 BC + 21 SC + 10 DC + 4 extras) |
+| Component Specs | 57 aprovadas (`docs/component-specs/`) |
 | Violacoes WCAG | `docs/analyses/wcag-analysis.md` |
 | Violacoes Nielsen | `docs/analyses/nielsen-analysis.md` |
-| Session log | `session-log/INDEX.md` (193 decisoes) |
+| Session log | `session-log/INDEX.md` (194 decisoes) |

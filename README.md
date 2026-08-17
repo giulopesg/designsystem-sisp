@@ -5,23 +5,23 @@ Design System do Sistema Integrado de Seguranca Publica (SISP), desenvolvido par
 ## Status atual
 
 - **Fase:** D2 — Building (Sprint 8)
-- **Component Sets no Figma:** 60 (27 BC + 19 SC + 10 DC + 4 layouts DV)
-- **Component Specs:** 56 (27 BC + 19 SC + 10 DC) — cobertura 100%
-- **Variaveis Figma:** 108 (Colors, Typography, Spacing, Border Radius)
+- **Component Sets no Figma:** 62 (27 BC + 21 SC + 10 DC + 4 layouts DV)
+- **Component Specs:** 57 (27 BC + 20 SC + 10 DC) — cobertura 100%
+- **Variaveis Figma:** 104 (5 colecoes: Primitivos, Tipografia, Espacamento, Border Radius, Cores Semanticas)
 - **Text Styles:** 21 (Heading, Overline, Body, Label, Mono)
-- **Bindings auditados:** 4366+
+- **Bindings auditados:** 4400+
 
 ## Estrutura
 
 | Diretorio | Conteudo |
 |---|---|
 | `docs/` | PRD, Discovery, analises WCAG/Nielsen, specs de componentes |
-| `docs/component-specs/` | 56 specs — template em `_template.md` |
+| `docs/component-specs/` | 57 specs — template em `_template.md` |
 | `design-tokens/` | Tokens CSS — fonte de verdade |
 | `deliverables/` | Entregaveis HTML (sitemap, user journey, prototipos DV, wireframes) |
 | `deliverables/dv/` | Prototipos HTML interativos da Delegacia Virtual (3 telas) |
 | `deliverables/assets/` | Imagens institucionais (logos PC, Gov SC, CiASC) |
-| `session-log/` | Log de 193 decisoes do projeto |
+| `session-log/` | Log de 194 decisoes do projeto |
 | `src/` | Angular library scaffold (Sprint 10) |
 | `.claude/rules/` | Regras do agente AI co-designer |
 
@@ -53,7 +53,7 @@ component-spec.md -> Figma Component Set -> Aprovacao visual -> Angular (sisp-li
 | R1 | Responsividade: variantes Layout=Mobile para 18 componentes + tokens responsivos |
 | 6 | Layouts DV Core + DS Portal (10 DC Components + 6 telas) |
 | 7 | 8 SISP Components Consultas + Dados |
-| 8 | Em andamento — Prototipo navegavel + componentes adicionais (BC-29, SC-17..SC-21) |
+| 8 | Em andamento — Prototipo navegavel + componentes adicionais (BC-29, SC-17..SC-22) |
 
 ## Links
 

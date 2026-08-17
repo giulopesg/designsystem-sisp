@@ -105,7 +105,7 @@ anchor-product: Delegacia Virtual (DV) — 90% migrada para o UI Kit
 current-cycle: building
 current-sprint: Sprint 8 — Protótipo navegável + componentes adicionais
 prd-status: approved
-spec-status: complete (56 specs — Sprint 3: 6, Sprint 4: 7, Sprint 4.1: 13, Sprint 5: 6 [5 aprovadas + 1 com gaps aprovada], Sprint 6: 10 DC + 1 SC, Sprint 7: 8 SC aprovadas, Sprint 8: 1 BC + 4 SC)
+spec-status: complete (57 specs — Sprint 3: 6, Sprint 4: 7, Sprint 4.1: 13, Sprint 5: 6 [5 aprovadas + 1 com gaps aprovada], Sprint 6: 10 DC + 1 SC, Sprint 7: 8 SC aprovadas, Sprint 8: 1 BC + 5 SC)
 figma-file-key: YUSNqTRVZTK2eV7D3fXypx
 figma-component-sets: 62 (Sprint 3: 10, Sprint 4: 8, Sprint 4.1: 13, Sprint 5: 7, Sprint 6: 10 DC, Sprint 7: 8 SC, Sprint 8: 1 BC + 5 SC)
 figma-pages: 12 (Wireframes, Sitemap, User Journeys, Validação Visual, Fundação, Taxonomia, Componentes, SISP Components, Pendências, Layouts DV, Componentes Portal, Layouts DS Portal)
