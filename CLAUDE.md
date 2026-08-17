@@ -76,7 +76,7 @@ css: Bootstrap (utilitários) + tokens CSS customizados
 icons: Font Awesome Free
 design-tool: Figma
 figma-mcp: disponível
-figma-file-key: YUSNqTRVZTK2eV7D3fXypx
+figma-file-key: OgM1TGSQV0BpDryytpJ06g
 component-convention: sisp-lib-[nome]
 config-convention: sispLib[Nome]Config
 max-layout-width: 1200px
@@ -106,9 +106,10 @@ current-cycle: building
 current-sprint: Sprint 8 — Protótipo navegável + componentes adicionais
 prd-status: approved
 spec-status: complete (57 specs — Sprint 3: 6, Sprint 4: 7, Sprint 4.1: 13, Sprint 5: 6 [5 aprovadas + 1 com gaps aprovada], Sprint 6: 10 DC + 1 SC, Sprint 7: 8 SC aprovadas, Sprint 8: 1 BC + 5 SC)
-figma-file-key: YUSNqTRVZTK2eV7D3fXypx
+figma-file-key: OgM1TGSQV0BpDryytpJ06g
 figma-component-sets: 62 (Sprint 3: 10, Sprint 4: 8, Sprint 4.1: 13, Sprint 5: 7, Sprint 6: 10 DC, Sprint 7: 8 SC, Sprint 8: 1 BC + 5 SC)
-figma-pages: 12 (Wireframes, Sitemap, User Journeys, Validação Visual, Fundação, Taxonomia, Componentes, SISP Components, Pendências, Layouts DV, Componentes Portal, Layouts DS Portal)
+figma-pages: 13 (Cover, Wireframes, Sitemap, User Journeys, Validação Visual, Fundação, Taxonomia, Componentes, SISP Components, Pendências, Layouts DV, Componentes Portal, Layouts DS Portal)
+figma-library: publicada — nomenclatura hierárquica Base/ SISP/ Portal/ — 62 CS + 104 vars + 21 text styles
 figma-variables: 104 (5 coleções — Primitivos 30, Tipografia 18, Espaçamento 19, Border Radius 6, Cores Semânticas 31 — inclui status/danger-hover adicionada D194)
 figma-text-styles: 21 (Heading, Overline, Body, Label, Mono — 2 duplicatas Overline/XS removidas D194)
 figma-bindings: 4410 (Sprint 3–5: 332 fontSize + 1805 spacing + 177 borderRadius + 157 color fills | Sprint 7: 427 textStyles + 490 spacing + 432 borderRadius + 546 color fills | SC-19: 8 textStyles + 26 spacing + 10 color fills)
@@ -178,6 +179,8 @@ Sprint 10   ⏳ → Refatoração Angular (sisp-lib-[nome])
 ---
 
 ## Inventário de Component Sets no Figma
+
+> **Nomenclatura de biblioteca (D196):** Todos os Component Sets usam prefixo de categoria no Figma: `Base / [Nome]` (32 BC), `SISP / [Nome]` (20 SC), `Portal / [Nome]` (10 DC). As tabelas abaixo mostram o nome curto (sem prefixo) por legibilidade. O ID (BC/SC/DC) indica a categoria.
 
 ### Sprint 3 — Base Components núcleo (10 sets, 113 variantes)
 

@@ -2049,6 +2049,36 @@ Sprint: 8
 
 ---
 
+## 2026-08-17 · Sessão de publicação da biblioteca Figma
+
+**D195 · Capa / Thumbnail do arquivo Figma**
+Decisão: criada página "🎨 Cover" na posição 0 do arquivo Figma com frame 1600×960px. Background `dark/surface` (#192D22), título "DS SISP" Montserrat Bold 72px, subtítulo "Design System · CiASC / Gov SC", barras accent `primary/base`, stats "62 Components · 104 Variables · WCAG AA". Todas as cores bound a variáveis existentes (dark/surface, primary/base, text/inverse). Nenhuma variável ou text style nova criada. Página serve como thumbnail do arquivo na listagem do Figma.
+Justificativa: arquivo do DS precisa de identidade visual na listagem do Figma do cliente.
+Quem: Giuliana (instrução), Claude (execução)
+Data: 2026-08-17
+Sprint: 8
+
+**D196 · Nomenclatura hierárquica dos Component Sets para biblioteca**
+Decisão: renomeados todos os 62 Component Sets com prefixos de categoria para organização no Assets panel:
+- 32 Base Components: `Base / [Nome]` (ex: `Base / Button`, `Base / Input`)
+- 20 SISP Components: `SISP / [Nome]` (ex: `SISP / Login`, `SISP / Hero`)
+- 10 Doc Components: `Portal / [Nome]` (ex: `Portal / Breadcrumb`, `Portal / CodeBlock`)
+
+Correções adicionais: (a) singular padronizado — Dropdowns→Dropdown, Loaders→Loader, Headers→Header, Carousels→Carousel, Steppers→Stepper, Uploaders→Uploader, Image Captures→Image Capture, Skeleton Layers→Skeleton; (b) colisão de nomes resolvida — SC-20 "Section Card" → "SISP / Service Card" (alinhado com spec SC-20-service-card.md); (c) nomes limpos — Header Portal→Portal / Header, Footer Portal→Portal / Footer.
+Justificativa: sem hierarquia, o Assets panel mostrava 62 itens numa lista corrida. Com prefixos, designers veem 3 pastas organizadas (Base, SISP, Portal).
+Quem: Giuliana (aprovação), Claude (execução)
+Data: 2026-08-17
+Sprint: 8
+
+**D197 · Arquivo migrado para workspace do cliente + biblioteca publicada**
+Decisão: arquivo Figma movido do workspace Meloon para o workspace do cliente (CiASC). File key mudou de `YUSNqTRVZTK2eV7D3fXypx` para `OgM1TGSQV0BpDryytpJ06g`. Biblioteca publicada com 62 Component Sets, 104 variáveis e 21 text styles. Documentação de onboarding criada: texto para cliente (como ativar a biblioteca + adicionar terceiros como guests) + texto para dev (como usar o repo para gerar componentes Angular).
+Justificativa: biblioteca precisa estar no workspace do cliente para que designers internos e terceiros contratados possam consumi-la. Terceiros precisam ser adicionados como guests no Team — copiar o arquivo não dá acesso à library.
+Quem: Giuliana (migração + publicação), Claude (nomenclatura + documentação)
+Data: 2026-08-17
+Sprint: 8
+
+---
+
 ## Template para novas entradas
 
 ```

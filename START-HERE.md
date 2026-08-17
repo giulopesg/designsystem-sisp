@@ -34,7 +34,7 @@ Responda internamente antes de interagir:
 - Quais tokens CSS e variaveis Figma estao disponiveis? (104 variaveis, 5 colecoes)
 - Qual e a audiencia real deste DS? (ver CLAUDE.md → core-personas)
 - Quais componentes tem prioridade? (DV primeiro — Regra 10)
-- Qual o file key do Figma? (`YUSNqTRVZTK2eV7D3fXypx`)
+- Qual o file key do Figma? (`OgM1TGSQV0BpDryytpJ06g`)
 
 ### Passo 3 — Apresente-se a Giuliana:
 
@@ -55,9 +55,9 @@ Apos ler tudo, responda com:
 - 57 specs aprovadas (`docs/component-specs/`)
 
 ### Para componentes no Figma:
-- Figma file key: `YUSNqTRVZTK2eV7D3fXypx`
+- Figma file key: `OgM1TGSQV0BpDryytpJ06g`
 - Verificar se existe referencia no Figma via Figma MCP antes de criar
-- Tokens Figma devem espelhar `design-tokens/tokens.css` — 108 variaveis migradas
+- Tokens Figma devem espelhar `design-tokens/tokens.css` — 104 variaveis migradas
 - Nunca criar componente sem component-spec aprovada (Regra 1)
 - Todas as propriedades visuais devem ser vinculadas a variaveis (Regra 8)
 - Text Styles aplicados em todos os text nodes — 21 estilos disponiveis (Regra 15)
@@ -77,7 +77,7 @@ Apos ler tudo, responda com:
 | Item | Valor |
 |---|---|
 | Stage DS SISP | `sisp-design-system-stage.apps.okd4.ciasc.sc.gov.br` |
-| Figma file key | `YUSNqTRVZTK2eV7D3fXypx` |
+| Figma file key | `OgM1TGSQV0BpDryytpJ06g` |
 | Produto-ancora | Delegacia Virtual (DV) |
 | Cor de acao | #C4000B (vermelho SC) |
 | Tipografia portal | Montserrat |

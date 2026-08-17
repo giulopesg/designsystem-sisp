@@ -57,5 +57,5 @@ component-spec.md -> Figma Component Set -> Aprovacao visual -> Angular (sisp-li
 
 ## Links
 
-- **Figma:** [DS SISP](https://www.figma.com/file/YUSNqTRVZTK2eV7D3fXypx)
+- **Figma:** [DS SISP](https://www.figma.com/file/OgM1TGSQV0BpDryytpJ06g)
 - **Stage:** [sisp-design-system-stage.apps.okd4.ciasc.sc.gov.br](https://sisp-design-system-stage.apps.okd4.ciasc.sc.gov.br)
