@@ -4,7 +4,7 @@
 > Define quem tu és neste projeto, como o agente deve se comportar, e qual o estado atual do ciclo.
 
 **Sistema:** GiuOS v1.0 — adaptado para DS SISP  
-**Última atualização:** 2026-08-10  
+**Última atualização:** 2026-08-17  
 **Ciclo atual:** building  
 **Fase atual do Diamond:** D2-deliver  
 
@@ -107,10 +107,10 @@ current-sprint: Sprint 8 — Protótipo navegável + componentes adicionais
 prd-status: approved
 spec-status: complete (56 specs — Sprint 3: 6, Sprint 4: 7, Sprint 4.1: 13, Sprint 5: 6 [5 aprovadas + 1 com gaps aprovada], Sprint 6: 10 DC + 1 SC, Sprint 7: 8 SC aprovadas, Sprint 8: 1 BC + 4 SC)
 figma-file-key: YUSNqTRVZTK2eV7D3fXypx
-figma-component-sets: 60 (Sprint 3: 10, Sprint 4: 8, Sprint 4.1: 13, Sprint 5: 7, Sprint 6: 10 DC, Sprint 7: 8 SC, Sprint 8: 1 BC + 3 SC) + 1 standalone Component (SC-21 Identity Bar)
+figma-component-sets: 62 (Sprint 3: 10, Sprint 4: 8, Sprint 4.1: 13, Sprint 5: 7, Sprint 6: 10 DC, Sprint 7: 8 SC, Sprint 8: 1 BC + 5 SC)
 figma-pages: 12 (Wireframes, Sitemap, User Journeys, Validação Visual, Fundação, Taxonomia, Componentes, SISP Components, Pendências, Layouts DV, Componentes Portal, Layouts DS Portal)
-figma-variables: 108 (4 coleções — Colors, Typography, Spacing, Border Radius + 4 tokens responsivos + 5 tokens D141: text-2xs, 4× dark-mode)
-figma-text-styles: 21 (Heading, Overline, Body, Label, Mono — Overline adicionado D142)
+figma-variables: 104 (5 coleções — Primitivos 30, Tipografia 18, Espaçamento 19, Border Radius 6, Cores Semânticas 31 — inclui status/danger-hover adicionada D194)
+figma-text-styles: 21 (Heading, Overline, Body, Label, Mono — 2 duplicatas Overline/XS removidas D194)
 figma-bindings: 4410 (Sprint 3–5: 332 fontSize + 1805 spacing + 177 borderRadius + 157 color fills | Sprint 7: 427 textStyles + 490 spacing + 432 borderRadius + 546 color fills | SC-19: 8 textStyles + 26 spacing + 10 color fills)
 ```
 
@@ -272,7 +272,7 @@ Sprint 10   ⏳ → Refatoração Angular (sisp-lib-[nome])
 
 > **Seção Figma:** "SISP Components" (325:1010), sub-seções "CONSULTAS POLICIAIS" (804:6053) e "DADOS & VISUALIZAÇÃO" (804:6054)
 
-### Sprint 8 — Componentes adicionais (5 sets)
+### Sprint 8 — Componentes adicionais (7 sets)
 
 | ID | Component Set | Figma Node ID | Variantes |
 |---|---|---|---|
@@ -280,13 +280,15 @@ Sprint 10   ⏳ → Refatoração Angular (sisp-lib-[nome])
 | SC-18 | Footer DV | 969:9150 | 2 (Type=Institucional 1440×178 compact — 4 colunas SOBRE/INSTITUCIONAL/EMERGÊNCIA/AJUDA, Overline/Montserrat títulos, social icons, versão; Type=Simplificado 3 colunas) — footer DV, dark/surface. Instâncias nos layouts DV a 296px com overrides: coluna brand "Delegacia Virtual" + CIASC logo no bottom |
 | SC-19 | Hero | 969:9236 | 2 (Layout=Desktop 1440×301 + Layout=Mobile 375×285) — hero section dark/surface + text/inverse, eyebrow Overline/XS, CTAs BC-05 Button Primary/Secondary LG |
 | SC-20 | Service Card | 968:8784 | 1 (State=Default) — card de serviço DV, ícone circular primary/muted 40×40 + BC-15 Icons MD, text properties Title + Description. Usado em grid de serviços DV Home |
-| SC-21 | Identity Bar | 974:9679 | 1 (State=Default 1440×97) — barra de identidade institucional DV, dark/surface. Logo Zone (PC badge 48×61 + "Polícia Civil" Montserrat SemiBold 16px + "Delegacia Virtual" Arial 14px) + Nav Bar (BC-26 Tabs Underline instance + Governo SC logo 110×28). Substitui BC-14 Headers nos layouts DV |
+| SC-21 | Identity Bar | 1031:10075 | 1 (Layout=Desktop 1440×97) — barra de identidade institucional DV, dark/surface. Logo Zone (PC badge 48×61 + "Polícia Civil" Montserrat SemiBold 16px + "Delegacia Virtual" Arial 14px) + Nav Bar (BC-26 Tabs Underline instance + Governo SC logo 110×28). Substitui BC-14 Headers nos layouts DV. Convertido de standalone Component para Component Set (D194) |
+| SC-22 | Barra de Acessibilidade | 1031:10078 | 1 (Layout=Desktop 1440×34) — barra de acessibilidade gov.br, dark/surface. Links "Acessibilidade" + "Ir para o conteúdo" + controles A-/A/A+ + "Alto contraste" + "Libras". Movido de layout DV-Home para Component Set formal (D194) |
 
 > **Seção Figma BC-29:** "Componentes" (111:1146), section "AÇÕES & FORMULÁRIOS" (238:510), sub-section "BC-29 · Search — Componente" (969:9073)
 > **Seção Figma SC-18:** "SISP Components" (325:1010), section "SC-18 · Footer DV — Componente" (969:9151)
 > **Seção Figma SC-19:** "SISP Components" (325:1010), section "SC-19 · Hero — Componente" (969:9211)
 > **Seção Figma SC-20:** "SISP Components" (325:1010), section "SC-20 · Service Card — Componente" (974:9587)
-> **Seção Figma SC-21:** "SISP Components" (325:1010), section "SC-21 · Identity Bar" (974:9681)
+> **Seção Figma SC-21:** "SISP Components" (325:1010), section "SC-21 · Identity Bar — Componente" (974:9681)
+> **Seção Figma SC-22:** "SISP Components" (325:1010), section "SC-22 · Barra de Acessibilidade — Componente" (1031:10077)
 
 ### Sprint 6 — Doc Components (10 sets — portal DS only, não viram Angular)
 
@@ -308,14 +310,15 @@ Sprint 10   ⏳ → Refatoração Angular (sisp-lib-[nome])
 > **Layout WF-02:** "Layouts DS Portal" (501:2), section "WF-02 · PÁGINA DE COMPONENTE" (501:3) — Desktop 1440×1563 (502:2) + Mobile 375×1006 (508:145)
 > **Layout WF-03:** "Layouts DS Portal" (501:2), section "WF-03 · PÁGINA DE FUNDAÇÃO" (530:466) — Desktop 1440×2826 (530:467) + Mobile 375×2244 (538:500)
 
-### Variáveis Figma (4 coleções, 99 variáveis)
+### Variáveis Figma (5 coleções, 104 variáveis)
 
 | Coleção | Variáveis | Collection ID |
 |---|---|---|
-| Typography | 13 (tamanho/2xs..4xl, peso/regular..bold) — inclui --text-2xs (10px) adicionado D141 | 106:33 |
-| Spacing | 19 (space/0..24 primitivos + 4 responsivos: page-padding, section-gap, card-padding, modal-padding) — 2 modos: Desktop, Mobile | 106:52 |
+| Primitivos | 30 (sc/red..neutral/900 + dark/base + dark/surface) | 106:2 |
+| Tipografia | 18 (família/heading+body+mono, tamanho/xs..4xl, peso/regular..bold, altura/tight+normal+relaxed) | 106:33 |
+| Espaçamento | 19 (space/0..24 primitivos + 4 responsivos: page-padding, section-gap, card-padding, modal-padding) — 2 modos: Desktop, Mobile | 106:52 |
 | Border Radius | 6 (radius/none..full) | 106:67 |
-| Colors | 26 semânticas + 33 primitivas (2 modos: SC, PC) — inclui 4 dark-mode adicionadas D141 | 106:75 |
+| Cores Semânticas | 31 (primary, accent, text, surface, border, status, dark — 2 modos: SC, PC) — inclui status/danger-hover adicionada D194 | 106:75 |
 
 ### Text Styles (21 estilos — D142)
 

@@ -2031,6 +2031,22 @@ Quem: Giuliana (report), Claude (fix)
 Data: 2026-08-12
 Sprint: 8
 
+**D194 · Auditoria geral Figma — 4 achados corrigidos**
+Decisão: auditoria completa do arquivo Figma (12 páginas, 60→62 Component Sets, 103→104 variáveis, 21 text styles). Corrigidos 4 achados:
+
+1. **A1 — status/danger-hover criada** (VariableID:1031:10076): 3 Button Danger Hover fills (#821717) estavam sem variável. Criada variável `status/danger-hover` na coleção Cores Semânticas e bound aos 3 componentes (SM/MD/LG).
+2. **A2 — SC-21 Identity Bar → Component Set** (1031:10075): convertido de standalone COMPONENT para Component Set formal com variante Layout=Desktop. Consistência com os outros 61 CS.
+3. **A3 — SC-22 Barra de Acessibilidade formalizada** (1031:10078): COMPONENT que estava dentro do layout DV-Home-Desktop movido para página SISP Components como Component Set formal. Instância reinserida no DV-Home-Desktop. 3 instâncias nos layouts DV validadas.
+4. **A4 — CLAUDE.md atualizado**: variáveis 108→104 (contagem real), 4→5 coleções (Primitivos é coleção separada), SC-21 node ID atualizado, SC-22 adicionada ao inventário.
+
+Correções adicionais na mesma sessão: 8 Stepper connector fills bound, 6 border radius bound (Carousels dots, Uploaders progress, Image Captures close), 2 Overline/XS text styles duplicados removidos.
+
+Compliance pós-auditoria: Color fills 99.9%, Text styles 98.2% (exceções decorativas), Spacing 99.7%, Border radius 99.6%. Zero instâncias detached nos layouts.
+Justificativa: Giuliana pediu auditoria geral de consistência do Figma.
+Quem: Giuliana (instrução), Claude (execução)
+Data: 2026-08-17
+Sprint: 8
+
 ---
 
 ## Template para novas entradas
